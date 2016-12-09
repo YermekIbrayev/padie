@@ -31,6 +31,7 @@ public interface ConnectionService {
     String SERVICE_LIST = "serviceList";
     String NEW_ORDERS = "getNewOrders/{deviceId}/{date}";
     String SEND_ON_ORDERS = "setViewedOrders";
+    String ACCEPT_ORDER = "setAccepted/{pkgId}";
 
     @GET(SERVICE_LIST  )
     Observable<List<ServiceGroup>> getServices();
@@ -41,10 +42,13 @@ public interface ConnectionService {
     @POST(SEND_ON_ORDERS)
     Call<Void> responseOrder(@Body ResponseOrder responseOrder);
 
+    @GET(ACCEPT_ORDER)
+    Observable<Response<Void>> acceptOrder(@Path("pkgId") Integer pkgId);
+
     class Creator{
         public static ConnectionService newServicesList(){
             Gson gson = new GsonBuilder()
-                    .setDateFormat("yyyy-MM-dd HH:mm:ss")
+                    .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
                     .registerTypeAdapterFactory(MyGsonTypeAdapterFactory.create())
                     .create();
             HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();

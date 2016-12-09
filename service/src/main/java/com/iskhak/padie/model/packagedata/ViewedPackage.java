@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.iskhak.padie.config.Constants;
 
 @Entity
 @Table(name = "viewedpkg")
@@ -47,7 +48,7 @@ public class ViewedPackage implements Comparable<ViewedPackage>{
 	}
 	
     @Column(name = "created")
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern=Constants.DATE_TIME_FORMAT)
 	public Date getViewed() {
 		return viewed;
 	}

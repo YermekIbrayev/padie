@@ -10,6 +10,7 @@ import com.iskhak.serviceprovider.R;
 import com.iskhak.serviceprovider.data.model.PackageModel;
 import com.iskhak.serviceprovider.helpers.DataHolder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RequestAdapter extends ArrayAdapter{
@@ -48,5 +49,9 @@ public class RequestAdapter extends ArrayAdapter{
 
     public int getSize(){
         return orders.size();
+    }
+    public void clear(){
+        orders.clear();
+        notifyDataSetChanged();
     }
 }

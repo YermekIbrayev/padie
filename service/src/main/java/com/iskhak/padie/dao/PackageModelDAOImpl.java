@@ -8,6 +8,7 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +51,7 @@ public class PackageModelDAOImpl implements PackageModelDAO{
 	@Transactional
 	public SetPackageModel getOrder(SetPackageModel order) {
 		order.setPrice(100.0f);
+		order.setOrderDate(new Date());
 		for(SetSelectedItems item:order.getSelectedItems()){
 			item.setPackageModel(order);
 		}
@@ -73,7 +75,7 @@ public class PackageModelDAOImpl implements PackageModelDAO{
 	public List<PackageModel> getNewOrders(String deviceId, Date date) {
 		System.out.println(date);
 		String hql = "Select p from PackageModel as p "
-				+ "left join  p.viewedList as v on (v.deviceId=:deviceId and  v.viewed<:date)  "
+				+ "left join  p.viewedList as v on (v.deviceId=:deviceId and  v.viewed<=:date)  "
 				+ "where p.acceptedDate is null and v.id is null ";
 
 		List<PackageModel> result = (List<PackageModel>) sessionFactory.getCurrentSession()
@@ -113,6 +115,7 @@ public class PackageModelDAOImpl implements PackageModelDAO{
 	@Override
 	@Transactional
 	public void setViewedPackage(ViewedPackage viewedPackage){
+		viewedPackage.setViewed(new Date());
 		@SuppressWarnings("unchecked")
 		List<ViewedPackage> checkList = (List<ViewedPackage>) sessionFactory.getCurrentSession()
 				.createCriteria(ViewedPackage.class)
@@ -123,6 +126,33 @@ public class PackageModelDAOImpl implements PackageModelDAO{
 		if(checkList==null||checkList.isEmpty())
 			sessionFactory.getCurrentSession().save(viewedPackage);
 		System.out.println("Viewed package:"+viewedPackage.getId()+" viewed"+viewedPackage.getViewed());
+	}
+
+/*	@SuppressWarnings("unchecked")*/
+	@Override
+	@Transactional
+	public boolean acceptOrder(int pkgId) {
+		
+		if(pkgId<1)
+			return false;
+		
+		
+		//How to check if id in range from 1 to max id ?
+/*		DetachedCriteria maxId = DetachedCriteria.forClass(PackageModel.class)
+			    .setProjection( Projections.max("pkgID") );
+		List<SetPackageModel> list = (List<SetPackageModel>)sessionFactory.getCurrentSession().createCriteria(SetPackageModel.class)
+			    .add( Property.forName("pkgID").eq(maxId) )
+			    .list();*/
+		
+/*		if(list.get(0).getId()<pkgId)
+			return false;*/
+		
+		String hql = "update SetPackageModel u set acceptedDate=:date  where u.pkgID=:pkgId";
+		Query query = sessionFactory.getCurrentSession().createQuery(hql);
+		query.setTimestamp("date", new Date());
+		query.setInteger("pkgId", pkgId);
+		query.executeUpdate();
+		return true;
 	}
 
 /*	@SuppressWarnings("unchecked")

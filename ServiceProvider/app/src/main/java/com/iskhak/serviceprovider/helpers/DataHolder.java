@@ -54,7 +54,7 @@ public class DataHolder {
 
 
     public static String updateFormat(Date date, String format){
-        SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.US);
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
         return sdf.format(date);
     }
 
@@ -87,5 +87,12 @@ public class DataHolder {
 
     public INewOrderSender getSender(){
         return sender;
+    }
+
+    public void clearOrders(){
+        if(orders!=null)
+            orders.clear();
+        if(indexedOrders!=null)
+            indexedOrders.clear();
     }
 }

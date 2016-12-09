@@ -46,13 +46,17 @@ public class CleaningAddressActivity extends BaseActivity {
 
     Calendar dateCalendar = Calendar.getInstance();
     Calendar timeCalendar = Calendar.getInstance();
+
+    TimePickerDialog timePicker;
+    DatePickerDialog datePicker;
+
     DatePickerDialog.OnDateSetListener dateListener = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
             dateCalendar.set(Calendar.YEAR, year);
             dateCalendar.set(Calendar.MONTH, monthOfYear);
             dateCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-            updateFormat(dateEdit, DATE_FORMAT);
+            updateFormat(dateEdit, DATE_FORMAT, dateCalendar);
         }
     };
 
@@ -60,8 +64,9 @@ public class CleaningAddressActivity extends BaseActivity {
         @Override
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
             timeCalendar.set(Calendar.HOUR, hourOfDay);
+            timeCalendar.set(Calendar.AM_PM, hourOfDay>12?Calendar.PM:Calendar.AM);
             timeCalendar.set(Calendar.MINUTE, minute);
-            updateFormat(timeEdit, TIME_FORMAT);
+            updateFormat(timeEdit, TIME_FORMAT, timeCalendar);
         }
     };
 
@@ -129,18 +134,22 @@ public class CleaningAddressActivity extends BaseActivity {
 
     }
 
-    private void updateFormat(EditText view, String format){
-        SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.US);
-        view.setText(sdf.format(dateCalendar.getTime()));
+    private void updateFormat(EditText view, String format, Calendar calendar){
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        view.setText(sdf.format(calendar.getTime()));
     }
 
     public void onDateClick(View view){
-        DatePickerDialog datePickerDialog = new DatePickerDialog(CleaningAddressActivity.this, dateListener, dateCalendar.get(Calendar.YEAR),dateCalendar.get(Calendar.MONTH), dateCalendar.get(Calendar.DAY_OF_MONTH));
-        datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis()-1000);
-        datePickerDialog.show();
+        if(datePicker == null) {
+            datePicker = new DatePickerDialog(CleaningAddressActivity.this, dateListener, dateCalendar.get(Calendar.YEAR), dateCalendar.get(Calendar.MONTH), dateCalendar.get(Calendar.DAY_OF_MONTH));
+            datePicker.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+        }
+        datePicker.show();
     }
 
     public void onTimeClick(View view){
-        new TimePickerDialog(CleaningAddressActivity.this, timeListener, timeCalendar.get(Calendar.HOUR), timeCalendar.get(Calendar.MINUTE), false).show();
+        if(timePicker == null)
+            timePicker = new TimePickerDialog(CleaningAddressActivity.this, timeListener, timeCalendar.get(Calendar.HOUR), timeCalendar.get(Calendar.MINUTE), false);
+        timePicker.show();
     }
 }

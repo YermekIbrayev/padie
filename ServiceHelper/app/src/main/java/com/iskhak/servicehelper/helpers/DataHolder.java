@@ -34,7 +34,7 @@ public class DataHolder {
 
     public static final String TAG="PADIE";
     public final static String URL_ADDRESS = "http://padie.hopto.org:8080/CrunchifyTutorials/api/";
-    public final static String TOTAL_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+    public final static String TOTAL_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ssZ";
 
     private int mainSelectionPID;
     private String currentServiceName;

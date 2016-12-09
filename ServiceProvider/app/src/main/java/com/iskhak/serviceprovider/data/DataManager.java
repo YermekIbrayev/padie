@@ -1,5 +1,8 @@
 package com.iskhak.serviceprovider.data;
 
+import android.app.Application;
+import android.provider.Settings;
+
 import com.google.common.collect.ForwardingList;
 import com.iskhak.serviceprovider.data.local.DatabaseHelper;
 import com.iskhak.serviceprovider.data.model.PackageModel;
@@ -17,6 +20,7 @@ import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import retrofit2.Response;
 import rx.Observable;
 import rx.functions.Action1;
 import rx.functions.Func1;
@@ -28,31 +32,19 @@ public class DataManager {
     private final ConnectionService mConnectionService;
     private final DatabaseHelper mDatabaseHelper;
     private Date viewed = new Date(0);
-
-    private Map<Integer, PackageModel> orders;
+    String androidId;
 
     @Inject
-    public DataManager(ConnectionService connectionService, DatabaseHelper databaseHelper){
+    public DataManager(Application application, ConnectionService connectionService, DatabaseHelper databaseHelper){
         mConnectionService = connectionService;
         mDatabaseHelper = databaseHelper;
-    }
-
-    public Observable<ServiceGroup> syncServiceList(){
-        return mConnectionService.getServices()
-                .concatMap(new Func1<List<ServiceGroup>, Observable< ServiceGroup>>() {
-                    @Override
-                    public Observable<ServiceGroup> call(List<ServiceGroup> serviceGroupList) {
-                        Timber.i("Sync success");
-                        return mDatabaseHelper.setServices(serviceGroupList);
-                    }
-                });
+        androidId = Settings.Secure.getString(application.getContentResolver(), Settings.Secure.ANDROID_ID);
     }
 
 
+    public Observable<PackageModel> getNewOrders(){
 
-    public Observable<PackageModel> getNewOrders(String deviceId){
-
-        return mConnectionService.getNewOrders(deviceId, new PathDate(viewed))
+        return mConnectionService.getNewOrders(androidId , new PathDate(viewed))
                 .concatMap(new Func1<List<PackageModel>, Observable<? extends PackageModel>>() {
                     @Override
                     public Observable<? extends PackageModel> call(List<PackageModel> packageModels) {
@@ -74,13 +66,12 @@ public class DataManager {
         viewed= date;
     }
 
-
-
-    public void setOrder(Map<Integer, PackageModel> orders){
-        this.orders = orders;
+    public Date getLastViewed(){
+        return viewed;
     }
 
-    public PackageModel getOrder(int id){
-        return orders.get(id);
+
+    public Observable<Response<Void>> acceptOrder(Integer pkgId){
+        return mConnectionService.acceptOrder(pkgId);
     }
 }

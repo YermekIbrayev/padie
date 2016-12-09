@@ -18,14 +18,17 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         if(position==0){
 
-            requestsTab = new RequestsTab();
+            if(requestsTab==null)
+                requestsTab = new RequestsTab();
             return requestsTab;
         } else {
-
-            jobsTab= new JobsTab();
+            if(jobsTab==null)
+                jobsTab= new JobsTab();
             return jobsTab;
         }
     }
+
+
 
     @Override
     public int getCount() {

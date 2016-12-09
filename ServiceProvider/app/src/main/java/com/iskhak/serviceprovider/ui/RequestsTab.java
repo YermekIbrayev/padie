@@ -22,13 +22,17 @@ import com.iskhak.serviceprovider.helpers.INewOrderSender;
 import com.iskhak.serviceprovider.helpers.NetworkUtil;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.OnItemClick;
 import butterknife.OnItemLongClick;
 import butterknife.OnLongClick;
+import rx.Observer;
 import rx.Subscription;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
@@ -41,11 +45,20 @@ public class RequestsTab extends Fragment implements INewOrderListener{
     @BindView(R.id.request_list_lv) ListView requestList;
     RequestAdapter requestAdapter;
 
+    // TODO: Rename and change types and number of parameters
+    public static RequestsTab newInstance(/*int param1, String param2*/) {
+        RequestsTab fragment = new RequestsTab();
+/*        Bundle args = new Bundle();
+        args.putInt(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, param2);
+        fragment.setArguments(args);*/
+        return fragment;
+    }
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ((MainActivity)getActivity()).pushBackstack(this);
     }
 
     @Override
@@ -55,14 +68,20 @@ public class RequestsTab extends Fragment implements INewOrderListener{
         ButterKnife.bind(this,view);
         requestAdapter = new RequestAdapter(getActivity(), R.layout.order_item, new ArrayList<PackageModel>());
         requestList.setAdapter(requestAdapter);
-        loadNewOrders();
+
         sender = DataHolder.getInstance().getSender();
 
         return view;
     }
 
-    private void loadNewOrders(){
+    public void updateAll(){
+        mDataManager.setViewed(new Date(0));
+        DataHolder.getInstance().clearOrders();
+        requestAdapter.clear();
+        loadNewOrders();
+    }
 
+    public void loadNewOrders(){
         Timber.i("Starting sync...");
 
         if (!NetworkUtil.isNetworkConnected(getContext())) {
@@ -71,10 +90,11 @@ public class RequestsTab extends Fragment implements INewOrderListener{
             return;
         }
 
-/*        if (mSubscription != null && !mSubscription.isUnsubscribed()) mSubscription.unsubscribe();
+        if (mSubscription != null && !mSubscription.isUnsubscribed()) mSubscription.unsubscribe();
         mSubscription = mDataManager.getNewOrders()
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Observer<PackageModel>() {
+
                     @Override
                     public void onCompleted() {
                         Timber.i("Synced successfully!");
@@ -89,21 +109,24 @@ public class RequestsTab extends Fragment implements INewOrderListener{
 
                     @Override
                     public void onNext(PackageModel order) {
-                        requestAdapter.add(order);
+                        update(order);
                     }
-                });*/
+                });
     }
-    @OnItemLongClick(R.id.request_list_lv)
-    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id){
+
+    @OnItemClick(R.id.request_list_lv)
+    public void onItemClick(AdapterView<?> parent, View view, int position){
         FullOrderFragment orderFragment = FullOrderFragment.newInstance(position, FullOrderFragment.BY_POSITION);
         getActivity().getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, orderFragment).commit();
-        ((MainActivity)getActivity()).showFragmentContainer();
-        Log.d("Long click", DataHolder.getInstance().getOrderByPosition(position).address());
-        return true;
+        ((MainActivity)getActivity()).showTabs(false);
+        Log.d("Item click", DataHolder.getInstance().getOrderByPosition(position).address());
     }
+
 
     @Override
     public void update(final PackageModel order) {
+        if(DataHolder.getInstance().getOrderById(order.id())!=null)
+            return;
         Handler mainHandler = new Handler(getContext().getMainLooper());
         Runnable runnable = new Runnable(){
             @Override
@@ -112,9 +135,7 @@ public class RequestsTab extends Fragment implements INewOrderListener{
                 DataHolder.getInstance().updateOrders(requestAdapter.getSize()-1, order);
             }
         };
-
         mainHandler.post(runnable);
-
     }
 
     @Override
@@ -123,11 +144,14 @@ public class RequestsTab extends Fragment implements INewOrderListener{
         if(sender==null)
             sender = DataHolder.getInstance().getSender();
         sender.setListener(this);
+        loadNewOrders();
     }
 
     @Override
     public void onPause() {
         super.onPause();
+        if(sender==null)
+            sender = DataHolder.getInstance().getSender();
         sender.removeListener(this);
     }
 }

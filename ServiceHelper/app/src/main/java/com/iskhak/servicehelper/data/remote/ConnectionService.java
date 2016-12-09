@@ -22,7 +22,7 @@ import rx.Observable;
 
 public interface ConnectionService {
 
-    String ENDPOINT = "http://padie.hopto.org:8080/padie/json/";
+    String ENDPOINT = "http://10.1.10.100:8080/padie/json/";
     String SERVICE_LIST = "serviceList";
     String NEW_ORDERS = "orderService";
 

@@ -12,5 +12,6 @@ public interface PackageModelDAO {
 	public SetPackageModel getOrder(SetPackageModel order);
 	public List<PackageModel> getNewOrders(String deviceId, Date date);
 	public void setViewedPackage(ViewedPackage viewedPackage);
+	public boolean acceptOrder(int pkgId);
 /*	public List<SetPackageModel> testSetPackageModel()*/
 }

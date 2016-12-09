@@ -65,7 +65,7 @@ public class SyncService extends Service implements INewOrderSender {
     public void onCreate(){
         super.onCreate();
         ServiceProviderApplication.get(this).getComponent().inject(this);
-        androidId = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+
 
     }
 
@@ -90,7 +90,7 @@ public class SyncService extends Service implements INewOrderSender {
     }
 
     private Subscription getOrders(final int startId){
-        return mDataManager.getNewOrders(androidId)
+        return mDataManager.getNewOrders()
                /* .observeOn(AndroidSchedulers.mainThread())*/
                 .subscribeOn(Schedulers.io())
                 .retry(REPEAT_COUNT)
@@ -131,15 +131,16 @@ public class SyncService extends Service implements INewOrderSender {
                         if(orders==null) {
                             orders = new HashMap<>();
                             DataHolder.getInstance().setIndexedOrders(orders);
-                            if(DataHolder.getInstance().getSender()!=null)
-                                DataHolder.getInstance().setSender(sender);
                         }
+                        if(DataHolder.getInstance().getSender()!=null)
+                            DataHolder.getInstance().setSender(sender);
+                        if(mListeners!= null&&!orders.containsKey(order.id()))
+                            for(INewOrderListener listner:mListeners)
+                                listner.update(order);
                         if(!orders.containsKey(order.id()))
                             orders.put(order.id(), order);
 
-                        if(mListeners!= null)
-                            for(INewOrderListener listner:mListeners)
-                                listner.update(order);
+
                         if(order.viewed()==null&&(mListeners==null||mListeners.size()==0))
                             sendNotif(order);
                         if(order.viewed()==null)

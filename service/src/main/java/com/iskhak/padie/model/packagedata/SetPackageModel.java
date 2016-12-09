@@ -17,6 +17,7 @@ import org.hibernate.annotations.LazyCollectionOption;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.iskhak.padie.config.Constants;
 
 @Entity
 @Table(name = "selectedpkg")
@@ -28,7 +29,7 @@ public class SetPackageModel {
 	@JsonIgnore
 	@Column(name = "CID")
 	private int clientId;
-	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern=Constants.DATE_TIME_FORMAT)
 	private Date orderDate;
 	private String notes;
 	private String address;

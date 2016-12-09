@@ -11,13 +11,29 @@ import android.widget.TextView;
 
 
 import com.iskhak.serviceprovider.R;
+import com.iskhak.serviceprovider.data.DataManager;
 import com.iskhak.serviceprovider.data.model.PackageModel;
 import com.iskhak.serviceprovider.helpers.DataHolder;
 
+import java.util.Date;
+import java.util.List;
+
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import retrofit2.Response;
+import rx.Observer;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+import timber.log.Timber;
 
 public class FullOrderFragment extends Fragment {
+
+    @Inject
+    DataManager mDataManager;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -34,6 +50,7 @@ public class FullOrderFragment extends Fragment {
     private int mParam1;
     private String mParam2;
     private PackageModel order;
+    private Subscription mSubscription;
     @BindView(R.id.service_name_tv)
     TextView serviceName;
     @BindView(R.id.service_date_tv)
@@ -63,6 +80,7 @@ public class FullOrderFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ((MainActivity)getActivity()).activityComponent().inject(this);
         if (getArguments() != null) {
             mParam1 = getArguments().getInt(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -77,6 +95,7 @@ public class FullOrderFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.order_item, container, false);
         ButterKnife.bind(this, view);
         fillData();
@@ -91,5 +110,36 @@ public class FullOrderFragment extends Fragment {
         notesTV.setText(NOTES_PREFIX+order.notes());
     }
 
+    @OnClick(R.id.accept_button)
+    public void onAcceptButton(){
+        Timber.d("On Accept button");
+        if (mSubscription != null && !mSubscription.isUnsubscribed()) mSubscription.unsubscribe();
+        mSubscription = mDataManager.acceptOrder(order.id())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Response<Void>>() {
+                    @Override
+                    public void onCompleted() {
+                        mSubscription = null;
+                        List<Fragment> fragments =getActivity().getSupportFragmentManager().getFragments();
 
+                        for(Fragment currentFragment:fragments)
+                            if(currentFragment instanceof RequestsTab) {
+
+                                ((RequestsTab) currentFragment).updateAll();
+                            }
+                        ((MainActivity)getActivity()).showTabs(true);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Timber.e(e, "onError %s", e.toString());
+                    }
+
+                    @Override
+                    public void onNext(Response<Void> voidResponse) {
+                        Timber.d("onNext %s", voidResponse.code());
+                    }
+                });
+    }
 }

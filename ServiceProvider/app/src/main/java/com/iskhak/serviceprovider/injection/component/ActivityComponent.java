@@ -4,6 +4,7 @@ import android.app.Fragment;
 
 import com.iskhak.serviceprovider.injection.PerActivity;
 import com.iskhak.serviceprovider.injection.module.ActivityModule;
+import com.iskhak.serviceprovider.ui.FullOrderFragment;
 import com.iskhak.serviceprovider.ui.RequestsTab;
 
 import dagger.Subcomponent;
@@ -16,5 +17,6 @@ import dagger.Subcomponent;
 public interface ActivityComponent {
 
     void inject(RequestsTab requestsTab);
+    void inject(FullOrderFragment orderFragment);
 
 }
