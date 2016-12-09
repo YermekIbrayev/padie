@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">Service Helper</string>
+    <string name="country_prompt">Choose a country</string>
+
+    <string-array name="country_arrays">
+        <item>Malaysia</item>
+        <item>United States</item>
+        <item>Indonesia</item>
+        <item>France</item>
+        <item>Italy</item>
+        <item>Singapore</item>
+        <item>New Zealand</item>
+        <item>India</item>
+    </string-array>
+
+    <string name="title_activity_base">BaseActivity</string>
+    <string name="address">Address:</string>
+    <string name="date_time">Date/Time:</string>
+    <string name="notes">Notes:</string>
+    <string name="estimatedOrder">Order estimated</string>
+    <string name="order">Order</string>
+    <string name="cancel">Cancel</string>
+    <string name="company_name">Company Name:</string>
+    <string name="service">Service:</string>
+    <string name="finish">Finish</string>
+</resources>

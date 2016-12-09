@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    tools:context=".ui.HomeResidence"
+    style="@style/AppTheme">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:paddingTop="10dp"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:background="@color/colorGray"
+        android:textColor="#000000"
+        android:text="What type of service do you need?"
+        android:id="@+id/activity_name_tv" />
+    <ListView
+        android:id="@+id/service_class_lv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#00ffffff"
+        android:divider="#00ffffff"
+        android:scrollingCache="false"/>
+</LinearLayout>

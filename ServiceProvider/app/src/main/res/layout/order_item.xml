@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/order_item_root"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:background="@color/colorTransparent">
+
+    <TextView
+        android:id="@+id/service_name_tv"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/button_height"
+        android:gravity="center"
+        android:background="@drawable/default_button"
+        android:textSize="@dimen/text_view_font_size"
+        android:text="Maid Service"
+        android:textColor="@color/colorAbsoluteDark"
+        />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_margin="@dimen/activity_vertical_margin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/service_date_tv"
+            android:padding="10dp"
+            android:background="@color/colorWhite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Date: 11/11/11"
+            android:textSize="@dimen/text_view_font_size"
+            />
+        <TextView
+            android:id="@+id/service_time_tv"
+            android:padding="10dp"
+            android:background="@color/colorWhite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Time: 10:00 PM"
+            android:textSize="@dimen/text_view_font_size"
+            />
+        </LinearLayout>
+        <TextView
+            android:id="@+id/address_tv"
+            android:padding="10dp"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:background="@color/colorWhite"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Address: 711-2880 Nulla, St.Mankato Mississippi, 96522, (257) 563-7401"
+            android:textSize="@dimen/text_view_font_size"
+            />
+        <TextView
+            android:id="@+id/notes_tv"
+            android:padding="10dp"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:background="@color/colorWhite"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Notes: I have a dog"
+            android:textSize="@dimen/text_view_font_size"
+            />
+    </LinearLayout>
+    <TextView
+        android:id="@+id/price_tv"
+        android:padding="10dp"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:background="@color/colorWhite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Price: 1000"
+        android:textSize="@dimen/text_view_font_size"
+        />
+    <Button
+        android:id="@+id/accept_button"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/button_height"
+        android:background="@drawable/default_button"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:textSize="@dimen/text_view_font_size"
+        android:text="Accept"
+        />
+
+</LinearLayout>

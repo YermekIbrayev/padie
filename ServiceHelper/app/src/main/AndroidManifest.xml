@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.iskhak.servicehelper">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <application
+        android:name=".ServiceHelperApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/logo"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".ui.LoadActivity"
+            android:hardwareAccelerated="false"
+            android:noHistory="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.HomeResidence"
+            android:label="@string/app_name" />
+        <activity android:name=".ui.MainSelectionActivity" />
+        <activity android:name=".ui.ExtraSelectionActivity" />
+        <activity android:name=".ui.CleaningAddressActivity" />
+        <activity android:name=".ui.BaseActivity" />
+        <activity android:name=".ui.MainActivity" />
+        <activity android:name=".ui.ProfileActivity" />
+        <activity android:name=".ui.PaymentActivity" />
+        <activity android:name=".ui.OrdersActivity" />
+        <activity android:name=".ui.SettingsActivity" />
+        <activity android:name=".ui.BasicSettingsActivity" />
+        <activity android:name=".ui.PromotionsActivity" />
+        <activity android:name=".ui.EstimatedOrderActivity" />
+        <activity
+            android:name=".ui.GettingDataActivity"
+            android:noHistory="true"></activity>
+        <activity android:name=".ui.OrderSummaryActivity"></activity>
+
+        <service android:name=".data.SyncService"/>
+    </application>
+
+</manifest>
