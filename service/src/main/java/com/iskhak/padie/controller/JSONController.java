@@ -36,7 +36,7 @@ public class JSONController {
 	@RequestMapping(value="/serviceList", method = RequestMethod.GET, produces = "application/json")
 	public List<GetServiceItem> getServiceListJSON(){
 		return serviceItemDAO.list();
-	}
+	} 
 	
 	@RequestMapping(value="/OrderList", method = RequestMethod.GET, produces = "application/json")
 	public List<PackageModel> getOrderListJSON(){
@@ -48,10 +48,16 @@ public class JSONController {
 		return selectedAddDAO.list();
 	}
 	
-	@RequestMapping(value="/orderService", method = RequestMethod.POST)
-	public @ResponseBody SetPackageModel getOrderSum(@RequestBody SetPackageModel order){
+	@RequestMapping(value="/sendOrder", method = RequestMethod.POST)
+	public @ResponseBody SetPackageModel sendOrder(@RequestBody SetPackageModel order){
 		System.out.println(order.getId());
-		return packageModelDAO.getOrder(order);
+		return packageModelDAO.setOrder(order);
+	}
+	
+	@RequestMapping(value="/getOrderPrice", method = RequestMethod.POST)
+	public @ResponseBody SetPackageModel getOrderPrice(@RequestBody SetPackageModel order){
+		System.out.println(order.getId());
+		return packageModelDAO.getOrderPrice(order);
 	}
 	
 /*	@RequestMapping(value="/testSetPackageList", method = RequestMethod.GET, produces = "application/json")

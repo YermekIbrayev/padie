@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.iskhak.servicehelper.R;
-import com.iskhak.servicehelper.helpers.NetworkHelper;
 
 public class GettingDataActivity extends BaseActivity {
 

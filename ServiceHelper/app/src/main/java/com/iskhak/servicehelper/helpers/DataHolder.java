@@ -40,19 +40,16 @@ public class DataHolder {
     private String currentServiceName;
     private String mainQuestionText;
     private String extraQuestionText;
-    private DBHelper dbHelper;
-    private Context context;
     private TotalServiceList serviceList;
     private List<ServiceGroup> serviceGroupList;
     private SelectedItemsList selectedItems = new SelectedItemsList();
     private Date orderDate;
     private String orderNote;
     private String orderAddress;
-    private String serviceListJson;
-    private NetworkHelper networkHelper;
     private List<SelectedItems> selectedItemsList = new ArrayList<>();
     private List<SelectedItemsAdd> selectedItemsAddList = new ArrayList<>();
     private List<SelectedItemsAddExtra> selectedItemsAddExtraList = new ArrayList<>();
+    private PackageModel order;
 
     private UserPreferences userPreferences;
 
@@ -64,10 +61,7 @@ public class DataHolder {
     }
 
     public void setContext(Context context){
-        this.context = context;
-        dbHelper = new DBHelper(context);
         //DataHolder.getInstance().updateData();
-        networkHelper = new NetworkHelper(context);
         userPreferences = new UserPreferences(context);
     }
 
@@ -97,9 +91,6 @@ public class DataHolder {
         this.orderAddress = orderAddress;
     }
 
-    public NetworkHelper getNetworkHelper(){
-        return networkHelper;
-    }
 
     public UserPreferences getUserPreferences(){
         return userPreferences;
@@ -145,13 +136,13 @@ public class DataHolder {
         return dbHelper.getExtraSelectionNames();
     }*/
 
-    public void setDbHelper(DBHelper dbHelper) {
+/*    public void setDbHelper(DBHelper dbHelper) {
         this.dbHelper = dbHelper;
     }
 
     public void updateData(){
         dbHelper.updateData();
-    }
+    }*/
 
     public TotalServiceList getServiceList() {
         return serviceList;
@@ -161,13 +152,13 @@ public class DataHolder {
         selectedItems.addServiceName(serviceID);
     }
 
-    public void addMainSelectionID(int mainSelectionID, int mainSelectionPID){
+/*    public void addMainSelectionID(int mainSelectionID, int mainSelectionPID){
         selectedItems.addMainSelection(mainSelectionID, mainSelectionPID);
     }
 
     public void addExtraSelectionID(int extraSelectionID, int extraSelectionPID){
         selectedItems.addExtraSelection(extraSelectionID, extraSelectionPID);
-    }
+    }*/
 
     private ArrayList<dbServiceItem> getMainSelectionsID(){
         return selectedItems.getMainSelections();
@@ -194,15 +185,19 @@ public class DataHolder {
                 .setSelectedItemsAdd(selectedItemsAddList)
                 .setSelectedItemsAddExtra(selectedItemsAddExtraList)
                 .build();
-        Gson gson = new GsonBuilder()
-                .registerTypeAdapterFactory(MyGsonTypeAdapterFactory.create())
-                .setDateFormat(DataHolder.TOTAL_DATE_FORMAT)
-                .create();
-        Timber.i(gson.toJson(result, PackageModel.class).toString());
+        this.order = result;
         return result;
     }
 
-    public JSONObject generateJSON(){
+    public PackageModel getOrder(){
+        return order;
+    }
+
+    public void setOrder(PackageModel order){
+        this.order = order;
+    }
+
+/*    public JSONObject generateJSON(){
         JSONObject result = new JSONObject();
         JSONObject order = new JSONObject();
         JSONArray serviceNames = new JSONArray();
@@ -239,13 +234,10 @@ public class DataHolder {
         }
 
         return result;
-    }
+    }*/
 
-    public String getServiceListJson(){
-        return serviceListJson;
-    }
 
-    public void setServiceListJson(String json){
+ /*   public void setServiceListJson(String json){
         this.serviceListJson = json;
         ArrayList<ServiceGroup> serviceGroupsList = new ArrayList<>();
         ArrayList<dbServiceItem> mainSelectionsList;
@@ -283,9 +275,9 @@ public class DataHolder {
         }catch (JSONException ex){
             ex.printStackTrace();
         }
-    }
+    }*/
 
-    private ArrayList<dbServiceItem> fillList( JSONArray jsonArray) throws JSONException {
+/*    private ArrayList<dbServiceItem> fillList( JSONArray jsonArray) throws JSONException {
         ArrayList<dbServiceItem> result = new ArrayList<>();
         for(int i=0;i<jsonArray.length();i++){
             JSONObject serviceItem = jsonArray.getJSONObject(i);
@@ -305,9 +297,9 @@ public class DataHolder {
             result.add(dbserviceItem);
         }
         return result;
-    }
+    }*/
 
-    public int getTotalSum(String json){
+/*    public int getTotalSum(String json){
         int result=-1;
         try {
             JSONObject jsonObject= new JSONObject(json);
@@ -318,7 +310,7 @@ public class DataHolder {
 
 
         return result;
-    }
+    }*/
 
     public void setServiceList(List<ServiceGroup> serviceGroups){
         serviceGroupList = serviceGroups;
@@ -330,7 +322,6 @@ public class DataHolder {
     }
 
     public List<ServiceItem> getMainSelectionNames(){
-        List<ServiceItem> result = new ArrayList<>();
         for(ServiceGroup groupItem:serviceGroupList) {
             if (groupItem.id() == getMainSelectionPID()) {
                 return getSelectionNames(groupItem.mainSelections());
@@ -340,7 +331,6 @@ public class DataHolder {
     }
 
     public List<ServiceItem> getExtraSelectionNames(){
-        List<ServiceItem> result = new ArrayList<>();
         for(ServiceGroup groupItem:serviceGroupList) {
             if (groupItem.id() == getMainSelectionPID()) {
                 return getSelectionNames(groupItem.extraSelections());
@@ -376,7 +366,7 @@ public class DataHolder {
         selectedItemsAddExtraList.clear();
     }
 
-    public List<SelectedItems> getSelectedItemsList() {
+/*    public List<SelectedItems> getSelectedItemsList() {
         return selectedItemsList;
     }
 
@@ -386,5 +376,5 @@ public class DataHolder {
 
     public List<SelectedItemsAddExtra> getSelectedItemsAddExtraList() {
         return selectedItemsAddExtraList;
-    }
+    }*/
 }

@@ -22,15 +22,19 @@ import rx.Observable;
 
 public interface ConnectionService {
 
-    String ENDPOINT = "http://10.1.10.100:8080/padie/json/";
+    String ENDPOINT = "http://10.0.0.79:8080/padie/json/";
     String SERVICE_LIST = "serviceList";
-    String NEW_ORDERS = "orderService";
+    String SEND_ORDERS = "sendOrder";
+    String GET_ORDERS_PRICE = "getOrderPrice";
 
     @GET(SERVICE_LIST)
     Observable<List<ServiceGroup>> getServices();
 
-    @POST(NEW_ORDERS)
+    @POST(SEND_ORDERS)
     Observable<PackageModel> sendOrder(@Body PackageModel order);
+
+    @POST(GET_ORDERS_PRICE)
+    Observable<PackageModel> getOrderPrice(@Body PackageModel order);
 
     class Creator{
 

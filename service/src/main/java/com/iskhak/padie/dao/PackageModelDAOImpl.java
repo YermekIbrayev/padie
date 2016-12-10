@@ -49,9 +49,17 @@ public class PackageModelDAOImpl implements PackageModelDAO{
 
 	@Override
 	@Transactional
-	public SetPackageModel getOrder(SetPackageModel order) {
-		order.setPrice(100.0f);
+	public SetPackageModel setOrder(SetPackageModel order) {
 		order.setOrderDate(new Date());
+		sessionFactory.getCurrentSession().update(order);
+		System.out.println(order.getId());
+		return order;
+	}
+	
+	@Override
+	@Transactional
+	public SetPackageModel getOrderPrice(SetPackageModel order){
+		order.setPrice(100.0f);
 		for(SetSelectedItems item:order.getSelectedItems()){
 			item.setPackageModel(order);
 		}
