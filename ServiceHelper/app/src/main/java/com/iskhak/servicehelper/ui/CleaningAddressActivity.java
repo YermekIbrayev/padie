@@ -14,8 +14,8 @@ import com.iskhak.servicehelper.data.DataManager;
 import com.iskhak.servicehelper.data.model.PackageModel;
 import com.iskhak.servicehelper.data.remote.ConnectionService;
 import com.iskhak.servicehelper.helpers.DataHolder;
-import com.iskhak.servicehelper.helpers.NetworkHelper;
 import com.iskhak.servicehelper.R;
+import com.iskhak.servicehelper.helpers.NetworkHelper;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -63,9 +63,9 @@ public class CleaningAddressActivity extends BaseActivity {
     TimePickerDialog.OnTimeSetListener timeListener = new TimePickerDialog.OnTimeSetListener() {
         @Override
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-            timeCalendar.set(Calendar.HOUR, hourOfDay);
-            timeCalendar.set(Calendar.AM_PM, hourOfDay>12?Calendar.PM:Calendar.AM);
+            timeCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
             timeCalendar.set(Calendar.MINUTE, minute);
+/*            timeCalendar.set(Calendar.AM_PM, hourOfDay>12?Calendar.PM:Calendar.AM);*/
             updateFormat(timeEdit, TIME_FORMAT, timeCalendar);
         }
     };
@@ -101,16 +101,15 @@ public class CleaningAddressActivity extends BaseActivity {
         DataHolder.getInstance().setOrderDate(orderDate);
         DataHolder.getInstance().setOrderNote(orderNotesEdit.getText().toString());
         DataHolder.getInstance().setOrderAddress(addressEdit.getText().toString());
-        if (DataHolder.getInstance().getNetworkHelper().isNetworkConnected(this)) {
+        if (NetworkHelper.isNetworkConnected(this)) {
             //DataHolder.getInstance().getNetworkHelper().sendJSON();
             if(mSubscribtion!=null && !mSubscribtion.isUnsubscribed()) mSubscribtion.unsubscribe();
-            mSubscribtion = mDataManager.sendOrder(DataHolder.getInstance().generatePackageModel())
+            mSubscribtion = mDataManager.getOrderPrice(DataHolder.getInstance().generatePackageModel())
                     .subscribeOn(Schedulers.io())
                     .subscribe(new Observer<PackageModel>() {
                         @Override
                         public void onCompleted() {
-                            Timber.i("got packageModel");
-
+                            Timber.i("got price");
                         }
 
                         @Override
@@ -121,9 +120,11 @@ public class CleaningAddressActivity extends BaseActivity {
                         @Override
                         public void onNext(PackageModel packageModel) {
                             Timber.i(packageModel.toString());
+                            DataHolder.getInstance().setOrder(packageModel);
                             Intent intent = new Intent(getApplicationContext(), EstimatedOrderActivity.class);
                             int totalSum = packageModel.price().intValue();
                             intent.putExtra("TotalSum", totalSum);
+
                             startActivity(intent);
                         }
                     });

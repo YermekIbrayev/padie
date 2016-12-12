@@ -50,7 +50,7 @@ public class DataManager {
     }
 
     public Observable<PackageModel> sendOrder(PackageModel order){
-        int ts = 1;
+
         return mConnectionService.sendOrder(order)
                 .concatMap(new Func1<PackageModel, Observable<? extends PackageModel>>() {
                     @Override
@@ -68,5 +68,21 @@ public class DataManager {
                 });
     }
 
-
+    public Observable<PackageModel> getOrderPrice(PackageModel order){
+        return mConnectionService.getOrderPrice(order)
+                .concatMap(new Func1<PackageModel, Observable<? extends PackageModel>>() {
+                    @Override
+                    public Observable<? extends PackageModel> call(final PackageModel packageModel) {
+                        return Observable.create(new Observable.OnSubscribe<PackageModel>() {
+                            @Override
+                            public void call(Subscriber<? super PackageModel> subscriber) {
+                                Timber.i("---- getOrderPrice ----------");
+                                if(subscriber.isUnsubscribed()) return;
+                                subscriber.onNext(packageModel);
+                                subscriber.onCompleted();
+                            }
+                        });
+                    }
+                });
+    }
 }

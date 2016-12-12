@@ -9,9 +9,10 @@ import com.iskhak.padie.model.packagedata.ViewedPackage;
 
 public interface PackageModelDAO {
 	public List<PackageModel> list();
-	public SetPackageModel getOrder(SetPackageModel order);
+	public SetPackageModel setOrder(SetPackageModel order);
 	public List<PackageModel> getNewOrders(String deviceId, Date date);
 	public void setViewedPackage(ViewedPackage viewedPackage);
 	public boolean acceptOrder(int pkgId);
+	public SetPackageModel getOrderPrice(SetPackageModel order);
 /*	public List<SetPackageModel> testSetPackageModel()*/
 }
