@@ -17,7 +17,7 @@ public abstract class PackageModel {
     public abstract Integer id();
     @Nullable
     public abstract Integer clientId();
-    public abstract Timestamp orderDate();
+    @Nullable public abstract Timestamp orderDate();
     public abstract String notes();
     public abstract String address();
     @Nullable public abstract Float price();

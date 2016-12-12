@@ -60,6 +60,7 @@ public class PackageModelDAOImpl implements PackageModelDAO{
 	@Transactional
 	public SetPackageModel getOrderPrice(SetPackageModel order){
 		order.setPrice(100.0f);
+		order.setOrderDate(null);
 		for(SetSelectedItems item:order.getSelectedItems()){
 			item.setPackageModel(order);
 		}
@@ -100,10 +101,13 @@ public class PackageModelDAOImpl implements PackageModelDAO{
 				+ "where p.acceptedDate is null"
 				+ "group by v.selectedPkg";
 		
-/*		List<Object[]> objects = (List<Object[]>) sessionFactory.getCurrentSession()
-				.createQuery("hql")
-				.setParameter("deviceId", deviceId)
-				.list();*/
+		/*List<Object[]> objects = (List<Object[]>) sessionFactory.getCurrentSession()
+			 
+			 *.createQuery("hql")
+
+			 *.setParameter("deviceId", deviceId)
+
+			 *.list();*/
 		
 		//System.out.println(objects.size());
 		for(PackageModel item:result){
