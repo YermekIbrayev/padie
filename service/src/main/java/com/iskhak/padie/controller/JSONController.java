@@ -30,8 +30,6 @@ public class JSONController {
 	private ServiceItemDAO serviceItemDAO;
 	@Autowired
 	private PackageModelDAO packageModelDAO;
-	@Autowired
-	private SelectedAddDAO selectedAddDAO;
 	
 	@RequestMapping(value="/serviceList", method = RequestMethod.GET, produces = "application/json")
 	public List<GetServiceItem> getServiceListJSON(){
@@ -43,10 +41,6 @@ public class JSONController {
 		return packageModelDAO.list();
 	}
 	
-	@RequestMapping(value="/OrderList1", method = RequestMethod.GET, produces = "application/json")
-	public List<SelectedItemsAdd> getOrderList1JSON(){
-		return selectedAddDAO.list();
-	}
 	
 	@RequestMapping(value="/sendOrder", method = RequestMethod.POST)
 	public @ResponseBody SetPackageModel sendOrder(@RequestBody SetPackageModel order){
