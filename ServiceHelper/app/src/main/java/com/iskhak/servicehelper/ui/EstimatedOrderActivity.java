@@ -68,6 +68,8 @@ public class EstimatedOrderActivity extends BaseActivity {
                         int totalSum = packageModel.price().intValue();
                         intent.putExtra("TotalSum", totalSum);
                         startActivity(intent);
+
+                        
                     }
                 });
 /*        Intent intent = new Intent(this, OrderSummaryActivity.class );
