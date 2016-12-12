@@ -49,35 +49,31 @@ public class EstimatedOrderActivity extends BaseActivity {
 
     public void onOrderButton(View view){
         if(mSubscribtion!=null && !mSubscribtion.isUnsubscribed()) mSubscribtion.unsubscribe();
-        try {
-            mSubscribtion = mDataManager.sendOrder(DataHolder.getInstance().getOrder())
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<PackageModel>() {
-                        @Override
-                        public void onCompleted() {
-                            Timber.i("got packageModel");
-                            showDialog();
-                        }
+        mSubscribtion = mDataManager.sendOrder(DataHolder.getInstance().getOrder())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<PackageModel>() {
+                    @Override
+                    public void onCompleted() {
+                        Timber.i("got packageModel");
+                        showDialog();
+                    }
 
-                        @Override
-                        public void onError(Throwable e) {
-                            e.printStackTrace();
-                        }
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
 
-                        @Override
-                        public void onNext(PackageModel packageModel) {
-                            Timber.i(packageModel.toString());
-                            DataHolder.getInstance().setOrder(packageModel);
+                    @Override
+                    public void onNext(PackageModel packageModel) {
+                        Timber.i(packageModel.toString());
+                        DataHolder.getInstance().setOrder(packageModel);
 /*                            Intent intent = new Intent(getApplicationContext(), EstimatedOrderActivity.class);
-                            int totalSum = packageModel.price().intValue();
-                            intent.putExtra("TotalSum", totalSum);
-                            startActivity(intent);*/
-                        }
-                    });
-        } catch (Exception e){
-            Timber.e(e, "On order button");
-        }
+                        int totalSum = packageModel.price().intValue();
+                        intent.putExtra("TotalSum", totalSum);
+                        startActivity(intent);*/
+                    }
+                });
 /*        Intent intent = new Intent(this, OrderSummaryActivity.class );
         startActivity(intent);*/
     }
