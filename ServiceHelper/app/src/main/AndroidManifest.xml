@@ -30,12 +30,12 @@
         <activity android:name=".ui.CleaningAddressActivity" />
         <activity android:name=".ui.BaseActivity" />
         <activity android:name=".ui.MainActivity" />
-        <activity android:name=".ui.ProfileActivity" />
-        <activity android:name=".ui.PaymentActivity" />
-        <activity android:name=".ui.OrdersActivity" />
-        <activity android:name=".ui.SettingsActivity" />
-        <activity android:name=".ui.BasicSettingsActivity" />
-        <activity android:name=".ui.PromotionsActivity" />
+        <activity android:name=".ui.menu.ProfileActivity" />
+        <activity android:name=".ui.menu.PaymentActivity" />
+        <activity android:name=".ui.menu.OrdersActivity" />
+        <activity android:name=".ui.menu.SettingsActivity" />
+        <activity android:name=".ui.menu.BasicSettingsActivity" />
+        <activity android:name=".ui.menu.PromotionsActivity" />
         <activity android:name=".ui.EstimatedOrderActivity" />
         <activity
             android:name=".ui.GettingDataActivity"

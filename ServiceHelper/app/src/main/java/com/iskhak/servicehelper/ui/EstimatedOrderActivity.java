@@ -68,14 +68,8 @@ public class EstimatedOrderActivity extends BaseActivity {
                     public void onNext(PackageModel packageModel) {
                         Timber.i(packageModel.toString());
                         DataHolder.getInstance().setOrder(packageModel);
-/*                            Intent intent = new Intent(getApplicationContext(), EstimatedOrderActivity.class);
-                        int totalSum = packageModel.price().intValue();
-                        intent.putExtra("TotalSum", totalSum);
-                        startActivity(intent);*/
                     }
                 });
-/*        Intent intent = new Intent(this, OrderSummaryActivity.class );
-        startActivity(intent);*/
     }
 
     private void showDialog(){

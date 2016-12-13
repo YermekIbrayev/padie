@@ -1,6 +1,5 @@
-package com.iskhak.servicehelper.ui;
+package com.iskhak.servicehelper.ui.menu;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -8,7 +7,6 @@ import android.widget.EditText;
 import com.iskhak.servicehelper.R;
 import com.iskhak.servicehelper.extra.UserPreferences;
 import com.iskhak.servicehelper.helpers.DataHolder;
-import com.iskhak.servicehelper.ui.BasicSettingsActivity;
 
 public class ProfileActivity extends BasicSettingsActivity {
     EditText userName;

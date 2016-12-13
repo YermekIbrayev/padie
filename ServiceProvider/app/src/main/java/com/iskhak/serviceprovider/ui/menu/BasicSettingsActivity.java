@@ -1,18 +1,19 @@
-package com.iskhak.servicehelper.ui;
+package com.iskhak.serviceprovider.ui.menu;
 
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.iskhak.servicehelper.R;
+import com.iskhak.serviceprovider.R;
+
 
 public class BasicSettingsActivity extends AppCompatActivity {
 
@@ -56,6 +57,8 @@ public class BasicSettingsActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
 
     protected void setSubtitleText(String text){
         ((TextView)findViewById(R.id.basic_settings_subtitle)).setText(text);
