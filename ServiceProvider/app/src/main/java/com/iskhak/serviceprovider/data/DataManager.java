@@ -25,6 +25,7 @@ import javax.inject.Singleton;
 import retrofit2.Response;
 import rx.Observable;
 import rx.Observer;
+import rx.Subscriber;
 import rx.Subscription;
 import rx.functions.Action1;
 import rx.functions.Func1;
@@ -50,41 +51,41 @@ public class DataManager {
         jobList = new RxObservableList<>();
     }
 
-    public Observable<PackageModel> getNewOrders(){
-        RxUtil.unsubscribe(mSubscribe);
-        mSubscribe = mConnectionService.getNewOrders(androidId , new PathDate(viewed))
-                .subscribeOn(Schedulers.io())
-                .subscribe(new Observer<List<PackageModel>>() {
-                    @Override
-                    public void onCompleted() {
+    public Observable<Void> getNewOrders(){
+        return Observable.create(new Observable.OnSubscribe<Void>() {
+            @Override
+            public void call(Subscriber<? super Void> subscriber) {
+                requestList.clear();
+                jobList.clear();
+                mSubscribe = mConnectionService.getNewOrders(androidId , new PathDate(viewed))
+                        .subscribeOn(Schedulers.io())
+                        .subscribe(new Observer<List<PackageModel>>() {
+                            @Override
+                            public void onCompleted() {
 
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(List<PackageModel> packageModels) {
-                        for(PackageModel packageModel: packageModels){
-                            if(packageModel.acceptedDate()==null){
-                                if(!requestList.contains(packageModel))
-                                    requestList.add(packageModel);
-                            }else{
-                                if(!jobList.contains(packageModel))
-                                    jobList.add(packageModel);
                             }
-                        }
-                    }
-                });
-        /*                .concatMap(new Func1<List<PackageModel>, Observable<? extends PackageModel>>() {
-                    @Override
-                    public Observable<? extends PackageModel> call(List<PackageModel> packageModels) {
-                        Timber.i("Sync success");
-                        return mDatabaseHelper.getNewOrders(packageModels);
-                    }
-                });*/
+
+                            @Override
+                            public void onError(Throwable e) {
+
+                            }
+
+                            @Override
+                            public void onNext(List<PackageModel> packageModels) {
+                                for(PackageModel packageModel: packageModels){
+                                    if(packageModel.acceptedDate()==null){
+                                        if(!requestList.contains(packageModel))
+                                            requestList.add(packageModel);
+                                    }else{
+                                        if(!jobList.contains(packageModel))
+                                            jobList.add(packageModel);
+                                    }
+                                }
+                            }
+                        });
+                subscriber.onCompleted();
+            }
+        });
     }
 
     public Observable<PackageModel> getRequestList(){

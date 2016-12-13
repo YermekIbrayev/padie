@@ -148,7 +148,6 @@ public class SyncService extends Service implements INewOrderSender {
                         if(order.viewed()==null)
                             setViewedOrders(order);
                         Timber.d("onNext");
-
                     }
                 });
     }

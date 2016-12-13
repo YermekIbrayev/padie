@@ -26,4 +26,8 @@ public class RxObservableList<T> {
     public boolean contains(T object){
         return list.contains(object);
     }
+
+    public void clear(){
+        list.clear();
+    }
 }
