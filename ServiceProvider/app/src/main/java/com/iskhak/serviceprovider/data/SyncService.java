@@ -71,6 +71,8 @@ public class SyncService extends Service implements INewOrderSender {
 
     @Override
     public int onStartCommand(Intent intent, int flags, final int startId){
+        if(androidId==null)
+            androidId = mDataManager.getAndroidId();
         Timber.i("Starting sync...");
         sender = this;
         DataHolder.getInstance().setSender(this);

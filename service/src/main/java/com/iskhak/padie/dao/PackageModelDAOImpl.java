@@ -85,7 +85,7 @@ public class PackageModelDAOImpl implements PackageModelDAO{
 		System.out.println(date);
 		String hql = "Select p from PackageModel as p "
 				+ "left join  p.viewedList as v on (v.deviceId=:deviceId and  v.viewed<=:date)  "
-				+ "where p.acceptedDate is null and v.id is null ";
+				+ "where "+/*p.acceptedDate is null and*/" v.id is null ";
 
 		List<PackageModel> result = (List<PackageModel>) sessionFactory.getCurrentSession()
 /*				.createCriteria(PackageModel.class)

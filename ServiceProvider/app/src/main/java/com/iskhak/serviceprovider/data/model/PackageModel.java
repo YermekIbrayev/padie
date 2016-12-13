@@ -21,6 +21,7 @@ public abstract class PackageModel {
     public abstract Date orderDate();
     public abstract String notes();
     public abstract String address();
+    @Nullable public abstract Date acceptedDate();
 
     @Nullable public abstract Float price();
     @Nullable public abstract Date viewed();
@@ -44,6 +45,7 @@ public abstract class PackageModel {
         public abstract Builder setOrderDate(Date orderDate);
         public abstract Builder setNotes(String notes);
         public abstract Builder setAddress(String address);
+        public abstract Builder setAcceptedDate(Date acceptedDate);
         public abstract Builder setPrice(Float price);
         public abstract Builder setViewed(Date viewed);
         public abstract Builder setSelectedItems(List<SelectedItems> selectedItems);
@@ -59,16 +61,4 @@ public abstract class PackageModel {
         }
         return false;
     }
-
-
-    /*    private int id;
-    private int clientId;
-    private Timestamp orderDate;
-    private String notes;
-    private String address;
-    private Timestamp created;
-    @Nullable float price;
-    private List<SelectedItems> selectedItemsList;
-    private List<SelectedItemsAdd> selectedItemsAdd;
-    private List<SelectedItemsAddExtra> selectedItemsAddExtra;*/
 }

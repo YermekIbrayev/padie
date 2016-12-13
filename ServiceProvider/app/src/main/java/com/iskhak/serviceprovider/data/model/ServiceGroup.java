@@ -34,48 +34,4 @@ public abstract class ServiceGroup {
         public abstract ServiceGroup build();
     }
 
-/*    private  int id;
-    private String name;
-    private String mainQuestion;
-    private String extraQuestion;
-
-    public ServiceGroup(int id, String name, String mainQuestion, String extraQuestion) {
-        super();
-        this.id = id;
-        this.name = name;
-        this.mainQuestion = mainQuestion;
-        this.extraQuestion = extraQuestion;
-    }
-
-    public int getID() {
-        return id;
-    }
-
-    public void setID(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getMainQuestion() {
-        return mainQuestion;
-    }
-
-    public void setMainQuestion(String mainQuestion) {
-        this.mainQuestion = mainQuestion;
-    }
-
-    public String getExtraQuestion() {
-        return extraQuestion;
-    }
-
-    public void setExtraQuestion(String extraQuestion) {
-        this.extraQuestion = extraQuestion;
-    }*/
 }

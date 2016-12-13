@@ -74,4 +74,8 @@ public class DataManager {
     public Observable<Response<Void>> acceptOrder(Integer pkgId){
         return mConnectionService.acceptOrder(pkgId);
     }
+
+    public String getAndroidId(){
+        return androidId;
+    }
 }

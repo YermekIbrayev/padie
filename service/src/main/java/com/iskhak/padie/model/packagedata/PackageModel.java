@@ -40,7 +40,8 @@ public class PackageModel {
 	@JsonIgnore
 	@CreationTimestamp
 	private Date created;
-	@JsonIgnore
+	/*@JsonIgnore*/
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern=Constants.DATE_TIME_FORMAT)
 	private Date acceptedDate;
 	@JsonIgnore
 	private Date finishedDate;

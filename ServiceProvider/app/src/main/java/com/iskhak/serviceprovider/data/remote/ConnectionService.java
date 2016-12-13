@@ -2,14 +2,13 @@ package com.iskhak.serviceprovider.data.remote;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.iskhak.serviceprovider.BuildConfig;
 import com.iskhak.serviceprovider.data.model.PackageModel;
 import com.iskhak.serviceprovider.data.model.PathDate;
 import com.iskhak.serviceprovider.data.model.ResponseOrder;
 import com.iskhak.serviceprovider.data.model.ServiceGroup;
+import com.iskhak.serviceprovider.helpers.Constants;
 import com.iskhak.serviceprovider.helpers.MyGsonTypeAdapterFactory;
 
-import java.util.Date;
 import java.util.List;
 
 import okhttp3.OkHttpClient;
@@ -48,7 +47,7 @@ public interface ConnectionService {
     class Creator{
         public static ConnectionService newServicesList(){
             Gson gson = new GsonBuilder()
-                    .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
+                    .setDateFormat(Constants.DATE_TIME_FORMAT)
                     .registerTypeAdapterFactory(MyGsonTypeAdapterFactory.create())
                     .create();
             HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
