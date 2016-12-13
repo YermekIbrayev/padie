@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
+    private static final int TABS_COUNT = 2;
     JobsTab jobsTab;
     RequestsTab requestsTab;
     private String tabTitles[] = new String[] { "Request", "My Jobs" };
@@ -32,7 +33,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getCount() {
-        return 2;
+        return TABS_COUNT;
     }
 
     @Override

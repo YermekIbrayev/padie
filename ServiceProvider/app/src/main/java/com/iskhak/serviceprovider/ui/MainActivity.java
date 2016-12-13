@@ -69,7 +69,6 @@ public class MainActivity extends BaseActivity{
                 tabLayout.setupWithViewPager(viewPager);
             }
         }
-
         startService(SyncService.getStartIntent(this));
     }
 

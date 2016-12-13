@@ -20,6 +20,7 @@ import com.iskhak.serviceprovider.helpers.DataHolder;
 import com.iskhak.serviceprovider.helpers.INewOrderListener;
 import com.iskhak.serviceprovider.helpers.INewOrderSender;
 import com.iskhak.serviceprovider.helpers.NetworkUtil;
+import com.iskhak.serviceprovider.helpers.RxUtil;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -59,6 +60,7 @@ public class RequestsTab extends Fragment implements INewOrderListener{
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
@@ -90,8 +92,8 @@ public class RequestsTab extends Fragment implements INewOrderListener{
             return;
         }
 
-        if (mSubscription != null && !mSubscription.isUnsubscribed()) mSubscription.unsubscribe();
-        mSubscription = mDataManager.getNewOrders()
+        RxUtil.unsubscribe(mSubscription);
+        mSubscription = mDataManager.getRequestList()
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Observer<PackageModel>() {
 

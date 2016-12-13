@@ -18,7 +18,12 @@ public class RxObservableList<T> {
         list.add(value);
         onAdd.onNext(value);
     }
+
     public Observable<T> getObservable() {
         return onAdd;
+    }
+
+    public boolean contains(T object){
+        return list.contains(object);
     }
 }

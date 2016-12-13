@@ -61,4 +61,9 @@ public abstract class PackageModel {
         }
         return false;
     }
+
+    @Override
+    public int hashCode() {
+        return id().hashCode();
+    }
 }

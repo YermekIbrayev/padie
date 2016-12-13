@@ -21,6 +21,7 @@ import com.iskhak.serviceprovider.helpers.DataHolder;
 import com.iskhak.serviceprovider.helpers.INewOrderListener;
 import com.iskhak.serviceprovider.helpers.INewOrderSender;
 import com.iskhak.serviceprovider.helpers.NetworkUtil;
+import com.iskhak.serviceprovider.helpers.RxUtil;
 import com.iskhak.serviceprovider.ui.MainActivity;
 import com.iskhak.serviceprovider.ui.RequestsTab;
 
@@ -111,14 +112,12 @@ public class SyncService extends Service implements INewOrderSender {
                     @Override
                     public void onCompleted() {
                         Timber.i("Synced successfully!");
-
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         Timber.w(e, "Error syncing.");
                         stopSelf(startId);
-
                     }
 
                     @Override
@@ -128,7 +127,7 @@ public class SyncService extends Service implements INewOrderSender {
                         if(order.viewed()!=null&&order.viewed()!=null&&lastUpdate.before(order.viewed())) {
                             lastUpdate = order.viewed();
                             mDataManager.setViewed(lastUpdate);
-                            if (mSubscription != null && !mSubscription.isUnsubscribed()) mSubscription.unsubscribe();
+                            RxUtil.unsubscribe(mSubscription);
                             mSubscription = getOrders(startId);
                         }
                         if(orders==null) {
