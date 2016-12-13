@@ -1,11 +1,10 @@
-package com.iskhak.servicehelper.ui;
+package com.iskhak.servicehelper.ui.menu;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.iskhak.servicehelper.R;
 
-public class PromotionsActivity extends BasicSettingsActivity{
+public class PromotionsActivity extends BasicSettingsActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

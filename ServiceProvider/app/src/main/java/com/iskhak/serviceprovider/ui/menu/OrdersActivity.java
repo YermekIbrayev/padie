@@ -1,9 +1,8 @@
-package com.iskhak.servicehelper.ui;
+package com.iskhak.serviceprovider.ui.menu;
 
 import android.os.Bundle;
 
-import com.iskhak.servicehelper.R;
-import com.iskhak.servicehelper.ui.BasicSettingsActivity;
+import com.iskhak.serviceprovider.R;
 
 public class OrdersActivity extends BasicSettingsActivity {
 

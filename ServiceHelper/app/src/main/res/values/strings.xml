@@ -26,5 +26,5 @@
     <string name="dialog_action_ok">OK</string>
     <string name="dialog_error_title">Sorry</string>
     <string name="thanks_title">Thank you!</string>
-    <string name="thanks_content">You order has been sent!\nThank you for using Padie!</string>
+    <string name="thanks_content">Your order has been sent!\nThank you for using the Padie!</string>
 </resources>

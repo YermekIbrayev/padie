@@ -1,9 +1,8 @@
-package com.iskhak.servicehelper.ui;
+package com.iskhak.servicehelper.ui.menu;
 
 import android.os.Bundle;
 
 import com.iskhak.servicehelper.R;
-import com.iskhak.servicehelper.ui.BasicSettingsActivity;
 
 public class SettingsActivity extends BasicSettingsActivity {
 

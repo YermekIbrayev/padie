@@ -1,8 +1,10 @@
 package com.iskhak.serviceprovider.helpers;
 
+import android.content.Context;
 import android.widget.TextView;
 
 import com.iskhak.serviceprovider.data.model.PackageModel;
+import com.iskhak.serviceprovider.extra.UserPreferences;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -18,6 +20,8 @@ public class DataHolder {
     private Map<Integer, PackageModel> indexedOrders;
     private INewOrderSender sender;
 
+    private UserPreferences userPreferences;
+
     public static final String DATE_FORMAT="MM/dd/yy";
     public static final String TIME_FORMAT="h:mm a";
     public static final DataHolder holder = new DataHolder();
@@ -29,6 +33,13 @@ public class DataHolder {
 /*        fillRequestsList();*/
     }
 
+    public void setContext(Context context){
+        userPreferences = new UserPreferences(context);
+    }
+
+    public UserPreferences getUserPreferences(){
+        return userPreferences;
+    }
 
     //for testing
     private void fillRequestsList(){
@@ -74,7 +85,9 @@ public class DataHolder {
     }
 
     public PackageModel getOrderById(int id){
-        return indexedOrders.get(id);
+        if(indexedOrders!=null&&indexedOrders.containsKey(id))
+            return indexedOrders.get(id);
+        return null;
     }
 
     public void setIndexedOrders(Map<Integer, PackageModel> indexedOrders){

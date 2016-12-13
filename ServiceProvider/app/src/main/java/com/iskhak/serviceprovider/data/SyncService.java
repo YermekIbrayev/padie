@@ -75,6 +75,7 @@ public class SyncService extends Service implements INewOrderSender {
             androidId = mDataManager.getAndroidId();
         Timber.i("Starting sync...");
         sender = this;
+        androidId = mDataManager.getAndroidId();
         DataHolder.getInstance().setSender(this);
         if (!NetworkUtil.isNetworkConnected(this)) {
             Timber.i("Sync canceled, connection not available");

@@ -32,7 +32,7 @@ public class DataManager {
     private final ConnectionService mConnectionService;
     private final DatabaseHelper mDatabaseHelper;
     private Date viewed = new Date(0);
-    String androidId;
+    private String androidId;
 
     @Inject
     public DataManager(Application application, ConnectionService connectionService, DatabaseHelper databaseHelper){

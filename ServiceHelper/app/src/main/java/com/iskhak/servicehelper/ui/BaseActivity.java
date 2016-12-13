@@ -18,6 +18,11 @@ import com.iskhak.servicehelper.injection.component.ActivityComponent;
 import com.iskhak.servicehelper.injection.component.ConfigPersistentComponent;
 import com.iskhak.servicehelper.injection.component.DaggerConfigPersistentComponent;
 import com.iskhak.servicehelper.injection.module.ActivityModule;
+import com.iskhak.servicehelper.ui.menu.OrdersActivity;
+import com.iskhak.servicehelper.ui.menu.PaymentActivity;
+import com.iskhak.servicehelper.ui.menu.ProfileActivity;
+import com.iskhak.servicehelper.ui.menu.PromotionsActivity;
+import com.iskhak.servicehelper.ui.menu.SettingsActivity;
 
 import java.util.HashMap;
 import java.util.Map;

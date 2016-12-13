@@ -1,5 +1,6 @@
 package com.iskhak.serviceprovider.ui;
 
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -18,6 +19,10 @@ import com.iskhak.serviceprovider.injection.component.ActivityComponent;
 import com.iskhak.serviceprovider.injection.component.ConfigPersistentComponent;
 import com.iskhak.serviceprovider.injection.component.DaggerConfigPersistentComponent;
 import com.iskhak.serviceprovider.injection.module.ActivityModule;
+import com.iskhak.serviceprovider.ui.menu.PaymentActivity;
+import com.iskhak.serviceprovider.ui.menu.ProfileActivity;
+import com.iskhak.serviceprovider.ui.menu.PromotionsActivity;
+import com.iskhak.serviceprovider.ui.menu.SettingsActivity;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -77,7 +82,33 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        return false;
+        int id = item.getItemId();
+        Intent intent;
+
+        switch (id){
+            case R.id.nav_profile:
+                intent = new Intent(this, ProfileActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.nav_payment:
+                intent = new Intent(this, PaymentActivity.class);
+                startActivity(intent);
+                break;
+/*            case R.id.nav_orders:
+                intent = new Intent(this, OrdersActivity.class);
+                startActivity(intent);
+                break;*/
+            case R.id.nav_promotions:
+                intent = new Intent(this, PromotionsActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.nav_settings:
+                intent = new Intent(this, SettingsActivity.class);
+                startActivity(intent);
+                break;
+        }
+
+        return true;
     }
 
     public void onNavigateIcon(View view){
