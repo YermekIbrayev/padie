@@ -108,8 +108,23 @@ public class SyncService extends Service implements INewOrderSender {
                     }
                 })
 
-                .subscribe(new Observer<PackageModel>() {
-                    @Override
+                .subscribe(new Observer<Void>() {
+                               @Override
+                               public void onCompleted() {
+
+                               }
+
+                               @Override
+                               public void onError(Throwable e) {
+
+                               }
+
+                               @Override
+                               public void onNext(Void aVoid) {
+                                   Timber.d("onNext");
+                               }
+                           }
+/*                    @Override
                     public void onCompleted() {
                         Timber.i("Synced successfully!");
                     }
@@ -118,9 +133,9 @@ public class SyncService extends Service implements INewOrderSender {
                     public void onError(Throwable e) {
                         Timber.w(e, "Error syncing.");
                         stopSelf(startId);
-                    }
+                    }*/
 
-                    @Override
+/*                    @Override
                     public void onNext(PackageModel order) {
                         if(lastUpdate==null)
                             lastUpdate = new Date(0);
@@ -148,8 +163,8 @@ public class SyncService extends Service implements INewOrderSender {
                         if(order.viewed()==null)
                             setViewedOrders(order);
                         Timber.d("onNext");
-                    }
-                });
+                    }*/
+    );
     }
 
     private void setViewedOrders(PackageModel order){
