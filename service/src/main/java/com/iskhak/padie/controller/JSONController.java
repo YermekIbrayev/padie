@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.iskhak.padie.config.Constants;
 import com.iskhak.padie.dao.PackageModelDAO;
 import com.iskhak.padie.dao.SelectedAddDAO;
 import com.iskhak.padie.dao.ServiceItemDAO;
@@ -60,7 +61,7 @@ public class JSONController {
 	}*/
 	
 	@RequestMapping(value="/getNewOrders/{deviceId}/{date}", method = RequestMethod.GET, produces = "application/json")
-	public List<PackageModel> getNewOrders(@PathVariable("deviceId") String deviceId, @PathVariable("date") @DateTimeFormat(pattern="yyyy-MM-dd-HH-mm-ss") Date date){
+	public List<PackageModel> getNewOrders(@PathVariable("deviceId") String deviceId, @PathVariable("date") @DateTimeFormat(pattern=Constants.DATE_TIME_FORMAT) Date date){
 		return packageModelDAO.getNewOrders(deviceId, date);
 	}
 	

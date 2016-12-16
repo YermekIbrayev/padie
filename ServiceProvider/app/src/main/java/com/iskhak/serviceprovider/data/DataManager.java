@@ -54,15 +54,15 @@ public class DataManager {
     public Observable<Void> getNewOrders(){
         return Observable.create(new Observable.OnSubscribe<Void>() {
             @Override
-            public void call(Subscriber<? super Void> subscriber) {
+            public void call(final Subscriber<? super Void> subscriber) {
                 requestList.clear();
                 jobList.clear();
-                mSubscribe = mConnectionService.getNewOrders(androidId , new PathDate(viewed))
+                mConnectionService.getNewOrders(androidId , new PathDate(viewed))
                         .subscribeOn(Schedulers.io())
                         .subscribe(new Observer<List<PackageModel>>() {
                             @Override
                             public void onCompleted() {
-
+                                subscriber.onCompleted();
                             }
 
                             @Override
@@ -73,6 +73,9 @@ public class DataManager {
                             @Override
                             public void onNext(List<PackageModel> packageModels) {
                                 for(PackageModel packageModel: packageModels){
+                                    if(packageModel.viewed()!=null&&packageModel.viewed()!=null&&viewed.before(packageModel.viewed())) {
+                                        viewed = packageModel.viewed();
+                                    }
                                     if(packageModel.acceptedDate()==null){
                                         if(!requestList.contains(packageModel))
                                             requestList.add(packageModel);
@@ -83,7 +86,7 @@ public class DataManager {
                                 }
                             }
                         });
-                subscriber.onCompleted();
+
             }
         });
     }
