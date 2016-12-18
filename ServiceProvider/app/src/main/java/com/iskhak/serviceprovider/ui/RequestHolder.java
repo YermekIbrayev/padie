@@ -37,7 +37,7 @@ public class RequestHolder {
     }
 
     public void setViewsText(PackageModel order){
-        jobName.setText(JOB_COUNT_PREF+order.selectedItems().size());
+        jobName.setText(JOB_COUNT_PREF+order.id());
         jobAddress.setText(ADDRESS_PREF+order.address());
         jobDate.setText(DATE_PREF+updateFormat( order.orderDate(), DATE_FORMAT));
         jobTime.setText(TIME_PREF+updateFormat( order.orderDate(), TIME_FORMAT));

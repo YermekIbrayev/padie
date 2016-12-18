@@ -116,7 +116,7 @@ public class SyncService extends Service implements INewOrderSender {
 
                                @Override
                                public void onError(Throwable e) {
-
+                                   Timber.e("onGetOrders", e);
                                }
 
                                @Override
@@ -167,7 +167,7 @@ public class SyncService extends Service implements INewOrderSender {
     );
     }
 
-    private void setViewedOrders(PackageModel order){
+/*    private void setViewedOrders(PackageModel order){
         ResponseOrder responseOrder = ResponseOrder.builder()
                 .setId(order.id())
                 .setDeviceId(androidId)
@@ -175,7 +175,7 @@ public class SyncService extends Service implements INewOrderSender {
                 .setViewed(new Date())
                 .build();
         mDataManager.sendViewedOrders(responseOrder);
-    }
+    }*/
 
     private void sendNotif(PackageModel order) {
         Intent intent = new Intent(this, MainActivity.class);

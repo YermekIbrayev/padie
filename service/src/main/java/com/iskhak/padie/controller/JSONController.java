@@ -49,6 +49,8 @@ public class JSONController {
 		return packageModelDAO.setOrder(order);
 	}
 	
+	
+	// Order creation date = null. Why? Should be fixed
 	@RequestMapping(value="/getOrderPrice", method = RequestMethod.POST)
 	public @ResponseBody SetPackageModel getOrderPrice(@RequestBody SetPackageModel order){
 		System.out.println(order.getId());

@@ -38,4 +38,17 @@ public class JobsAdapter extends ArrayAdapter {
 
         return row;
     }
+
+    public void add(List<PackageModel> orders){
+        this.jobsList = orders;
+        notifyDataSetChanged();
+    }
+
+    public int getSize(){
+        return jobsList.size();
+    }
+    public void clear(){
+        jobsList.clear();
+        notifyDataSetChanged();
+    }
 }

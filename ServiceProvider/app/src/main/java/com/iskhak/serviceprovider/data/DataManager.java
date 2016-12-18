@@ -1,9 +1,15 @@
 package com.iskhak.serviceprovider.data;
 
 import android.app.Application;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.provider.Settings;
 
 import com.google.common.collect.ForwardingList;
+import com.iskhak.serviceprovider.R;
 import com.iskhak.serviceprovider.data.local.DatabaseHelper;
 import com.iskhak.serviceprovider.data.model.PackageModel;
 import com.iskhak.serviceprovider.data.model.PathDate;
@@ -13,6 +19,8 @@ import com.iskhak.serviceprovider.data.remote.ConnectionService;
 import com.iskhak.serviceprovider.helpers.INewOrderSender;
 import com.iskhak.serviceprovider.helpers.RxObservableList;
 import com.iskhak.serviceprovider.helpers.RxUtil;
+import com.iskhak.serviceprovider.injection.ApplicationContext;
+import com.iskhak.serviceprovider.ui.MainActivity;
 
 import java.util.Date;
 import java.util.List;
@@ -41,11 +49,13 @@ public class DataManager {
     private String androidId;
     private RxObservableList<PackageModel> requestList;
     private RxObservableList<PackageModel> jobList;
+    private Context mContext;
 
     @Inject
     public DataManager(Application application, ConnectionService connectionService, DatabaseHelper databaseHelper){
         mConnectionService = connectionService;
         mDatabaseHelper = databaseHelper;
+        mContext = application.getApplicationContext();
         androidId = Settings.Secure.getString(application.getContentResolver(), Settings.Secure.ANDROID_ID);
         requestList = new RxObservableList<>();
         jobList = new RxObservableList<>();
@@ -67,15 +77,13 @@ public class DataManager {
 
                             @Override
                             public void onError(Throwable e) {
-
+                                Timber.e("onGetNewOrders", e);
                             }
 
                             @Override
                             public void onNext(List<PackageModel> packageModels) {
                                 for(PackageModel packageModel: packageModels){
-                                    if(packageModel.viewed()!=null&&packageModel.viewed()!=null&&viewed.before(packageModel.viewed())) {
-                                        viewed = packageModel.viewed();
-                                    }
+
                                     if(packageModel.acceptedDate()==null){
                                         if(!requestList.contains(packageModel))
                                             requestList.add(packageModel);
@@ -83,6 +91,10 @@ public class DataManager {
                                         if(!jobList.contains(packageModel))
                                             jobList.add(packageModel);
                                     }
+                                    if(packageModel.viewed()==null||(packageModel.viewed()!=null&&viewed.before(packageModel.viewed()))) {
+                                        generateViewedOrder(packageModel);
+                                    }
+                                    sendNotif(packageModel);
                                 }
                             }
                         });
@@ -90,6 +102,7 @@ public class DataManager {
             }
         });
     }
+
 
     public Observable<PackageModel> getRequestList(){
         return requestList.getObservable();
@@ -122,5 +135,42 @@ public class DataManager {
 
     public String getAndroidId(){
         return androidId;
+    }
+
+    //-------- private helper methods;
+
+    private void sendNotif(PackageModel order) {
+        Intent intent = new Intent(mContext, MainActivity.class);
+        intent.putExtra(MainActivity.ORDER_KEY,order.id());
+// use System.currentTimeMillis() to have a unique ID for the pending intent
+        PendingIntent pIntent = PendingIntent.getActivity(mContext, (int) System.currentTimeMillis(), intent, 0);
+
+// build notification
+// the addAction re-use the same intent to keep the example short
+        Notification n  = new Notification.Builder(mContext)
+                .setContentTitle("New Order:"+order.id())
+                .setContentText("Service Price:"+order.price())
+                .setSmallIcon(R.drawable.logo)
+                .setContentIntent(pIntent)
+                .setAutoCancel(true)
+                .build();
+
+
+        NotificationManager notificationManager =
+                (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        notificationManager.notify(order.id(), n);
+
+    }
+
+    private void generateViewedOrder(PackageModel packageModel){
+        viewed = packageModel.viewed();
+        ResponseOrder responseOrder = ResponseOrder.builder()
+                .setId(packageModel.id())
+                .setDeviceId(androidId)
+                .setSelectedPkg(packageModel.id())
+                .setViewed(new Date())
+                .build();
+        sendViewedOrders(responseOrder);
     }
 }

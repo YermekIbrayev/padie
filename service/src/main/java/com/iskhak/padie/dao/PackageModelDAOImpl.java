@@ -124,6 +124,8 @@ public class PackageModelDAOImpl implements PackageModelDAO{
 		return result;
 	}
 	
+	
+	//lastViewed column be added
 	@Override
 	@Transactional
 	public void setViewedPackage(ViewedPackage viewedPackage){
@@ -132,8 +134,9 @@ public class PackageModelDAOImpl implements PackageModelDAO{
 		List<ViewedPackage> checkList = (List<ViewedPackage>) sessionFactory.getCurrentSession()
 				.createCriteria(ViewedPackage.class)
 				.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
-				.add(Restrictions.eq("deviceId", viewedPackage.getDeviceId()))
-				.add(Restrictions.eq("selectedPkg", viewedPackage.getSelectedPkg()))
+				.add(Restrictions.and(
+						Restrictions.eq("deviceId", viewedPackage.getDeviceId()),
+						Restrictions.eq("selectedPkg", viewedPackage.getSelectedPkg())))
 				.list();
 		if(checkList==null||checkList.isEmpty())
 			sessionFactory.getCurrentSession().save(viewedPackage);

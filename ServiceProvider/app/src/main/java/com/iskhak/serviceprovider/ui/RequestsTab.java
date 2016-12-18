@@ -38,7 +38,7 @@ import rx.Subscription;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
-public class RequestsTab extends Fragment implements INewOrderListener{
+public class RequestsTab extends Fragment {
     @Inject
     DataManager mDataManager;
     private INewOrderSender sender;
@@ -58,20 +58,12 @@ public class RequestsTab extends Fragment implements INewOrderListener{
 
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,  Bundle savedInstanceState) {
         ((MainActivity)getActivity()).activityComponent().inject(this);
         View view = inflater.inflate(R.layout.requests_tab, container, false);
         ButterKnife.bind(this,view);
         requestAdapter = new RequestAdapter(getActivity(), R.layout.order_item, new ArrayList<PackageModel>());
         requestList.setAdapter(requestAdapter);
-
-        sender = DataHolder.getInstance().getSender();
 
         return view;
     }
@@ -125,7 +117,6 @@ public class RequestsTab extends Fragment implements INewOrderListener{
     }
 
 
-    @Override
     public void update(final PackageModel order) {
         if(DataHolder.getInstance().getOrderById(order.id())!=null)
             return;
@@ -143,17 +134,6 @@ public class RequestsTab extends Fragment implements INewOrderListener{
     @Override
     public void onResume() {
         super.onResume();
-        if(sender==null)
-            sender = DataHolder.getInstance().getSender();
-        sender.setListener(this);
         loadNewOrders();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        if(sender==null)
-            sender = DataHolder.getInstance().getSender();
-        sender.removeListener(this);
     }
 }
