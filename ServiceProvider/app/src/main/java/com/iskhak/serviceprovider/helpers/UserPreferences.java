@@ -1,4 +1,4 @@
-package com.iskhak.serviceprovider.extra;
+package com.iskhak.serviceprovider.helpers;
 
 import android.content.Context;
 import android.content.SharedPreferences;

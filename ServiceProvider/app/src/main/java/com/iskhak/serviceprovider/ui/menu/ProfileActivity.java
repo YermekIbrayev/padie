@@ -5,7 +5,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.iskhak.serviceprovider.R;
-import com.iskhak.serviceprovider.extra.UserPreferences;
+import com.iskhak.serviceprovider.helpers.UserPreferences;
 import com.iskhak.serviceprovider.helpers.DataHolder;
 
 public class ProfileActivity extends BasicSettingsActivity {

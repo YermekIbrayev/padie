@@ -1,17 +1,12 @@
 package com.iskhak.serviceprovider.helpers;
 
 import android.content.Context;
-import android.widget.TextView;
 
 import com.iskhak.serviceprovider.data.model.PackageModel;
-import com.iskhak.serviceprovider.extra.UserPreferences;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 public class DataHolder {
@@ -21,6 +16,8 @@ public class DataHolder {
     private INewOrderSender sender;
 
     private UserPreferences userPreferences;
+
+    private boolean isRunning;
 
     public static final String DATE_FORMAT="MM/dd/yy";
     public static final String TIME_FORMAT="h:mm a";
@@ -63,6 +60,18 @@ public class DataHolder {
         }*/
     }
 
+
+    public boolean isRunning(){
+        return isRunning;
+    }
+
+    public void stopActivity(){
+        isRunning = false;
+    }
+
+    public void startActivity(){
+        isRunning = true;
+    }
 
     public static String updateFormat(Date date, String format){
         SimpleDateFormat sdf = new SimpleDateFormat(format);

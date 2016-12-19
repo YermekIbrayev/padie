@@ -125,7 +125,6 @@ public class FullOrderFragment extends Fragment {
 
                         for(Fragment currentFragment:fragments)
                             if(currentFragment instanceof RequestsTab) {
-
                                 ((RequestsTab) currentFragment).updateAll();
                             }
                         ((MainActivity)getActivity()).showTabs(true);

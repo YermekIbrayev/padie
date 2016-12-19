@@ -83,9 +83,11 @@ public class PackageModelDAOImpl implements PackageModelDAO{
 	@Transactional
 	public List<PackageModel> getNewOrders(String deviceId, Date date) {
 		System.out.println(date);
+		
+		//get new orders
 		String hql = "Select p from PackageModel as p "
 				+ "left join  p.viewedList as v on (v.deviceId=:deviceId and  v.viewed<=:date)  "
-				+ "where "+/*p.acceptedDate is null and*/" v.id is null ";
+				+ "where "+/*p.acceptedDate is null and*/" v.id is null and p.orderDate is not null ";
 
 		List<PackageModel> result = (List<PackageModel>) sessionFactory.getCurrentSession()
 /*				.createCriteria(PackageModel.class)
@@ -96,6 +98,7 @@ public class PackageModelDAOImpl implements PackageModelDAO{
 		.setTimestamp("date", date)
 		.list();
 		
+		//????
 		hql = "Select p, max(v.viewed) form PackageModel as p "
 				+ "left join p.viewedList as v on (v.deviceId=:deviceId) "
 				+ "where p.acceptedDate is null"

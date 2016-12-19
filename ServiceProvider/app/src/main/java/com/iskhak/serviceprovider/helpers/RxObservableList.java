@@ -19,6 +19,10 @@ public class RxObservableList<T> {
         onAdd.onNext(value);
     }
 
+    public List<T> getFullList(){
+        return list;
+    }
+
     public Observable<T> getObservable() {
         return onAdd;
     }

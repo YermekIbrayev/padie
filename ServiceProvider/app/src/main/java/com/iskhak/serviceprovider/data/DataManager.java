@@ -16,6 +16,7 @@ import com.iskhak.serviceprovider.data.model.PathDate;
 import com.iskhak.serviceprovider.data.model.ResponseOrder;
 import com.iskhak.serviceprovider.data.model.ServiceGroup;
 import com.iskhak.serviceprovider.data.remote.ConnectionService;
+import com.iskhak.serviceprovider.helpers.DataHolder;
 import com.iskhak.serviceprovider.helpers.INewOrderSender;
 import com.iskhak.serviceprovider.helpers.RxObservableList;
 import com.iskhak.serviceprovider.helpers.RxUtil;
@@ -77,7 +78,7 @@ public class DataManager {
 
                             @Override
                             public void onError(Throwable e) {
-                                Timber.e("onGetNewOrders", e);
+                                Timber.e(e, "onGetNewOrders");
                             }
 
                             @Override
@@ -87,6 +88,8 @@ public class DataManager {
                                     if(packageModel.acceptedDate()==null){
                                         if(!requestList.contains(packageModel))
                                             requestList.add(packageModel);
+                                        if(!DataHolder.getInstance().isRunning())
+                                            sendNotif(packageModel);
                                     }else{
                                         if(!jobList.contains(packageModel))
                                             jobList.add(packageModel);
@@ -94,7 +97,7 @@ public class DataManager {
                                     if(packageModel.viewed()==null||(packageModel.viewed()!=null&&viewed.before(packageModel.viewed()))) {
                                         generateViewedOrder(packageModel);
                                     }
-                                    sendNotif(packageModel);
+
                                 }
                             }
                         });
@@ -106,6 +109,10 @@ public class DataManager {
 
     public Observable<PackageModel> getRequestList(){
         return requestList.getObservable();
+    }
+
+    public List<PackageModel> getFullRequestList(){
+        return requestList.getFullList();
     }
 
     public Observable<PackageModel> getJobList(){

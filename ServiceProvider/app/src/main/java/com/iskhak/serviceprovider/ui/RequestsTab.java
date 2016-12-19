@@ -24,6 +24,7 @@ import com.iskhak.serviceprovider.helpers.RxUtil;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -70,9 +71,12 @@ public class RequestsTab extends Fragment {
 
     public void updateAll(){
         mDataManager.setViewed(new Date(0));
+        mDataManager.getNewOrders()
+                .subscribe();
         DataHolder.getInstance().clearOrders();
         requestAdapter.clear();
-        loadNewOrders();
+        //loadNewOrders();
+        //updateList(mDataManager.getFullRequestList());
     }
 
     public void loadNewOrders(){
@@ -114,6 +118,12 @@ public class RequestsTab extends Fragment {
         getActivity().getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, orderFragment).commit();
         ((MainActivity)getActivity()).showTabs(false);
         Log.d("Item click", DataHolder.getInstance().getOrderByPosition(position).address());
+    }
+
+    private void updateList(List<PackageModel> orders){
+        for(PackageModel order:orders){
+            update(order);
+        }
     }
 
 

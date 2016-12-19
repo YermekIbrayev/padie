@@ -93,4 +93,16 @@ public class MainActivity extends BaseActivity{
             showTabs(true);
         }
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        DataHolder.getInstance().startActivity();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        DataHolder.getInstance().stopActivity();
+    }
 }

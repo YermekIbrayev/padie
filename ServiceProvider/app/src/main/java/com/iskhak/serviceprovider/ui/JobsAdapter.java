@@ -44,6 +44,12 @@ public class JobsAdapter extends ArrayAdapter {
         notifyDataSetChanged();
     }
 
+    @Override
+    public void add(Object object) {
+        if(!jobsList.contains(object))
+            super.add(object);
+    }
+
     public int getSize(){
         return jobsList.size();
     }
