@@ -108,7 +108,7 @@ public class SyncService extends Service implements INewOrderSender {
                     }
                 })
 
-                .subscribe(new Observer<Void>() {
+                .subscribe(new Observer<PackageModel>() {
                                @Override
                                public void onCompleted() {
 
@@ -116,12 +116,12 @@ public class SyncService extends Service implements INewOrderSender {
 
                                @Override
                                public void onError(Throwable e) {
-                                   Timber.e("onGetOrders", e);
+                                   Timber.e(e, "onGetOrders");
                                }
 
                                @Override
-                               public void onNext(Void aVoid) {
-                                   Timber.d("onNext");
+                               public void onNext(PackageModel packageModel) {
+                                   sendNotif(packageModel);
                                }
                            }
 /*                    @Override

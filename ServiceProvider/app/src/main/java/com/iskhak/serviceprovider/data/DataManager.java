@@ -62,12 +62,14 @@ public class DataManager {
         jobList = new RxObservableList<>();
     }
 
-    public Observable<Void> getNewOrders(){
-        return Observable.create(new Observable.OnSubscribe<Void>() {
+    public Observable<PackageModel> getNewOrders(){
+        return Observable.create(new Observable.OnSubscribe<PackageModel>() {
             @Override
-            public void call(final Subscriber<? super Void> subscriber) {
+            public void call(final Subscriber<? super PackageModel> subscriber) {
                 requestList.clear();
                 jobList.clear();
+                if(viewed==null)
+                    viewed = new Date(0);
                 mConnectionService.getNewOrders(androidId , new PathDate(viewed))
                         .subscribeOn(Schedulers.io())
                         .subscribe(new Observer<List<PackageModel>>() {
@@ -88,8 +90,8 @@ public class DataManager {
                                     if(packageModel.acceptedDate()==null){
                                         if(!requestList.contains(packageModel))
                                             requestList.add(packageModel);
-                                        if(!DataHolder.getInstance().isRunning())
-                                            sendNotif(packageModel);
+                                        if(!DataHolder.getInstance().isRunning()&&packageModel.viewed()==null)
+                                            subscriber.onNext(packageModel);
                                     }else{
                                         if(!jobList.contains(packageModel))
                                             jobList.add(packageModel);
@@ -145,7 +147,7 @@ public class DataManager {
     }
 
     //-------- private helper methods;
-
+    // exception when activity terminated should be resolved
     private void sendNotif(PackageModel order) {
         Intent intent = new Intent(mContext, MainActivity.class);
         intent.putExtra(MainActivity.ORDER_KEY,order.id());

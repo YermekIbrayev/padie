@@ -98,6 +98,7 @@ public class FullOrderFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.order_item, container, false);
         ButterKnife.bind(this, view);
+        Timber.d(""+order.id());
         fillData();
         return view;
     }

@@ -21,6 +21,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 public class MainActivity extends BaseActivity{
 
@@ -54,6 +55,7 @@ public class MainActivity extends BaseActivity{
             int id = intent.getIntExtra(ORDER_KEY, DEFAULT_ORDER);
             if(id!=DEFAULT_ORDER) {
                 order = DataHolder.getInstance().getOrderById(id);
+                Timber.d(""+order.id());
                 FullOrderFragment orderFragment = FullOrderFragment.newInstance(id, FullOrderFragment.BY_ID);
                 getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, orderFragment).commit();
                 showTabs(false);
