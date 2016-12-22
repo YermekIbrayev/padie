@@ -114,8 +114,11 @@ public class RequestsTab extends Fragment {
 
     @OnItemClick(R.id.request_list_lv)
     public void onItemClick(AdapterView<?> parent, View view, int position){
-        FullOrderFragment orderFragment = FullOrderFragment.newInstance(position, FullOrderFragment.BY_POSITION);
-        getActivity().getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, orderFragment).commit();
+        Fragment fragment = getActivity().getSupportFragmentManager().findFragmentByTag(FullOrderFragment.TAG);
+        if(fragment!=null)
+            getActivity().getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+        FullOrderFragment orderFragment = FullOrderFragment.newInstance(position, FullOrderFragment.BY_POSITION, FullOrderFragment.NEW_ORDER);
+        getActivity().getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, orderFragment, FullOrderFragment.TAG).commit();
         ((MainActivity)getActivity()).showTabs(false);
         Log.d("Item click", DataHolder.getInstance().getOrderByPosition(position).address());
     }

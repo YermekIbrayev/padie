@@ -56,7 +56,7 @@ public class MainActivity extends BaseActivity{
             if(id!=DEFAULT_ORDER) {
                 order = DataHolder.getInstance().getOrderById(id);
                 Timber.d(""+order.id());
-                FullOrderFragment orderFragment = FullOrderFragment.newInstance(id, FullOrderFragment.BY_ID);
+                FullOrderFragment orderFragment = FullOrderFragment.newInstance(id, FullOrderFragment.BY_ID, FullOrderFragment.NEW_ORDER);
                 getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, orderFragment).commit();
                 showTabs(false);
             } else {
@@ -84,6 +84,7 @@ public class MainActivity extends BaseActivity{
             fragmentContainer.setVisibility(View.VISIBLE);
         }
     }
+
 
     @Override
     public void onBackPressed() {

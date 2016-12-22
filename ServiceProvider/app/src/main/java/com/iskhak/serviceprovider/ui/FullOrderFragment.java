@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 
@@ -32,6 +33,8 @@ import timber.log.Timber;
 
 public class FullOrderFragment extends Fragment {
 
+    public static final String TAG = "FullOrderFragment";
+
     @Inject
     DataManager mDataManager;
 
@@ -39,8 +42,11 @@ public class FullOrderFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static final String ARG_PARAM3 = "param3";
     public static final String BY_ID = "byId";
     public static final String BY_POSITION = "byPosition";
+    public static final String NEW_ORDER = "newOrder";
+    public static final String OLD_REQUEST = "oldOrder";
     private static final String DATE_PREFIX = "Date: ";
     private static final String TIME_PREFIX = "Time: ";
     private static final String ADDRESS_PREFIX = "Address: ";
@@ -49,6 +55,7 @@ public class FullOrderFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private int mParam1;
     private String mParam2;
+    private String mParam3;
     private PackageModel order;
     private Subscription mSubscription;
     @BindView(R.id.service_name_tv)
@@ -61,6 +68,8 @@ public class FullOrderFragment extends Fragment {
     TextView addressTV;
     @BindView(R.id.notes_tv)
     TextView notesTV;
+    @BindView(R.id.accept_button)
+    Button acceptButton;
 
 
     public FullOrderFragment() {
@@ -68,11 +77,12 @@ public class FullOrderFragment extends Fragment {
     }
 
     // TODO: Rename and change types and number of parameters
-    public static FullOrderFragment newInstance(int param1, String param2) {
+    public static FullOrderFragment newInstance(int param1, String param2, String param3) {
         FullOrderFragment fragment = new FullOrderFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
+        args.putString(ARG_PARAM3, param3);
         fragment.setArguments(args);
         return fragment;
     }
@@ -84,6 +94,7 @@ public class FullOrderFragment extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getInt(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+            mParam3 = getArguments().getString(ARG_PARAM3);
             if(mParam2.equals(BY_POSITION))
                 order = DataHolder.getInstance().getOrderByPosition(mParam1);
             else
@@ -109,6 +120,8 @@ public class FullOrderFragment extends Fragment {
         timeTV.setText(TIME_PREFIX+DataHolder.updateFormat(order.orderDate(),DataHolder.TIME_FORMAT));
         addressTV.setText(ADDRESS_PREFIX+order.address());
         notesTV.setText(NOTES_PREFIX+order.notes());
+        if(mParam3.equals(OLD_REQUEST))
+            acceptButton.setVisibility(View.GONE);
     }
 
     @OnClick(R.id.accept_button)

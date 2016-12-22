@@ -85,6 +85,7 @@ public class DataManager {
 
                             @Override
                             public void onNext(List<PackageModel> packageModels) {
+
                                 for(PackageModel packageModel: packageModels){
 
                                     if(packageModel.acceptedDate()==null){
@@ -96,6 +97,8 @@ public class DataManager {
                                         if(!jobList.contains(packageModel))
                                             jobList.add(packageModel);
                                     }
+                                    if(viewed==null)
+                                        viewed = new Date(0);
                                     if(packageModel.viewed()==null||(packageModel.viewed()!=null&&viewed.before(packageModel.viewed()))) {
                                         generateViewedOrder(packageModel);
                                     }
