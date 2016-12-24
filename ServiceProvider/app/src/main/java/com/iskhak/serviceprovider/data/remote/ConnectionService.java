@@ -26,7 +26,7 @@ import rx.Observable;
 
 public interface ConnectionService {
 
-    String ENDPOINT = "http://10.0.0.79:8080/padie/json/";
+    String ENDPOINT = "http://padie.hopto.org:8080/padie/json/";
     String SERVICE_LIST = "serviceList";
     String NEW_ORDERS = "getNewOrders/{deviceId}/{date}";
     String SEND_ON_ORDERS = "setViewedOrders";
@@ -62,6 +62,4 @@ public interface ConnectionService {
             return retrofit.create(ConnectionService.class);
         }
     }
-
-
 }

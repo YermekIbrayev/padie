@@ -122,6 +122,8 @@ public class FullOrderFragment extends Fragment {
         notesTV.setText(NOTES_PREFIX+order.notes());
         if(mParam3.equals(OLD_REQUEST))
             acceptButton.setVisibility(View.GONE);
+        else
+            acceptButton.setVisibility(View.VISIBLE);
     }
 
     @OnClick(R.id.accept_button)
