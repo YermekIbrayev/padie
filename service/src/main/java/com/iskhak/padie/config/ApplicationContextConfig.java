@@ -99,9 +99,5 @@ public class ApplicationContextConfig {
 		return transactionManager;
 	}
     
-    @Autowired
-    @Bean(name = "userDao")
-    public UserDAO getUserDao(SessionFactory sessionFactory) {
-    	return new UserDAOImpl(sessionFactory);
-    }
+
 }

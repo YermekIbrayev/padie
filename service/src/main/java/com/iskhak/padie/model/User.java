@@ -6,6 +6,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "USERS")
 public class User {
@@ -15,6 +17,7 @@ public class User {
     
     @Id
     @GeneratedValue
+    @JsonIgnore
     @Column(name = "idUsers")
     public int getId() {
         return id;

@@ -18,6 +18,8 @@ import com.iskhak.padie.config.Constants;
 import com.iskhak.padie.dao.PackageModelDAO;
 import com.iskhak.padie.dao.SelectedAddDAO;
 import com.iskhak.padie.dao.ServiceItemDAO;
+import com.iskhak.padie.dao.UserDAO;
+import com.iskhak.padie.model.User;
 import com.iskhak.padie.model.listdata.GetServiceItem;
 import com.iskhak.padie.model.packagedata.PackageModel;
 import com.iskhak.padie.model.packagedata.SelectedItemsAdd;
@@ -31,6 +33,8 @@ public class JSONController {
 	private ServiceItemDAO serviceItemDAO;
 	@Autowired
 	private PackageModelDAO packageModelDAO;
+	@Autowired
+	private UserDAO userDAO;
 	
 	@RequestMapping(value="/serviceList", method = RequestMethod.GET, produces = "application/json")
 	public List<GetServiceItem> getServiceListJSON(){
@@ -77,6 +81,23 @@ public class JSONController {
 	public ResponseEntity<Void> acceptOrder(@PathVariable("pkgId") int pkgId){
 		System.out.println(pkgId);
 		boolean response = packageModelDAO.acceptOrder(pkgId);
+		ResponseEntity<Void> result;
+		if(response)
+			result = new ResponseEntity<Void>(HttpStatus.OK);
+		else
+			result = new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+		return result;
+	}
+	
+	@RequestMapping(value="/getUser", method=RequestMethod.GET, produces = "application/json")
+	public User getUser(){
+		return userDAO.get(1);
+	}
+	
+	@RequestMapping(value="/login", method=RequestMethod.POST, produces = "application/json")
+	public ResponseEntity<Void> login(@RequestBody User user){
+		boolean response = userDAO.login(user);
+		System.out.println(response);
 		ResponseEntity<Void> result;
 		if(response)
 			result = new ResponseEntity<Void>(HttpStatus.OK);

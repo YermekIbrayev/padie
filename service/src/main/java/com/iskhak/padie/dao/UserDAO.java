@@ -12,4 +12,6 @@ public interface UserDAO {
 	public void saveOrUpdate(User user);
 	
 	public void delete(int id);
+	
+	public boolean login(User user);
 }

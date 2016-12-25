@@ -65,5 +65,14 @@ public class UserDAOImpl implements UserDAO {
          
         return null;
     }
+    
+    @Override
+    @Transactional
+    public boolean login(User user){
+    	boolean result = false;
+    	if(user.getUsername().equals("root")&&user.getPassword().equals("root"))
+    		result = true;
+    	return result;
+    }
 
 }
