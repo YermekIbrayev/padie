@@ -16,9 +16,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
-import com.iskhak.padie.dao.UserDAO;
-import com.iskhak.padie.dao.UserDAOImpl;
-import com.iskhak.padie.model.User;
 import com.iskhak.padie.model.listdata.ExtraSelection;
 import com.iskhak.padie.model.listdata.GetServiceItem;
 import com.iskhak.padie.model.listdata.MainSelection;
@@ -32,7 +29,7 @@ import com.iskhak.padie.model.packagedata.SetSelectedItems;
 import com.iskhak.padie.model.packagedata.SetSelectedItemsAdd;
 import com.iskhak.padie.model.packagedata.SetSelectedItemsAddExtra;
 import com.iskhak.padie.model.packagedata.ViewedPackage;
-
+import com.iskhak.padie.model.security.User;
 
 @Configuration
 @ComponentScan("com.iskhak.padie")

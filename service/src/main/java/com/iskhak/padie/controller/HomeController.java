@@ -14,10 +14,9 @@ import org.springframework.web.servlet.ModelAndView;
 import com.iskhak.padie.dao.PackageModelDAO;
 import com.iskhak.padie.dao.ServiceItemDAO;
 import com.iskhak.padie.dao.UserDAO;
-import com.iskhak.padie.model.User;
 import com.iskhak.padie.model.listdata.GetServiceItem;
 import com.iskhak.padie.model.packagedata.PackageModel;
-
+import com.iskhak.padie.model.security.User;
 
 /**
  * Handles requests for the application home page.
