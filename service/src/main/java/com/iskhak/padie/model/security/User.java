@@ -24,9 +24,9 @@ import javax.validation.constraints.Size;
 public class User {
 
     @Id
-    @Column(name = "ID")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
-    @SequenceGenerator(name = "user_seq", sequenceName = "user_seq", allocationSize = 1)
+    @Column(name = "idUsers")
+/*    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
+    @SequenceGenerator(name = "user_seq", sequenceName = "user_seq", allocationSize = 1)*/
     private Long id;
 
     @Column(name = "USERNAME", length = 50, unique = true)
@@ -63,12 +63,12 @@ public class User {
     @NotNull
     private Date lastPasswordResetDate;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+/*    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "USER_AUTHORITY",
             joinColumns = {@JoinColumn(name = "USER_ID", referencedColumnName = "ID")},
             inverseJoinColumns = {@JoinColumn(name = "AUTHORITY_ID", referencedColumnName = "ID")})
-    private List<Authority> authorities;
+    private List<Authority> authorities;*/
 
     public Long getId() {
         return id;
@@ -126,13 +126,13 @@ public class User {
         this.enabled = enabled;
     }
 
-    public List<Authority> getAuthorities() {
+/*    public List<Authority> getAuthorities() {
         return authorities;
     }
 
     public void setAuthorities(List<Authority> authorities) {
         this.authorities = authorities;
-    }
+    }*/
 
     public Date getLastPasswordResetDate() {
         return lastPasswordResetDate;
