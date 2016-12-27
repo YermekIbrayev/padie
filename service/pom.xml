@@ -7,42 +7,70 @@
 	<name>padie</name>
 	<packaging>war</packaging>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.4.1.RELEASE</version>
-        <relativePath/> <!-- lookup parent from repository -->
-    </parent>
 
 	<properties>
+		<!-- Java version -->
 	    <java-version>1.8</java-version>
-	    <jjwt.version>0.7.0</jjwt.version>
-	    <org.springframework-version>4.0.3.RELEASE</org.springframework-version>
+	    
+	    <!-- spring version -->
+	    <org.springframework-version>4.3.5.RELEASE</org.springframework-version>
+	    
+	    <!-- spring security -->
+	    <spring-security.version>3.2.0.RELEASE</spring-security.version>
+	    
+	    <!-- we don't need any web.xml file -->
 	    <failOnMissingWebXml>false</failOnMissingWebXml>
+	    
+	    <!-- java web token jjwt -->
+	    <jjwt.version>0.7.0</jjwt.version>
+	    
+	    <!-- hibernate -->
+	    <hibernate.version>4.3.5.Final</hibernate.version>
+	    
+	    <!-- jackson version -->
+	    <jackson.version>2.4.1</jackson.version>
+	    
+	    <!-- MySQL -->
+	    <mysql.version>5.1.30</mysql.version>
+	    
+	    <!-- servlet -->
+	    <serverlet.version>3.1.0</serverlet.version>
+	    
+	    <!-- jsp -->
+	    <jsp.version>2.3.1</jsp.version>
+	    
+	    <!-- jstl -->
+	    <jstl.version>1.2</jstl.version>
+	    
+	    <!-- apache -->
+	    <apache.version>2.0</apache.version>
+	    
+	    <!-- validation -->
+	    <validation.version>1.1.0.Final</validation.version>
 	</properties>
 	<dependencies>
 		<!-- Spring -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
-			<!-- <version>${org.springframework-version}</version> -->
+			<version>${org.springframework-version}</version>
 		</dependency>
 		
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context-support</artifactId>
-			<!--  <version>${org.springframework-version}</version> -->
+			<version>${org.springframework-version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
-			<!--  <version>${org.springframework-version}</version>-->
+			<version>${org.springframework-version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-orm</artifactId>
-			<!--  <version>${org.springframework-version}</version> -->
+			<version>${org.springframework-version}</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
@@ -51,99 +79,103 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
-			<!-- <version>4.3.5.Final</version> -->
+			<version>${hibernate.version}</version>
 		</dependency>
-				
+
 		<!-- Servlet -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
-			<!--  <version>3.1.0</version> -->
+			<version>${serverlet.version}</version>
 			<scope>provided</scope>
 		</dependency>
+		
+		<!-- jsp -->
 		<dependency>
 			<groupId>javax.servlet.jsp</groupId>
 			<artifactId>javax.servlet.jsp-api</artifactId>
-			<version>2.3.1</version>
+			<version>${jsp.version}</version>
 			<scope>provided</scope>
+		</dependency>
+		
+		<!-- validation -->
+		<dependency>
+		    <groupId>javax.validation</groupId>
+		    <artifactId>validation-api</artifactId>
+		    <version>${validation.version}</version>
 		</dependency>
 		
 		<!-- JSTL -->
 		<dependency>
 			<groupId>jstl</groupId>
 			<artifactId>jstl</artifactId>
-			<version>1.2</version>		
+			<version>${jstl.version}</version>		
 		</dependency>
 	
 		<!-- Apache Database Connection Pool -->
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-dbcp2</artifactId>
-			<!--  <version>2.0</version> -->
+			<version>${apache.version}</version>
 		</dependency>
   	
 		<!-- MySQL JDBC Driver -->
 		<dependency>
 	    	<groupId>mysql</groupId>
     		<artifactId>mysql-connector-java</artifactId>
-    		<!--  <version>5.1.30</version>	-->	
+    		<version>${mysql.version}</version>		
 		</dependency>
 		
 		<!-- Jackson  -->
 		<dependency>
 		    <groupId>com.fasterxml.jackson.core</groupId>
 		    <artifactId>jackson-core</artifactId>
-		    <!--  <version>2.4.1</version> -->
+		    <version>${jackson.version}</version>
 		</dependency>
 		<dependency>
 		    <groupId>com.fasterxml.jackson.core</groupId>
 		    <artifactId>jackson-databind</artifactId>
-		    <!--  <version>2.4.1.1</version> -->
+		    <version>${jackson.version}</version>
 		</dependency>
-		<!-- Hibernate -->
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-core</artifactId>
-			<!--  <version>4.3.5.Final</version> -->
-		</dependency> 
+
 		
 		<!-- jwt for token keys -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-rest</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.mobile</groupId>
-            <artifactId>spring-mobile-device</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <scope>runtime</scope>
-        </dependency>
- 
-        <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt</artifactId>
-            <version>${jjwt.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-			
+		<dependency>
+		    <groupId>io.jsonwebtoken</groupId>
+		    <artifactId>jjwt</artifactId>
+		    <version>${jjwt.version}</version>
+		</dependency>
+		
+		<!-- spring security -->
+		<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-core</artifactId>
+		    <version>${spring-security.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-config</artifactId>
+		    <version>${spring-security.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-web</artifactId>
+		    <version>${spring-security.version}</version>
+		</dependency>
+		
+		<!-- mobile -->
+		<dependency>
+		    <groupId>org.springframework.mobile</groupId>
+		    <artifactId>spring-mobile-device</artifactId>
+		    <version>1.1.5.RELEASE</version>
+		</dependency>
+		
+		<!-- we have to change -->
+		<dependency>
+		    <groupId>org.springframework.data</groupId>
+		    <artifactId>spring-data-jpa</artifactId>
+		    <version>1.10.6.RELEASE</version>
+		</dependency>
 	</dependencies>
     <build>
         <plugins>

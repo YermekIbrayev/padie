@@ -6,6 +6,7 @@ import javax.sql.DataSource;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.hibernate.SessionFactory;
+//import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -44,6 +45,7 @@ import com.iskhak.padie.model.security.User;
 import com.iskhak.padie.security.JwtAuthenticationEntryPoint;
 import com.iskhak.padie.security.JwtAuthenticationTokenFilter;
 
+@SuppressWarnings("SpringJavaAutowiringInspection")
 @Configuration
 @ComponentScan("com.iskhak.padie")
 @EnableTransactionManagement
@@ -51,6 +53,12 @@ import com.iskhak.padie.security.JwtAuthenticationTokenFilter;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class ApplicationContextConfig extends WebSecurityConfigurerAdapter  {
+    @Autowired
+    private JwtAuthenticationEntryPoint unauthorizedHandler;
+
+    @Autowired
+    private UserDetailsService userDetailsService;
+	
     @Bean(name = "viewResolver")
     public InternalResourceViewResolver getViewResolver() {
         InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
@@ -110,12 +118,6 @@ public class ApplicationContextConfig extends WebSecurityConfigurerAdapter  {
 
 		return transactionManager;
 	}
-    
-    @Autowired
-    private JwtAuthenticationEntryPoint unauthorizedHandler;
-
-    @Autowired
-    private UserDetailsService userDetailsService;
 
     @Autowired
     public void configureAuthentication(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
@@ -136,14 +138,14 @@ public class ApplicationContextConfig extends WebSecurityConfigurerAdapter  {
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-/*        httpSecurity
+        httpSecurity
                 // we don't need CSRF because our token is invulnerable
                 .csrf().disable()
 
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
 
                 // don't create session
-                //.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
@@ -154,18 +156,18 @@ public class ApplicationContextConfig extends WebSecurityConfigurerAdapter  {
                         "/",
                         "/*.html",
                         "/favicon.ico",
-                        "/** /*.html",
-                        "/** /*.css",
-                        "/** /*.js"
+                        "/**/*.html",
+                        "/**/*.css",
+                        "/**/*.js"
                 ).permitAll()
                 .antMatchers("/auth/**").permitAll()
                 .anyRequest().authenticated();
 
         // Custom JWT based security filter
-        //httpSecurity
-               // .addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
+        httpSecurity
+                .addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
 
-        // disable page caching
-        httpSecurity.headers().cacheControl();*/
+//         disable page caching
+        httpSecurity.headers().cacheControl();
     }
 }
