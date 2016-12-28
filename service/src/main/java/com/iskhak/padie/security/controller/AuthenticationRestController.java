@@ -23,10 +23,10 @@ import com.iskhak.padie.security.service.JwtAuthenticationResponse;
 
 import javax.servlet.http.HttpServletRequest;
 
-@RestController
+/*@RestController*/
 public class AuthenticationRestController {
 
-    @Value("${jwt.header}")
+/*    @Value("${jwt.header}")
     private String tokenHeader;
 
     @Autowired
@@ -70,6 +70,6 @@ public class AuthenticationRestController {
         } else {
             return ResponseEntity.badRequest().body(null);
         }
-    }
+    }*/
 
 }

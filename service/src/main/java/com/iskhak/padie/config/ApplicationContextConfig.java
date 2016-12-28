@@ -6,14 +6,18 @@ import javax.sql.DataSource;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.hibernate.SessionFactory;
-//import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBuilder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
+
+import com.iskhak.padie.dao.UserDAO;
+import com.iskhak.padie.dao.UserDAOImpl;
 
 import com.iskhak.padie.model.listdata.ExtraSelection;
 import com.iskhak.padie.model.listdata.GetServiceItem;
@@ -34,9 +38,8 @@ import com.iskhak.padie.model.security.User;
 @Configuration
 @ComponentScan("com.iskhak.padie")
 @EnableTransactionManagement
-
-public class ApplicationContextConfig  {
-	
+@EnableWebMvc
+public class ApplicationContextConfig {
     @Bean(name = "viewResolver")
     public InternalResourceViewResolver getViewResolver() {
         InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
@@ -86,4 +89,16 @@ public class ApplicationContextConfig  {
     	sessionBuilder.addAnnotatedClasses(ViewedPackage.class);
     	return sessionBuilder.buildSessionFactory();
     }
+    
+	@Autowired
+	@Bean(name = "transactionManager")
+	public HibernateTransactionManager getTransactionManager(
+			SessionFactory sessionFactory) {
+		HibernateTransactionManager transactionManager = new HibernateTransactionManager(
+				sessionFactory);
+
+		return transactionManager;
+	}
+    
+
 }

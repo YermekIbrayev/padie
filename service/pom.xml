@@ -28,7 +28,7 @@
 	    <hibernate.version>4.3.5.Final</hibernate.version>
 	    
 	    <!-- jackson version -->
-	    <jackson.version>2.4.1</jackson.version>
+	    <jackson.version>2.8.5</jackson.version>
 	    
 	    <!-- MySQL -->
 	    <mysql.version>5.1.30</mysql.version>

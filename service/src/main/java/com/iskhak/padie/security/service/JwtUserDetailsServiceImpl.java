@@ -13,10 +13,10 @@ import com.iskhak.padie.security.repository.UserRepository;
 /**
  * Created by stephan on 20.03.16.
  */
-@Service
-public class JwtUserDetailsServiceImpl implements UserDetailsService {
+/*@Service*/
+public class JwtUserDetailsServiceImpl/* implements UserDetailsService */{
 
-    @Autowired
+/*    @Autowired
     private UserRepository userRepository;
 
     @Override
@@ -28,5 +28,5 @@ public class JwtUserDetailsServiceImpl implements UserDetailsService {
         } else {
             return JwtUserFactory.create(user);
         }
-    }
+    }*/
 }

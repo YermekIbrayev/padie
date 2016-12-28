@@ -19,13 +19,13 @@ import com.iskhak.padie.security.JwtAuthenticationEntryPoint;
 import com.iskhak.padie.security.JwtAuthenticationTokenFilter;
 
 
-@SuppressWarnings("SpringJavaAutowiringInspection")
+/*@SuppressWarnings("SpringJavaAutowiringInspection")
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+@EnableGlobalMethodSecurity(prePostEnabled = true)*/
+public class WebSecurityConfig /*extends WebSecurityConfigurerAdapter*/ {
 
-    @Autowired
+/*    @Autowired
     private JwtAuthenticationEntryPoint unauthorizedHandler;
 
     @Autowired
@@ -68,9 +68,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/",
                         "/*.html",
                         "/favicon.ico",
-                        "/**/*.html",
-                        "/**/*.css",
-                        "/**/*.js"
+                        "/** /*.html",
+                        "/** /*.css",
+                        "/** /*.js"
                 ).permitAll()
                 .antMatchers("/auth/**").permitAll()
                 .anyRequest().authenticated();
@@ -81,5 +81,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         // disable page caching
         httpSecurity.headers().cacheControl();
-    }
+    }*/
 }
