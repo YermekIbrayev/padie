@@ -12,10 +12,10 @@ import com.iskhak.padie.security.JwtUser;
 
 import javax.servlet.http.HttpServletRequest;
 
-//@RestController
+@RestController
 public class UserRestController {
 
-/*    @Value("${jwt.header}")
+    @Value("${jwt.header}")
     private String tokenHeader;
 
     @Autowired
@@ -30,6 +30,6 @@ public class UserRestController {
         String username = jwtTokenUtil.getUsernameFromToken(token);
         JwtUser user = (JwtUser) userDetailsService.loadUserByUsername(username);
         return user;
-    }*/
+    }
 
 }

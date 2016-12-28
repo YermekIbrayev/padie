@@ -1,9 +1,16 @@
 package com.iskhak.padie.config;
 
+import java.util.Properties;
+
+import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.HttpMethod;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -19,13 +26,15 @@ import com.iskhak.padie.security.JwtAuthenticationEntryPoint;
 import com.iskhak.padie.security.JwtAuthenticationTokenFilter;
 
 
-/*@SuppressWarnings("SpringJavaAutowiringInspection")
-@Configuration
-@EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)*/
-public class WebSecurityConfig /*extends WebSecurityConfigurerAdapter*/ {
 
-/*    @Autowired
+@SuppressWarnings("SpringJavaAutowiringInspection")
+@Configuration
+@EnableJpaRepositories(basePackages = "com.iskhak.padie", considerNestedRepositories = true)
+@EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Autowired
     private JwtAuthenticationEntryPoint unauthorizedHandler;
 
     @Autowired
@@ -42,7 +51,7 @@ public class WebSecurityConfig /*extends WebSecurityConfigurerAdapter*/ {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
+    
     @Bean
     public JwtAuthenticationTokenFilter authenticationTokenFilterBean() throws Exception {
         return new JwtAuthenticationTokenFilter();
@@ -60,7 +69,7 @@ public class WebSecurityConfig /*extends WebSecurityConfigurerAdapter*/ {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 
                 .authorizeRequests()
-                //.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
                 // allow anonymous resource requests
                 .antMatchers(
@@ -81,5 +90,5 @@ public class WebSecurityConfig /*extends WebSecurityConfigurerAdapter*/ {
 
         // disable page caching
         httpSecurity.headers().cacheControl();
-    }*/
+    }
 }

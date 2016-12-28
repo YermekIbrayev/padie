@@ -1,17 +1,31 @@
 package com.iskhak.padie.config;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
+import javax.annotation.Resource;
+import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.hibernate.SessionFactory;
+import org.hibernate.dialect.MySQL5Dialect;
+import org.hibernate.ejb.HibernatePersistence;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBuilder;
+import org.springframework.orm.jpa.JpaDialect;
+import org.springframework.orm.jpa.JpaVendorAdapter;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.Database;
+import org.springframework.orm.jpa.vendor.HibernateJpaDialect;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
@@ -39,7 +53,14 @@ import com.iskhak.padie.model.security.User;
 @ComponentScan("com.iskhak.padie")
 @EnableTransactionManagement
 @EnableWebMvc
+@EnableJpaRepositories(basePackages = "com.iskhak.padie", considerNestedRepositories = true)
+
 public class ApplicationContextConfig {
+    private static final String PROPERTY_NAME_DATABASE_DRIVER = "com.mysql.jdbc.Driver";
+    private static final String PROPERTY_NAME_DATABASE_PASSWORD = "a1s2d3f4g5h6";
+    private static final String PROPERTY_NAME_DATABASE_URL = "jdbc:mysql://127.0.0.1:3306/sys";
+    private static final String PROPERTY_NAME_DATABASE_USERNAME = "root";
+    
     @Bean(name = "viewResolver")
     public InternalResourceViewResolver getViewResolver() {
         InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
@@ -52,14 +73,13 @@ public class ApplicationContextConfig {
     @Bean(name = "dataSource")
     public DataSource getDataSource() {
     	BasicDataSource dataSource = new BasicDataSource();
-    	dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-    	dataSource.setUrl("jdbc:mysql://127.0.0.1:3306/sys");
-    	dataSource.setUsername("root");
-    	dataSource.setPassword("a1s2d3f4g5h6");
+    	dataSource.setDriverClassName(PROPERTY_NAME_DATABASE_DRIVER );
+    	dataSource.setUrl(PROPERTY_NAME_DATABASE_URL );
+    	dataSource.setUsername(PROPERTY_NAME_DATABASE_USERNAME );
+    	dataSource.setPassword(PROPERTY_NAME_DATABASE_PASSWORD );
     	
     	return dataSource;
     }
-    
     
     private Properties getHibernateProperties() {
     	Properties properties = new Properties();
@@ -67,6 +87,7 @@ public class ApplicationContextConfig {
     	properties.put("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
     	return properties;
     }
+
     
     @Autowired
     @Bean(name = "sessionFactory")
@@ -100,5 +121,47 @@ public class ApplicationContextConfig {
 		return transactionManager;
 	}
     
+    
+	@Bean
+	public Map<String, Object> jpaProperties() {
+		Map<String, Object> props = new HashMap<String, Object>();
+		props.put("hibernate.dialect", MySQL5Dialect.class.getName());
+		props.put("hibernate.hbm2ddl.auto", "update");
+		props.put("hibernate.show_sql", "true");
+		props.put("hibernate.format_sql", "true");
+		props.put("hibernate.connection.charSet", "UTF-8");
+		return props;
+	}
+	
+	@Bean 
+	public JpaDialect jpaDialect() {
+		return new HibernateJpaDialect();
+	}
+	
+	@Bean
+	public JpaVendorAdapter jpaVendorAdapter() {
+		HibernateJpaVendorAdapter hibernateJpaVendorAdapter = new HibernateJpaVendorAdapter();
+		hibernateJpaVendorAdapter.setShowSql(true);
+		hibernateJpaVendorAdapter.setGenerateDdl(true);
+		hibernateJpaVendorAdapter.setDatabase(Database.MYSQL);
+		return hibernateJpaVendorAdapter;
+	}
+	
+	private LocalContainerEntityManagerFactoryBean localContainerEntityManagerFactoryBean() {
+		LocalContainerEntityManagerFactoryBean lef = new LocalContainerEntityManagerFactoryBean();
+		lef.setPersistenceUnitName("persistenceUnit");
+		lef.setDataSource(this.getDataSource());
+		lef.setJpaPropertyMap(this.jpaProperties());
+		lef.setJpaVendorAdapter(this.jpaVendorAdapter());
+		lef.setPackagesToScan("com.iskhak.padie");
+		return lef;
+	}
+	
+	@Bean 
+	public EntityManagerFactory entityManagerFactory() {
+		LocalContainerEntityManagerFactoryBean factory = this.localContainerEntityManagerFactoryBean();
+		factory.afterPropertiesSet();
+		return factory.getObject();
+	}
 
 }

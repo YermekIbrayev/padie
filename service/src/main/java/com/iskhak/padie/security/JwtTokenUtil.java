@@ -13,7 +13,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-/*@Component*/
+@Component
 public class JwtTokenUtil implements Serializable {
 
 	private static final long serialVersionUID = -3301605591108950415L;
@@ -27,11 +27,11 @@ public class JwtTokenUtil implements Serializable {
 	private static final String AUDIENCE_MOBILE = "mobile";
 	private static final String AUDIENCE_TABLET = "tablet";
 
-/*	@Value("${jwt.secret}")*/
+	@Value("${jwt.secret}")
 	private String secret;
 
-/*	@Value("${jwt.expiration}")*/
-	private Long expiration;
+	//@Value("${jwt.expiration}")
+	private Long expiration = 604800L;
 
 	public String getUsernameFromToken(String token) {
 		String username;

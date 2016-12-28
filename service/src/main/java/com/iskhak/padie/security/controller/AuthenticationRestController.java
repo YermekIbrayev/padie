@@ -23,14 +23,14 @@ import com.iskhak.padie.security.service.JwtAuthenticationResponse;
 
 import javax.servlet.http.HttpServletRequest;
 
-/*@RestController*/
+@RestController
 public class AuthenticationRestController {
 
-/*    @Value("${jwt.header}")
+    @Value("${jwt.header}")
     private String tokenHeader;
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+/*    @Autowired
+    private AuthenticationManager authenticationManager;*/
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
@@ -38,7 +38,7 @@ public class AuthenticationRestController {
     @Autowired
     private UserDetailsService userDetailsService;
 
-    @RequestMapping(value = "${jwt.route.authentication.path}", method = RequestMethod.POST)
+/*    @RequestMapping(value = "${jwt.route.authentication.path}", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest, Device device) throws AuthenticationException {
 
         // Perform the security
@@ -56,7 +56,7 @@ public class AuthenticationRestController {
 
         // Return the token
         return ResponseEntity.ok(new JwtAuthenticationResponse(token));
-    }
+    }*/
 
     @RequestMapping(value = "${jwt.route.authentication.refresh}", method = RequestMethod.GET)
     public ResponseEntity<?> refreshAndGetAuthenticationToken(HttpServletRequest request) {
@@ -70,6 +70,6 @@ public class AuthenticationRestController {
         } else {
             return ResponseEntity.badRequest().body(null);
         }
-    }*/
+    }
 
 }
