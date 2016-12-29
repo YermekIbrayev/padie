@@ -38,6 +38,7 @@ public class HomeController {
         List<User> listUsers = userDao.list();
         ModelAndView model = new ModelAndView("UserList");
         model.addObject("userList", listUsers);
+        //ModelAndView model = new ModelAndView("/static/index.html");
         return model;
     }
     
@@ -45,7 +46,7 @@ public class HomeController {
     public ModelAndView getServiceList() throws Exception {
         List<GetServiceItem> serviceList = serviceItemDAO.list();
         ModelAndView model = new ModelAndView("ServiceList");
-        model.addObject("serviceList", serviceList);
+        model.addObject("serviceList.jsp", serviceList);
         return model;
     }
     

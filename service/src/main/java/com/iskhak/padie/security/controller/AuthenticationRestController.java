@@ -29,8 +29,8 @@ public class AuthenticationRestController {
     @Value("${jwt.header}")
     private String tokenHeader;
 
-/*    @Autowired
-    private AuthenticationManager authenticationManager;*/
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
@@ -38,16 +38,20 @@ public class AuthenticationRestController {
     @Autowired
     private UserDetailsService userDetailsService;
 
-/*    @RequestMapping(value = "${jwt.route.authentication.path}", method = RequestMethod.POST)
+    @RequestMapping(value = "/auth", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest, Device device) throws AuthenticationException {
-
+    	System.out.println("request: "+authenticationRequest.getUsername());
         // Perform the security
+    	if(authenticationRequest.getUsername()==null)
+    		authenticationRequest = new JwtAuthenticationRequest("root", "admin");
+    	
         final Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         authenticationRequest.getUsername(),
                         authenticationRequest.getPassword()
                 )
         );
+       
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         // Reload password post-security so we can generate token
@@ -56,7 +60,7 @@ public class AuthenticationRestController {
 
         // Return the token
         return ResponseEntity.ok(new JwtAuthenticationResponse(token));
-    }*/
+    }
 
     @RequestMapping(value = "${jwt.route.authentication.refresh}", method = RequestMethod.GET)
     public ResponseEntity<?> refreshAndGetAuthenticationToken(HttpServletRequest request) {

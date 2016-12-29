@@ -108,7 +108,7 @@ public class JwtTokenUtil implements Serializable {
 			audience = AUDIENCE_TABLET;
 		} else if (device.isMobile()) {
 			audience = AUDIENCE_MOBILE;
-		}
+		} 
 		return audience;
 	}
 

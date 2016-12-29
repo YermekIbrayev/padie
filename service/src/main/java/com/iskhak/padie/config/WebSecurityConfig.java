@@ -11,6 +11,8 @@ import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.HttpMethod;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -46,11 +48,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .userDetailsService(this.userDetailsService)
                 .passwordEncoder(passwordEncoder());
     }
+    
+    @Bean(name = BeanIds.AUTHENTICATION_MANAGER)
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
-    }
+    } 
     
     @Bean
     public JwtAuthenticationTokenFilter authenticationTokenFilterBean() throws Exception {
@@ -83,7 +91,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 ).permitAll()
                 .antMatchers("/auth/**").permitAll()
                 .anyRequest().authenticated();
-
+        
         // Custom JWT based security filter
         httpSecurity
                 .addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);

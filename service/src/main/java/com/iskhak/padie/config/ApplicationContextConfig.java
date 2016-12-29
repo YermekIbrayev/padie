@@ -1,6 +1,7 @@
 package com.iskhak.padie.config;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -18,6 +19,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.mobile.device.DeviceHandlerMethodArgumentResolver;
+import org.springframework.mobile.device.DeviceResolverHandlerInterceptor;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBuilder;
 import org.springframework.orm.jpa.JpaDialect;
@@ -28,6 +31,7 @@ import org.springframework.orm.jpa.vendor.HibernateJpaDialect;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import com.iskhak.padie.dao.UserDAO;
@@ -69,7 +73,16 @@ public class ApplicationContextConfig {
         return viewResolver;
     }
      
-    
+    @Bean
+    public DeviceResolverHandlerInterceptor deviceResolverHandlerInterceptor() {
+        return new DeviceResolverHandlerInterceptor();
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(deviceResolverHandlerInterceptor());
+    }
+          
     @Bean(name = "dataSource")
     public DataSource getDataSource() {
     	BasicDataSource dataSource = new BasicDataSource();

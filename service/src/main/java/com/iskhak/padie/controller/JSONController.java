@@ -7,6 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +32,9 @@ import com.iskhak.padie.model.packagedata.SelectedItemsAdd;
 import com.iskhak.padie.model.packagedata.SetPackageModel;
 import com.iskhak.padie.model.packagedata.ViewedPackage;
 import com.iskhak.padie.model.security.User;
+import com.iskhak.padie.security.JwtAuthenticationRequest;
+import com.iskhak.padie.security.JwtTokenUtil;
+import com.iskhak.padie.security.service.JwtAuthenticationResponse;
 
 @RestController
 @RequestMapping(value="json")
@@ -105,4 +115,6 @@ public class JSONController {
 			result = new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
 		return result;
 	}
+	
+	//----------------------------------------
 }
