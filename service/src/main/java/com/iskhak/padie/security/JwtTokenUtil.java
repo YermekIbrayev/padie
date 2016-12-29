@@ -27,8 +27,8 @@ public class JwtTokenUtil implements Serializable {
 	private static final String AUDIENCE_MOBILE = "mobile";
 	private static final String AUDIENCE_TABLET = "tablet";
 
-	@Value("${jwt.secret}")
-	private String secret;
+	/*@Value("${jwt.secret}")*/
+	private String secret="mySecret";
 
 	//@Value("${jwt.expiration}")
 	private Long expiration = 604800L;
@@ -39,6 +39,7 @@ public class JwtTokenUtil implements Serializable {
 			final Claims claims = getClaimsFromToken(token);
 			username = claims.getSubject();
 		} catch (Exception e) {
+			
 			username = null;
 		}
 		return username;

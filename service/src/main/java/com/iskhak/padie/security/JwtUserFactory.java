@@ -23,8 +23,8 @@ public final class JwtUserFactory {
                 user.getLastname(),
                 user.getEmail(),
                 user.getPassword(),
-                Collections.emptyList(),
-               //mapToGrantedAuthorities(user.getAuthorities()),
+                //Collections.emptyList(),
+                mapToGrantedAuthorities(user.getAuthorities()),
                 user.getEnabled(),
                 user.getLastPasswordResetDate()
         );

@@ -33,7 +33,7 @@ import com.iskhak.padie.security.JwtAuthenticationTokenFilter;
 @Configuration
 @EnableJpaRepositories(basePackages = "com.iskhak.padie", considerNestedRepositories = true)
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableGlobalMethodSecurity(securedEnabled=true, prePostEnabled=true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -85,13 +85,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/",
                         "/*.html",
                         "/favicon.ico",
-                        "/** /*.html",
-                        "/** /*.css",
-                        "/** /*.js"
+                        "/**/*.html",
+                        "/**/*.css",
+                        "/**/*.js"
                 ).permitAll()
                 .antMatchers("/auth/**").permitAll()
                 .anyRequest().authenticated();
-        
+         
         // Custom JWT based security filter
         httpSecurity
                 .addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);

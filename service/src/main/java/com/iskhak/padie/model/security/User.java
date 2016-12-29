@@ -63,12 +63,12 @@ public class User {
     @NotNull
     private Date lastPasswordResetDate;
 
-/*    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "USER_AUTHORITY",
-            joinColumns = {@JoinColumn(name = "USER_ID", referencedColumnName = "ID")},
+            joinColumns = {@JoinColumn(name = "USER_ID", referencedColumnName = "idUsers")},
             inverseJoinColumns = {@JoinColumn(name = "AUTHORITY_ID", referencedColumnName = "ID")})
-    private List<Authority> authorities;*/
+    private List<Authority> authorities;
 
     public Long getId() {
         return id;
@@ -126,13 +126,13 @@ public class User {
         this.enabled = enabled;
     }
 
-/*    public List<Authority> getAuthorities() {
+    public List<Authority> getAuthorities() {
         return authorities;
     }
 
     public void setAuthorities(List<Authority> authorities) {
         this.authorities = authorities;
-    }*/
+    }
 
     public Date getLastPasswordResetDate() {
         return lastPasswordResetDate;

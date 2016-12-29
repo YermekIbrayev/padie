@@ -29,13 +29,11 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaDialect;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
-import com.iskhak.padie.dao.UserDAO;
-import com.iskhak.padie.dao.UserDAOImpl;
 
 import com.iskhak.padie.model.listdata.ExtraSelection;
 import com.iskhak.padie.model.listdata.GetServiceItem;
@@ -50,6 +48,7 @@ import com.iskhak.padie.model.packagedata.SetSelectedItems;
 import com.iskhak.padie.model.packagedata.SetSelectedItemsAdd;
 import com.iskhak.padie.model.packagedata.SetSelectedItemsAddExtra;
 import com.iskhak.padie.model.packagedata.ViewedPackage;
+import com.iskhak.padie.model.security.Authority;
 import com.iskhak.padie.model.security.User;
 
 
@@ -58,7 +57,7 @@ import com.iskhak.padie.model.security.User;
 @EnableTransactionManagement
 @EnableWebMvc
 @EnableJpaRepositories(basePackages = "com.iskhak.padie", considerNestedRepositories = true)
-
+@EnableGlobalMethodSecurity(securedEnabled=true, prePostEnabled=true)
 public class ApplicationContextConfig {
     private static final String PROPERTY_NAME_DATABASE_DRIVER = "com.mysql.jdbc.Driver";
     private static final String PROPERTY_NAME_DATABASE_PASSWORD = "a1s2d3f4g5h6";
@@ -71,16 +70,6 @@ public class ApplicationContextConfig {
         viewResolver.setPrefix("/WEB-INF/views/");
         viewResolver.setSuffix(".jsp");
         return viewResolver;
-    }
-     
-    @Bean
-    public DeviceResolverHandlerInterceptor deviceResolverHandlerInterceptor() {
-        return new DeviceResolverHandlerInterceptor();
-    }
-
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(deviceResolverHandlerInterceptor());
     }
           
     @Bean(name = "dataSource")
@@ -108,6 +97,7 @@ public class ApplicationContextConfig {
     	LocalSessionFactoryBuilder sessionBuilder = new LocalSessionFactoryBuilder(dataSource);
     	sessionBuilder.addProperties(getHibernateProperties());
     	sessionBuilder.addAnnotatedClasses(User.class);
+    	sessionBuilder.addAnnotatedClasses(Authority.class);
     	sessionBuilder.addAnnotatedClasses(GetServiceItem.class);
     	sessionBuilder.addAnnotatedClasses(SetServiceItem.class);
     	sessionBuilder.addAnnotatedClasses(MainSelection.class);

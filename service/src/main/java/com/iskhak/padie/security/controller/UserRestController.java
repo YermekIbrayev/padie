@@ -15,8 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 public class UserRestController {
 
-    @Value("${jwt.header}")
-    private String tokenHeader;
+    /*@Value("${jwt.header}")*/
+    private String tokenHeader = "Authorization";
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
