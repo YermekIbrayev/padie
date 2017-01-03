@@ -19,13 +19,14 @@ public class JwtTokenUtil implements Serializable {
 	private static final long serialVersionUID = -3301605591108950415L;
 
 	static final String CLAIM_KEY_USERNAME = "sub";
-	static final String CLAIM_KEY_AUDIENCE = "audience";
+	/*static final String CLAIM_KEY_AUDIENCE = "audience";*/
 	static final String CLAIM_KEY_CREATED = "created";
+	static final String CLAIM_KEY_ID = "id";
 
-	private static final String AUDIENCE_UNKNOWN = "unknown";
+	/*private static final String AUDIENCE_UNKNOWN = "unknown";
 	private static final String AUDIENCE_WEB = "web";
 	private static final String AUDIENCE_MOBILE = "mobile";
-	private static final String AUDIENCE_TABLET = "tablet";
+	private static final String AUDIENCE_TABLET = "tablet";*/
 
 	/*@Value("${jwt.secret}")*/
 	private String secret="mySecret";
@@ -55,6 +56,17 @@ public class JwtTokenUtil implements Serializable {
 		}
 		return created;
 	}
+	
+	public long getUserIdFromToken(String token){
+		long id;
+		try {
+			final Claims claims = getClaimsFromToken(token);
+			id = (long)claims.get(CLAIM_KEY_ID);
+		} catch(Exception e){
+			id=-1;
+		}
+		return id;
+	}
 
 	public Date getExpirationDateFromToken(String token) {
 		Date expiration;
@@ -67,7 +79,7 @@ public class JwtTokenUtil implements Serializable {
 		return expiration;
 	}
 
-	public String getAudienceFromToken(String token) {
+/*	public String getAudienceFromToken(String token) {
 		String audience;
 		try {
 			final Claims claims = getClaimsFromToken(token);
@@ -77,7 +89,7 @@ public class JwtTokenUtil implements Serializable {
 		}
 		return audience;
 	}
-
+*/
 	private Claims getClaimsFromToken(String token) {
 		Claims claims;
 		try {
@@ -101,7 +113,7 @@ public class JwtTokenUtil implements Serializable {
 		return (lastPasswordReset != null && created.before(lastPasswordReset));
 	}
 
-	private String generateAudience(Device device) {
+/*	private String generateAudience(Device device) {
 		String audience = AUDIENCE_UNKNOWN;
 		if (device.isNormal()) {
 			audience = AUDIENCE_WEB;
@@ -111,17 +123,17 @@ public class JwtTokenUtil implements Serializable {
 			audience = AUDIENCE_MOBILE;
 		} 
 		return audience;
-	}
+	}*/
 
 	private Boolean ignoreTokenExpiration(String token) {
-		String audience = getAudienceFromToken(token);
-		return (AUDIENCE_TABLET.equals(audience) || AUDIENCE_MOBILE.equals(audience));
+		/*String audience = getAudienceFromToken(token);*/
+		return true; /*(AUDIENCE_TABLET.equals(audience) || AUDIENCE_MOBILE.equals(audience));*/
 	}
 
-	public String generateToken(UserDetails userDetails, Device device) {
+	public String generateToken(UserDetails userDetails, long id) {
 		Map<String, Object> claims = new HashMap<>();
 		claims.put(CLAIM_KEY_USERNAME, userDetails.getUsername());
-		claims.put(CLAIM_KEY_AUDIENCE, generateAudience(device));
+		claims.put(CLAIM_KEY_ID, id);
 		claims.put(CLAIM_KEY_CREATED, new Date());
 		return generateToken(claims);
 	}

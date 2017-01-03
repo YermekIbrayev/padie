@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mobile.device.Device;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -35,6 +36,7 @@ import com.iskhak.padie.model.security.User;
 import com.iskhak.padie.security.JwtAuthenticationRequest;
 import com.iskhak.padie.security.JwtTokenUtil;
 import com.iskhak.padie.security.service.JwtAuthenticationResponse;
+import com.mysql.fabric.Response;
 
 @RestController
 @RequestMapping(value="json")
@@ -105,16 +107,25 @@ public class JSONController {
 	}
 	
 	@RequestMapping(value="/login", method=RequestMethod.POST, produces = "application/json")
-	public ResponseEntity<Void> login(@RequestBody User user){
-		boolean response = userDAO.login(user);
-		System.out.println(response);
-		ResponseEntity<Void> result;
-		if(response)
-			result = new ResponseEntity<Void>(HttpStatus.OK);
-		else
-			result = new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
-		return result;
+	ResponseEntity<?> login(@RequestBody JwtAuthenticationRequest authenticationRequest) throws AuthenticationException {
+
+        // Perform the security    	
+        final String token = userDAO.login(authenticationRequest);
+
+        // Return the token
+        return ResponseEntity.ok(new JwtAuthenticationResponse(token));
+        }
+
+	@RequestMapping(value="/register", method=RequestMethod.POST, produces="application/json")
+	ResponseEntity<?> register(@RequestBody User user, Device device){
+		String password = user.getPassword();
+		String result = userDAO.register(user);
+
+		if(result.equals(Constants.EMAIL_ALREADY_IN_USE)){
+			return ResponseEntity.ok(new JwtAuthenticationResponse(Constants.EMAIL_ALREADY_IN_USE));
+		}
+		JwtAuthenticationRequest authenticationRequest = new JwtAuthenticationRequest(user.getUsername(), password);
+		final String token = userDAO.login(authenticationRequest);
+		return ResponseEntity.ok(new JwtAuthenticationResponse(token));
 	}
-	
-	//----------------------------------------
 }

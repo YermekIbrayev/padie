@@ -2,7 +2,10 @@ package com.iskhak.padie.dao;
 
 import java.util.List;
 
+import org.springframework.mobile.device.Device;
+
 import com.iskhak.padie.model.security.User;
+import com.iskhak.padie.security.JwtAuthenticationRequest;
 
 public interface UserDAO {
 	public List<User> list();
@@ -13,5 +16,7 @@ public interface UserDAO {
 	
 	public void delete(long id);
 	
-	public boolean login(User user);
+	public String login(JwtAuthenticationRequest authenticationRequest);
+	
+	public String register(User user);
 }

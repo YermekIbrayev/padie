@@ -10,16 +10,25 @@ public class Authority {
 
     @Id
     @Column(name = "ID")
-
     private Long id;
-
+    
     @Column(name = "NAME", length = 50)
     @NotNull
     @Enumerated(EnumType.STRING)
     private AuthorityName name;
 
-    @ManyToMany(mappedBy = "authorities", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "authorities", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<User> users;
+    
+    public Authority(){
+    	super();
+    }
+    
+    public Authority(AuthorityName name, List<User> users){
+    	this.id=(long)name.ordinal()+1;
+    	this.name = name;
+    	this.users = users;
+    }
 
     public Long getId() {
         return id;

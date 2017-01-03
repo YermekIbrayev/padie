@@ -23,11 +23,11 @@ import com.iskhak.padie.security.service.JwtAuthenticationResponse;
 
 import javax.servlet.http.HttpServletRequest;
 
-@RestController
+/*@RestController*/
 public class AuthenticationRestController {
 
     /*@Value("${jwt.header}")*/
-    private String tokenHeader="Authorization";
+/*    private String tokenHeader="Authorization";
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -36,11 +36,11 @@ public class AuthenticationRestController {
     private JwtTokenUtil jwtTokenUtil;
 
     @Autowired
-    private UserDetailsService userDetailsService;
+    private UserDetailsService userDetailsService;*/
 
-    @RequestMapping(value = "/auth", method = RequestMethod.POST)
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest, Device device) throws AuthenticationException {
-    	System.out.println("request: "+authenticationRequest.getUsername());
+    /*@RequestMapping(value = "/auth", method = RequestMethod.POST)*/
+    public ResponseEntity<?> createAuthenticationToken(/*@RequestBody JwtAuthenticationRequest authenticationRequest, Device device*/) /*throws AuthenticationException*/ {
+/*    	System.out.println("request: "+authenticationRequest.getUsername());
         // Perform the security
     	
         final Authentication authentication = authenticationManager.authenticate(
@@ -57,12 +57,13 @@ public class AuthenticationRestController {
         final String token = jwtTokenUtil.generateToken(userDetails, device);
 
         // Return the token
-        return ResponseEntity.ok(new JwtAuthenticationResponse(token));
+        return ResponseEntity.ok(new JwtAuthenticationResponse(token));*/
+    	return null;
     }
 
-    @RequestMapping(value = "refresh", method = RequestMethod.GET)
+    /*@RequestMapping(value = "refresh", method = RequestMethod.GET)*/
     public ResponseEntity<?> refreshAndGetAuthenticationToken(HttpServletRequest request) {
-        String token = request.getHeader(tokenHeader);
+/*        String token = request.getHeader(tokenHeader);
         String username = jwtTokenUtil.getUsernameFromToken(token);
         JwtUser user = (JwtUser) userDetailsService.loadUserByUsername(username);
 
@@ -71,7 +72,8 @@ public class AuthenticationRestController {
             return ResponseEntity.ok(new JwtAuthenticationResponse(refreshedToken));
         } else {
             return ResponseEntity.badRequest().body(null);
-        }
+        }*/
+    	return null;
     }
 
 }

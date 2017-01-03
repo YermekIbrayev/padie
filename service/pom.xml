@@ -16,7 +16,7 @@
 	    <org.springframework-version>4.3.5.RELEASE</org.springframework-version>
 	    
 	    <!-- spring security -->
-	    <spring-security.version>3.2.0.RELEASE</spring-security.version>
+	    <spring-security.version>4.2.1.RELEASE</spring-security.version>
 	    
 	    <!-- we don't need any web.xml file -->
 	    <failOnMissingWebXml>false</failOnMissingWebXml>
