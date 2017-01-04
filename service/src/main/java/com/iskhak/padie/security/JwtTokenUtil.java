@@ -8,6 +8,8 @@ import org.springframework.mobile.device.Device;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import com.iskhak.padie.config.Constants;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
@@ -29,10 +31,10 @@ public class JwtTokenUtil implements Serializable {
 	private static final String AUDIENCE_TABLET = "tablet";*/
 
 	/*@Value("${jwt.secret}")*/
-	private String secret="mySecret";
+	private String secret=Constants.TOKEN_KEY;
 
 	//@Value("${jwt.expiration}")
-	private Long expiration = 604800L;
+	private Long expiration = Constants.TOKEN_EXPARATION;
 
 	public String getUsernameFromToken(String token) {
 		String username;

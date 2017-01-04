@@ -25,7 +25,7 @@ public class ServiceItemDAOImpl implements ServiceItemDAO {
     }
     
 	@Override
-    @Transactional
+    @Transactional // client
 	public List<GetServiceItem> list() {
 		@SuppressWarnings("unchecked")
 		List<GetServiceItem> serviceList = (List<GetServiceItem>) sessionFactory.getCurrentSession()

@@ -17,6 +17,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -48,27 +49,30 @@ public class JSONController {
 	@Autowired
 	private UserDAO userDAO;
 	
+	
+	// client 
 	@RequestMapping(value="/serviceList", method = RequestMethod.GET, produces = "application/json")
-	public List<GetServiceItem> getServiceListJSON(){
+	public List<GetServiceItem> getServiceListJSON(@RequestHeader(Constants.TOKEN_HEADER) String token){
 		return serviceItemDAO.list();
 	} 
 	
+	// not using
 	@RequestMapping(value="/OrderList", method = RequestMethod.GET, produces = "application/json")
-	public List<PackageModel> getOrderListJSON(){
+	public List<PackageModel> getOrderListJSON(@RequestHeader(Constants.TOKEN_HEADER) String token){
 		return packageModelDAO.list();
 	}
 	
-	
+	// client
 	@RequestMapping(value="/sendOrder", method = RequestMethod.POST)
-	public @ResponseBody SetPackageModel sendOrder(@RequestBody SetPackageModel order){
+	public @ResponseBody SetPackageModel sendOrder(@RequestHeader(Constants.TOKEN_HEADER) String token, @RequestBody SetPackageModel order){
 		System.out.println(order.getId());
 		return packageModelDAO.setOrder(order);
 	}
 	
-	
+	// client
 	// Order creation date = null. Why? Should be fixed
 	@RequestMapping(value="/getOrderPrice", method = RequestMethod.POST)
-	public @ResponseBody SetPackageModel getOrderPrice(@RequestBody SetPackageModel order){
+	public @ResponseBody SetPackageModel getOrderPrice(@RequestHeader(Constants.TOKEN_HEADER) String token, @RequestBody SetPackageModel order){
 		System.out.println(order.getId());
 		return packageModelDAO.getOrderPrice(order);
 	}
@@ -78,19 +82,24 @@ public class JSONController {
 		return packageModelDAO.testSetPackageModel();
 	}*/
 	
+	// provider
 	@RequestMapping(value="/getNewOrders/{deviceId}/{date}", method = RequestMethod.GET, produces = "application/json")
-	public List<PackageModel> getNewOrders(@PathVariable("deviceId") String deviceId, @PathVariable("date") @DateTimeFormat(pattern=Constants.DATE_TIME_FORMAT) Date date){
+	public List<PackageModel> getNewOrders(@RequestHeader(Constants.TOKEN_HEADER) String token, 
+			@PathVariable("deviceId") String deviceId, 
+			@PathVariable("date") @DateTimeFormat(pattern=Constants.DATE_TIME_FORMAT) Date date){
 		return packageModelDAO.getNewOrders(deviceId, date);
 	}
 	
+	// provider
 	@RequestMapping(value="/setViewedOrders", method = RequestMethod.POST)
-	public void viewedOrder( @RequestBody ViewedPackage viewedPackage){
+	public void viewedOrder(@RequestHeader(Constants.TOKEN_HEADER) String token, @RequestBody ViewedPackage viewedPackage){
 		System.out.println("Viewed package:"+viewedPackage.getId()+" viewed"+viewedPackage.getViewed());
 		packageModelDAO.setViewedPackage(viewedPackage);
 	}
 	
+	// provider
 	@RequestMapping(value="/setAccepted/{pkgId}", method=RequestMethod.GET)
-	public ResponseEntity<Void> acceptOrder(@PathVariable("pkgId") int pkgId){
+	public ResponseEntity<Void> acceptOrder(@RequestHeader(Constants.TOKEN_HEADER) String token, @PathVariable("pkgId") int pkgId){
 		System.out.println(pkgId);
 		boolean response = packageModelDAO.acceptOrder(pkgId);
 		ResponseEntity<Void> result;
@@ -101,11 +110,14 @@ public class JSONController {
 		return result;
 	}
 	
+	
+	/// Test  function
 	@RequestMapping(value="/getUser", method=RequestMethod.GET, produces = "application/json")
-	public User getUser(){
+	public User getUser(){ 
 		return userDAO.get(1);
 	}
 	
+	// should be client and provider
 	@RequestMapping(value="/login", method=RequestMethod.POST, produces = "application/json")
 	ResponseEntity<?> login(@RequestBody JwtAuthenticationRequest authenticationRequest) throws AuthenticationException {
 
@@ -116,6 +128,7 @@ public class JSONController {
         return ResponseEntity.ok(new JwtAuthenticationResponse(token));
         }
 
+	// should be client and provider
 	@RequestMapping(value="/register", method=RequestMethod.POST, produces="application/json")
 	ResponseEntity<?> register(@RequestBody User user, Device device){
 		String password = user.getPassword();

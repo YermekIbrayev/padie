@@ -27,13 +27,9 @@ import rx.Observable;
 public interface ConnectionService {
 
     String ENDPOINT = "http://padie.hopto.org:8080/padie/json/";
-    String SERVICE_LIST = "serviceList";
     String NEW_ORDERS = "getNewOrders/{deviceId}/{date}";
     String SEND_ON_ORDERS = "setViewedOrders";
     String ACCEPT_ORDER = "setAccepted/{pkgId}";
-
-    @GET(SERVICE_LIST  )
-    Observable<List<ServiceGroup>> getServices();
 
     @GET(NEW_ORDERS )
     Observable<List<PackageModel>> getNewOrders(@Path("deviceId") String deviceId, @Path("date") PathDate viewed);

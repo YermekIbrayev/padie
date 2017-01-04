@@ -35,7 +35,7 @@ public class PackageModelDAOImpl implements PackageModelDAO{
     }
     
 	@Override
-    @Transactional
+    @Transactional // not using
 	public List<PackageModel> list() {
 		@SuppressWarnings("unchecked")
 		List<PackageModel> packageList = (List<PackageModel>) sessionFactory.getCurrentSession()
@@ -48,7 +48,7 @@ public class PackageModelDAOImpl implements PackageModelDAO{
 	}
 
 	@Override
-	@Transactional
+	@Transactional // client
 	public SetPackageModel setOrder(SetPackageModel order) {
 		order.setOrderDate(new Date());
 		sessionFactory.getCurrentSession().update(order);
@@ -57,7 +57,7 @@ public class PackageModelDAOImpl implements PackageModelDAO{
 	}
 	
 	@Override
-	@Transactional
+	@Transactional // client
 	public SetPackageModel getOrderPrice(SetPackageModel order){
 		order.setPrice(100.0f);
 		order.setOrderDate(null);
@@ -80,7 +80,7 @@ public class PackageModelDAOImpl implements PackageModelDAO{
 
 	@SuppressWarnings("unchecked")
 	@Override
-	@Transactional
+	@Transactional // provider
 	public List<PackageModel> getNewOrders(String deviceId, Date date) {
 		System.out.println(date);
 		
@@ -128,9 +128,8 @@ public class PackageModelDAOImpl implements PackageModelDAO{
 	}
 	
 	
-	//lastViewed column be added
 	@Override
-	@Transactional
+	@Transactional // provider
 	public void setViewedPackage(ViewedPackage viewedPackage){
 		viewedPackage.setViewed(new Date());
 		@SuppressWarnings("unchecked")
@@ -148,7 +147,7 @@ public class PackageModelDAOImpl implements PackageModelDAO{
 
 /*	@SuppressWarnings("unchecked")*/
 	@Override
-	@Transactional
+	@Transactional // provider
 	public boolean acceptOrder(int pkgId) {
 		
 		if(pkgId<1)
