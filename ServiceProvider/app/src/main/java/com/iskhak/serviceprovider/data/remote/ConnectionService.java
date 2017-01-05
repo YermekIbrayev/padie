@@ -30,6 +30,7 @@ public interface ConnectionService {
     String NEW_ORDERS = "getNewOrders/{deviceId}/{date}";
     String SEND_ON_ORDERS = "setViewedOrders";
     String ACCEPT_ORDER = "setAccepted/{pkgId}";
+    String LOGIN_PAGE = "login";
 
     @GET(NEW_ORDERS )
     Observable<List<PackageModel>> getNewOrders(@Path("deviceId") String deviceId, @Path("date") PathDate viewed);
@@ -39,6 +40,9 @@ public interface ConnectionService {
 
     @GET(ACCEPT_ORDER)
     Observable<Response<Void>> acceptOrder(@Path("pkgId") Integer pkgId);
+
+    @POST(LOGIN_PAGE)
+    Observable<Response<String>> login();
 
     class Creator{
         public static ConnectionService newServicesList(){

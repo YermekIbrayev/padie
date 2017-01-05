@@ -139,9 +139,12 @@ public class DataManager {
         return viewed;
     }
 
-
     public Observable<Response<Void>> acceptOrder(Integer pkgId){
         return mConnectionService.acceptOrder(pkgId);
+    }
+
+    public Observable<Response<String>> login(){
+        return mConnectionService.login();
     }
 
     public String getAndroidId(){
