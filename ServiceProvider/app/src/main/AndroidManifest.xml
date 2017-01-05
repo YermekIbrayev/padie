@@ -6,6 +6,11 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
     <application
         android:name=".ServiceProviderApplication"
         android:allowBackup="true"
@@ -14,25 +19,32 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ui.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".ui.BaseActivity" />
+
         <service android:name=".data.SyncService" />
-        <receiver android:name=".data.ProviderReceiver" >
+
+        <receiver android:name=".data.ProviderReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+
         <activity android:name=".ui.menu.ProfileActivity" />
         <activity android:name=".ui.menu.PaymentActivity" />
         <activity android:name=".ui.menu.OrdersActivity" />
         <activity android:name=".ui.menu.SettingsActivity" />
         <activity android:name=".ui.menu.BasicSettingsActivity" />
         <activity android:name=".ui.menu.PromotionsActivity" />
+        <activity
+            android:name=".ui.LoginActivity"
+            android:label="@string/title_activity_login">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

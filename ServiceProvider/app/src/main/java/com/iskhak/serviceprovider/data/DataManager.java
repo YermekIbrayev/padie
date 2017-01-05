@@ -127,7 +127,7 @@ public class DataManager {
         try {
             mConnectionService.responseOrder(responseOrder).execute();
         } catch(Exception e){
-            Timber.e(e, "send Viewed Orders");
+            Timber.e(e, "sending viewed Orders");
         }
     }
 

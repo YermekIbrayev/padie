@@ -1,5 +1,6 @@
 package com.iskhak.serviceprovider.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -42,6 +43,11 @@ public class MainActivity extends BaseActivity{
     private PackageModel order;
     private boolean isTabsVisible;
 
+
+    public static Intent newStartIntent(Context context) {
+        Intent intent = new Intent(context, MainActivity.class);
+        return intent;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
