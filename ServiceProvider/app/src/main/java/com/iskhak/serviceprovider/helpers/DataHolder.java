@@ -3,6 +3,7 @@ package com.iskhak.serviceprovider.helpers;
 import android.content.Context;
 
 import com.iskhak.serviceprovider.data.model.PackageModel;
+import com.iskhak.serviceprovider.data.model.TokenModel;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -14,6 +15,7 @@ public class DataHolder {
     private Map<Integer, PackageModel> orders;
     private Map<Integer, PackageModel> indexedOrders;
     private INewOrderSender sender;
+    private TokenModel token;
 
     private UserPreferences userPreferences;
 
@@ -60,6 +62,13 @@ public class DataHolder {
         }*/
     }
 
+    public void setToken(TokenModel token){
+        this.token = token;
+    }
+
+    public TokenModel getToken(){
+        return token;
+    }
 
     public boolean isRunning(){
         return isRunning;

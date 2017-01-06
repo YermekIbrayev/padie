@@ -2,10 +2,12 @@ package com.iskhak.serviceprovider.data.remote;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.iskhak.serviceprovider.data.model.LoginInfo;
 import com.iskhak.serviceprovider.data.model.PackageModel;
 import com.iskhak.serviceprovider.data.model.PathDate;
 import com.iskhak.serviceprovider.data.model.ResponseOrder;
 import com.iskhak.serviceprovider.data.model.ServiceGroup;
+import com.iskhak.serviceprovider.data.model.TokenModel;
 import com.iskhak.serviceprovider.helpers.Constants;
 import com.iskhak.serviceprovider.helpers.MyGsonTypeAdapterFactory;
 
@@ -26,7 +28,7 @@ import rx.Observable;
 
 public interface ConnectionService {
 
-    String ENDPOINT = "http://padie.hopto.org:8080/padie/json/";
+    String ENDPOINT = "http://10.1.10.112:8080/padie/json/";
     String NEW_ORDERS = "getNewOrders/{deviceId}/{date}";
     String SEND_ON_ORDERS = "setViewedOrders";
     String ACCEPT_ORDER = "setAccepted/{pkgId}";
@@ -42,7 +44,7 @@ public interface ConnectionService {
     Observable<Response<Void>> acceptOrder(@Path("pkgId") Integer pkgId);
 
     @POST(LOGIN_PAGE)
-    Observable<Response<String>> login();
+    Observable<Response<TokenModel>> login(@Body LoginInfo loginInfo);
 
     class Creator{
         public static ConnectionService newServicesList(){

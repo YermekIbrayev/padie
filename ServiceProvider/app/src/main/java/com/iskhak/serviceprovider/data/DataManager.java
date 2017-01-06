@@ -11,10 +11,12 @@ import android.provider.Settings;
 import com.google.common.collect.ForwardingList;
 import com.iskhak.serviceprovider.R;
 import com.iskhak.serviceprovider.data.local.DatabaseHelper;
+import com.iskhak.serviceprovider.data.model.LoginInfo;
 import com.iskhak.serviceprovider.data.model.PackageModel;
 import com.iskhak.serviceprovider.data.model.PathDate;
 import com.iskhak.serviceprovider.data.model.ResponseOrder;
 import com.iskhak.serviceprovider.data.model.ServiceGroup;
+import com.iskhak.serviceprovider.data.model.TokenModel;
 import com.iskhak.serviceprovider.data.remote.ConnectionService;
 import com.iskhak.serviceprovider.helpers.DataHolder;
 import com.iskhak.serviceprovider.helpers.INewOrderSender;
@@ -143,8 +145,8 @@ public class DataManager {
         return mConnectionService.acceptOrder(pkgId);
     }
 
-    public Observable<Response<String>> login(){
-        return mConnectionService.login();
+    public Observable<Response<TokenModel>> login(LoginInfo loginInfo){
+        return mConnectionService.login(loginInfo);
     }
 
     public String getAndroidId(){
@@ -174,7 +176,6 @@ public class DataManager {
                 (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
 
         notificationManager.notify(order.id(), n);
-
     }
 
     private void generateViewedOrder(PackageModel packageModel){

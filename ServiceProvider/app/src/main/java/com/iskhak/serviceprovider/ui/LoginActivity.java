@@ -35,13 +35,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.iskhak.serviceprovider.R;
+import com.iskhak.serviceprovider.data.DataManager;
+import com.iskhak.serviceprovider.data.SyncService;
+import com.iskhak.serviceprovider.data.model.LoginInfo;
+import com.iskhak.serviceprovider.data.model.TokenModel;
+import com.iskhak.serviceprovider.helpers.AndroidComponentUtil;
+import com.iskhak.serviceprovider.helpers.NetworkUtil;
+import com.iskhak.serviceprovider.helpers.RxUtil;
+
+import javax.inject.Inject;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import retrofit2.Response;
+import rx.Observer;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+import timber.log.Timber;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
+public class LoginActivity extends BaseActivity implements LoaderCallbacks<Cursor> {
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -59,23 +78,30 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
-    private UserLoginTask mAuthTask = null;
 
     // UI references.
-    private AutoCompleteTextView mEmailView;
-    private EditText mPasswordView;
-    private View mProgressView;
-    private View mLoginFormView;
+    @BindView(R.id.email)
+    AutoCompleteTextView mEmailView;
+    @BindView(R.id.password)
+    EditText mPasswordView;
+    @BindView(R.id.login_form)
+    View mProgressView;
+    @BindView(R.id.login_progress)
+    View mLoginFormView;
+
+    @Inject
+    DataManager mDataManager;
+
+    private Subscription mSubscription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        activityComponent().inject(this);
         setContentView(R.layout.activity_login);
+        ButterKnife.bind(this);
         // Set up the login form.
-        mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
-
-        mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -86,17 +112,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 return false;
             }
         });
-
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
-        mEmailSignInButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                attemptLogin();
-            }
-        });
-
-        mLoginFormView = findViewById(R.id.login_form);
-        mProgressView = findViewById(R.id.login_progress);
         mContext = LoginActivity.this;
     }
 
@@ -149,10 +164,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * If there are form errors (invalid email, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
-    private void attemptLogin() {
-        if (mAuthTask != null) {
-            return;
-        }
+    @OnClick(R.id.email_sign_in_button)
+    void attemptLogin() {
 
         // Reset errors.
         mEmailView.setError(null);
@@ -191,19 +204,18 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute((Void) null);
+            doLogin(email, password);
         }
     }
 
     private boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic
-        return email.contains("@");
+        return true; //email.contains("@");
     }
 
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
-        return password.length() > 4;
+        return true; //password.length() > 4;
     }
 
     /**
@@ -296,11 +308,58 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         int IS_PRIMARY = 1;
     }
 
+    private void doLogin(String username, String password){
+        Timber.d("On sign in button");
+
+        if (!NetworkUtil.isNetworkConnected(mContext)) {
+            Timber.i("Sync canceled, connection not available");
+            AndroidComponentUtil.toggleComponent(mContext, SyncService.SyncOnConnectionAvailable.class, true);
+            return;
+        }
+
+        RxUtil.unsubscribe(mSubscription);
+
+        LoginInfo loginInfo = LoginInfo.builder()
+                .setUsername(username)
+                .setPassword(password)
+                .build();
+
+        mSubscription = mDataManager.login(loginInfo)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Response<TokenModel>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Timber.e(e, "on login");
+                    }
+
+                    @Override
+                    public void onNext(Response<TokenModel> token) {
+                        Timber.d("onNext %s", token.code());
+                        Timber.d(token.body().token());
+                        showProgress(false);
+                        if(token.code()!=200){
+                            Timber.d("response bad");
+                            mPasswordView.setError(getString(R.string.error_incorrect_password));
+                        } else{
+                            Timber.d("response ok");
+                            Intent intent = MainActivity.newStartIntent(mContext);
+                            mContext.startActivity(intent);
+                        }
+                    }
+                });
+    }
+
     /**
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+    /*public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
         private final String mEmail;
         private final String mPassword;
@@ -352,6 +411,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mAuthTask = null;
             showProgress(false);
         }
-    }
+    }*/
 }
 
