@@ -35,6 +35,7 @@ public class SetPackageModel {
 	private String address;
 	@JsonIgnore
 	@CreationTimestamp
+	@Column(name = "created")
 	private Date created;
 	@JsonIgnore
 	private Date finishedDate;
@@ -90,14 +91,12 @@ public class SetPackageModel {
 		this.address = address;
 	}
 	
-
-	public void setCreated(Date created){
-		this.created= created;
-	}
-	
-
 	public Date getCreated() {
 		return created;
+	}
+	
+	public void setCreated(Date created){
+		this.created= created;
 	}
 	
 	public Date getFinishedDate() {

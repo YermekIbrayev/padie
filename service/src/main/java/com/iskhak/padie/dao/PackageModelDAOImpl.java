@@ -88,7 +88,7 @@ public class PackageModelDAOImpl implements PackageModelDAO{
 		//get new orders
 		String hql = "Select p from PackageModel as p "
 				+ "left join  p.viewedList as v on ((v.deviceId=:deviceId or v.providerId=:providerId) and  v.viewed<=:date)  "
-				+ "where "+/*p.acceptedDate is null and*/" v.id is null and p.orderDate is not null and (p.providerID=:providerId or (p.providerID is null and p.acceptedDate is null))";
+				+ "where "+/*p.acceptedDate is null and*/" v.id is null and p.orderDate is not null and (p.providerID=:providerId or ((p.providerID is null or p.providerID<1) and p.acceptedDate is null))";
 
 		List<PackageModel> result = (List<PackageModel>) sessionFactory.getCurrentSession()
 /*				.createCriteria(PackageModel.class)
