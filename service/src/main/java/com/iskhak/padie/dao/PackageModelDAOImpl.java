@@ -49,8 +49,9 @@ public class PackageModelDAOImpl implements PackageModelDAO{
 
 	@Override
 	@Transactional // client
-	public SetPackageModel setOrder(SetPackageModel order) {
+	public SetPackageModel setOrder(SetPackageModel order, long id) {
 		order.setOrderDate(new Date());
+		order.setClientId(id);
 		sessionFactory.getCurrentSession().update(order);
 		System.out.println(order.getId());
 		return order;
@@ -81,13 +82,13 @@ public class PackageModelDAOImpl implements PackageModelDAO{
 	@SuppressWarnings("unchecked")
 	@Override
 	@Transactional // provider
-	public List<PackageModel> getNewOrders(String deviceId, Date date) {
+	public List<PackageModel> getNewOrders(String deviceId, Date date, long id) {
 		System.out.println(date);
 		
 		//get new orders
 		String hql = "Select p from PackageModel as p "
-				+ "left join  p.viewedList as v on (v.deviceId=:deviceId and  v.viewed<=:date)  "
-				+ "where "+/*p.acceptedDate is null and*/" v.id is null and p.orderDate is not null ";
+				+ "left join  p.viewedList as v on ((v.deviceId=:deviceId or v.providerId=:providerId) and  v.viewed<=:date)  "
+				+ "where "+/*p.acceptedDate is null and*/" v.id is null and p.orderDate is not null and (p.providerID=:providerId or (p.providerID is null and p.acceptedDate is null))";
 
 		List<PackageModel> result = (List<PackageModel>) sessionFactory.getCurrentSession()
 /*				.createCriteria(PackageModel.class)
@@ -95,22 +96,9 @@ public class PackageModelDAOImpl implements PackageModelDAO{
 				.add(Restrictions.isNull("acceptedDate")) //where acceptedDate is Null*/			
 		.createQuery(hql)
 		.setParameter("deviceId", deviceId)
+		.setParameter("providerId", id)
 		.setTimestamp("date", date)
 		.list();
-		
-		//????
-		hql = "Select p, max(v.viewed) form PackageModel as p "
-				+ "left join p.viewedList as v on (v.deviceId=:deviceId) "
-				+ "where p.acceptedDate is null"
-				+ "group by v.selectedPkg";
-		
-		/*List<Object[]> objects = (List<Object[]>) sessionFactory.getCurrentSession()
-			 
-			 *.createQuery("hql")
-
-			 *.setParameter("deviceId", deviceId)
-
-			 *.list();*/
 		
 		//System.out.println(objects.size());
 		for(PackageModel item:result){
@@ -130,15 +118,17 @@ public class PackageModelDAOImpl implements PackageModelDAO{
 	
 	@Override
 	@Transactional // provider
-	public void setViewedPackage(ViewedPackage viewedPackage){
+	public void setViewedPackage(ViewedPackage viewedPackage, long id){
 		viewedPackage.setViewed(new Date());
+		viewedPackage.setProviderId(id);
 		@SuppressWarnings("unchecked")
 		List<ViewedPackage> checkList = (List<ViewedPackage>) sessionFactory.getCurrentSession()
 				.createCriteria(ViewedPackage.class)
 				.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
 				.add(Restrictions.and(
 						Restrictions.eq("deviceId", viewedPackage.getDeviceId()),
-						Restrictions.eq("selectedPkg", viewedPackage.getSelectedPkg())))
+						Restrictions.eq("selectedPkg", viewedPackage.getSelectedPkg()),
+						Restrictions.eq("providerId", viewedPackage.getProviderId())))
 				.list();
 		if(checkList==null||checkList.isEmpty())
 			sessionFactory.getCurrentSession().save(viewedPackage);
@@ -148,7 +138,7 @@ public class PackageModelDAOImpl implements PackageModelDAO{
 /*	@SuppressWarnings("unchecked")*/
 	@Override
 	@Transactional // provider
-	public boolean acceptOrder(int pkgId) {
+	public boolean acceptOrder(int pkgId, long id) {
 		
 		if(pkgId<1)
 			return false;
@@ -164,9 +154,10 @@ public class PackageModelDAOImpl implements PackageModelDAO{
 /*		if(list.get(0).getId()<pkgId)
 			return false;*/
 		
-		String hql = "update SetPackageModel u set acceptedDate=:date  where u.pkgID=:pkgId";
+		String hql = "update SetPackageModel u set acceptedDate=:date, providerID = :providerID  where u.pkgID=:pkgId";
 		Query query = sessionFactory.getCurrentSession().createQuery(hql);
 		query.setTimestamp("date", new Date());
+		query.setLong("providerID", id);
 		query.setInteger("pkgId", pkgId);
 		query.executeUpdate();
 		return true;

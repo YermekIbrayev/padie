@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.iskhak.padie.config.Constants;
 
 @Entity
@@ -18,6 +19,7 @@ public class ViewedPackage implements Comparable<ViewedPackage>{
 	private int selectedPkg;
  	private String deviceId;
 	private Date viewed;
+	private Long providerId;
 	
     @Id
     @GeneratedValue
@@ -59,6 +61,15 @@ public class ViewedPackage implements Comparable<ViewedPackage>{
 	@Override
 	public int compareTo(ViewedPackage arg0) {
 		return this.viewed.compareTo(arg0.viewed);
+	}
+	
+	@JsonIgnore
+	public Long getProviderId(){
+		return providerId;
+	}
+	
+	public void setProviderId(Long providerId){
+		this.providerId = providerId;
 	}
 
 }

@@ -99,7 +99,7 @@ public class UserDAOImpl implements UserDAO {
     		result = true;*/
         final Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        authenticationRequest.getUsername(),
+                        authenticationRequest.getEmail(),
                         authenticationRequest.getPassword()
                 )
         );
@@ -107,8 +107,8 @@ public class UserDAOImpl implements UserDAO {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         // Reload password post-security so we can generate token
-        final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
-        String hql = "from User where username='" + userDetails.getUsername() +"'";
+        final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getEmail());
+        String hql = "from User where email='" + userDetails.getUsername() +"'";
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
         @SuppressWarnings("unchecked")
         List<User> listUser = (List<User>) query.list(); 

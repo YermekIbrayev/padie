@@ -36,7 +36,7 @@ public class JwtTokenUtil implements Serializable {
 	//@Value("${jwt.expiration}")
 	private Long expiration = Constants.TOKEN_EXPARATION;
 
-	public String getUsernameFromToken(String token) {
+/*	public String getUsernameFromToken(String token) {
 		String username;
 		try {
 			final Claims claims = getClaimsFromToken(token);
@@ -46,6 +46,17 @@ public class JwtTokenUtil implements Serializable {
 			username = null;
 		}
 		return username;
+	}*/
+	
+	public String getEmailFromToken(String token) {
+		String email;
+		try {
+			final Claims claims = getClaimsFromToken(token);
+			email = claims.getSubject();
+		} catch (Exception e) {
+			email = null;
+		}
+		return email;
 	}
 
 	public Date getCreatedDateFromToken(String token) {
@@ -59,13 +70,14 @@ public class JwtTokenUtil implements Serializable {
 		return created;
 	}
 	
-	public long getUserIdFromToken(String token){
-		long id;
+	public Long getUserIdFromToken(String token){
+		Long id;
 		try {
 			final Claims claims = getClaimsFromToken(token);
-			id = (long)claims.get(CLAIM_KEY_ID);
+			id = ((Number)claims.get(CLAIM_KEY_ID)).longValue();
 		} catch(Exception e){
-			id=-1;
+			e.printStackTrace();
+			id=-1L;
 		}
 		return id;
 	}
@@ -165,7 +177,7 @@ public class JwtTokenUtil implements Serializable {
 
 	public Boolean validateToken(String token, UserDetails userDetails) {
 		JwtUser user = (JwtUser) userDetails;
-		final String username = getUsernameFromToken(token);
+		final String username = getEmailFromToken(token);
 		final Date created = getCreatedDateFromToken(token);
 		// final Date expiration = getExpirationDateFromToken(token);
 		return (username.equals(user.getUsername()) && !isTokenExpired(token)

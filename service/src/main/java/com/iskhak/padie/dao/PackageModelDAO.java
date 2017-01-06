@@ -11,13 +11,13 @@ public interface PackageModelDAO {
 	// not using
 	public List<PackageModel> list();
 	// client
-	public SetPackageModel setOrder(SetPackageModel order);
+	public SetPackageModel setOrder(SetPackageModel order, long id);
 	// provider
-	public List<PackageModel> getNewOrders(String deviceId, Date date);
+	public List<PackageModel> getNewOrders(String deviceId, Date date, long id);
 	// provider
-	public void setViewedPackage(ViewedPackage viewedPackage);
+	public void setViewedPackage(ViewedPackage viewedPackage, long id);
 	// provider
-	public boolean acceptOrder(int pkgId);
+	public boolean acceptOrder(int pkgId, long id);
 	// client
 	public SetPackageModel getOrderPrice(SetPackageModel order);
 /*	public List<SetPackageModel> testSetPackageModel()*/

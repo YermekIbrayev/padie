@@ -65,6 +65,7 @@ public class DataManager {
     }
 
     public Observable<PackageModel> getNewOrders(){
+        final String token = DataHolder.getInstance().getToken().token();
         return Observable.create(new Observable.OnSubscribe<PackageModel>() {
             @Override
             public void call(final Subscriber<? super PackageModel> subscriber) {
@@ -72,7 +73,7 @@ public class DataManager {
                 jobList.clear();
                 if(viewed==null)
                     viewed = new Date(0);
-                mConnectionService.getNewOrders(androidId , new PathDate(viewed))
+                mConnectionService.getNewOrders(token, androidId , new PathDate(viewed))
                         .subscribeOn(Schedulers.io())
                         .subscribe(new Observer<List<PackageModel>>() {
                             @Override
@@ -126,8 +127,9 @@ public class DataManager {
     }
 
     public void sendViewedOrders(final ResponseOrder responseOrder){
+        String token = DataHolder.getInstance().getToken().token();
         try {
-            mConnectionService.responseOrder(responseOrder).execute();
+            mConnectionService.responseOrder(token, responseOrder).execute();
         } catch(Exception e){
             Timber.e(e, "sending viewed Orders");
         }
@@ -142,7 +144,8 @@ public class DataManager {
     }
 
     public Observable<Response<Void>> acceptOrder(Integer pkgId){
-        return mConnectionService.acceptOrder(pkgId);
+        String token = DataHolder.getInstance().getToken().token();
+        return mConnectionService.acceptOrder(token, pkgId);
     }
 
     public Observable<Response<TokenModel>> login(LoginInfo loginInfo){

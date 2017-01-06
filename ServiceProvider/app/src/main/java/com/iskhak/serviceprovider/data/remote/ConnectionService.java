@@ -22,6 +22,7 @@ import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import rx.Observable;
@@ -35,13 +36,16 @@ public interface ConnectionService {
     String LOGIN_PAGE = "login";
 
     @GET(NEW_ORDERS )
-    Observable<List<PackageModel>> getNewOrders(@Path("deviceId") String deviceId, @Path("date") PathDate viewed);
+    Observable<List<PackageModel>> getNewOrders(@Header(Constants.TOKEN_HEADER)String token,
+                                                @Path("deviceId") String deviceId, @Path("date") PathDate viewed);
 
     @POST(SEND_ON_ORDERS)
-    Call<Void> responseOrder(@Body ResponseOrder responseOrder);
+    Call<Void> responseOrder(@Header(Constants.TOKEN_HEADER)String token,
+                             @Body ResponseOrder responseOrder);
 
     @GET(ACCEPT_ORDER)
-    Observable<Response<Void>> acceptOrder(@Path("pkgId") Integer pkgId);
+    Observable<Response<Void>> acceptOrder(@Header(Constants.TOKEN_HEADER)String token,
+                                           @Path("pkgId") Integer pkgId);
 
     @POST(LOGIN_PAGE)
     Observable<Response<TokenModel>> login(@Body LoginInfo loginInfo);

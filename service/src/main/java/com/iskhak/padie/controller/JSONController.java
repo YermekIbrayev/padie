@@ -48,12 +48,18 @@ public class JSONController {
 	private PackageModelDAO packageModelDAO;
 	@Autowired
 	private UserDAO userDAO;
-	
+	@Autowired
+	private JwtTokenUtil jwtTokenUtil; 
+    @Autowired
+    private UserDetailsService userDetailsService;
 	
 	// client 
 	@RequestMapping(value="/serviceList", method = RequestMethod.GET, produces = "application/json")
-	public List<GetServiceItem> getServiceListJSON(@RequestHeader(Constants.TOKEN_HEADER) String token){
-		return serviceItemDAO.list();
+	public ResponseEntity<?> getServiceListJSON(@RequestHeader(Constants.TOKEN_HEADER) String token){
+		if(validateByToken(token)==-1){
+			return new ResponseEntity<String>(Constants.UNAUTHORIZED, HttpStatus.UNAUTHORIZED);
+		}
+		return ResponseEntity.ok(serviceItemDAO.list());
 	} 
 	
 	// not using
@@ -64,17 +70,25 @@ public class JSONController {
 	
 	// client
 	@RequestMapping(value="/sendOrder", method = RequestMethod.POST)
-	public @ResponseBody SetPackageModel sendOrder(@RequestHeader(Constants.TOKEN_HEADER) String token, @RequestBody SetPackageModel order){
+	public ResponseEntity<?> sendOrder(@RequestHeader(Constants.TOKEN_HEADER) String token, @RequestBody SetPackageModel order){
 		System.out.println(order.getId());
-		return packageModelDAO.setOrder(order);
+		Long clientId = validateByToken(token);
+		if(clientId ==-1){
+			return new ResponseEntity<String>(Constants.UNAUTHORIZED, HttpStatus.UNAUTHORIZED);
+		}
+		return  ResponseEntity.ok(packageModelDAO.setOrder(order, clientId));
 	}
 	
 	// client
 	// Order creation date = null. Why? Should be fixed
 	@RequestMapping(value="/getOrderPrice", method = RequestMethod.POST)
-	public @ResponseBody SetPackageModel getOrderPrice(@RequestHeader(Constants.TOKEN_HEADER) String token, @RequestBody SetPackageModel order){
+	public ResponseEntity<?> getOrderPrice(@RequestHeader(Constants.TOKEN_HEADER) String token, @RequestBody SetPackageModel order){
 		System.out.println(order.getId());
-		return packageModelDAO.getOrderPrice(order);
+		Long clientId = validateByToken(token);
+		if(clientId ==-1){
+			return new ResponseEntity<String>(Constants.UNAUTHORIZED, HttpStatus.UNAUTHORIZED);
+		}
+		return ResponseEntity.ok(packageModelDAO.getOrderPrice(order));
 	}
 	
 /*	@RequestMapping(value="/testSetPackageList", method = RequestMethod.GET, produces = "application/json")
@@ -84,24 +98,37 @@ public class JSONController {
 	
 	// provider
 	@RequestMapping(value="/getNewOrders/{deviceId}/{date}", method = RequestMethod.GET, produces = "application/json")
-	public List<PackageModel> getNewOrders(@RequestHeader(Constants.TOKEN_HEADER) String token, 
+	public ResponseEntity<?> getNewOrders(@RequestHeader(Constants.TOKEN_HEADER) String token, 
 			@PathVariable("deviceId") String deviceId, 
 			@PathVariable("date") @DateTimeFormat(pattern=Constants.DATE_TIME_FORMAT) Date date){
-		return packageModelDAO.getNewOrders(deviceId, date);
+		Long providerId = validateByToken(token);
+		if(providerId ==-1){
+			return new ResponseEntity<String>(Constants.UNAUTHORIZED, HttpStatus.UNAUTHORIZED);
+		}
+		
+		return ResponseEntity.ok(packageModelDAO.getNewOrders(deviceId, date, providerId));
 	}
 	
 	// provider
 	@RequestMapping(value="/setViewedOrders", method = RequestMethod.POST)
-	public void viewedOrder(@RequestHeader(Constants.TOKEN_HEADER) String token, @RequestBody ViewedPackage viewedPackage){
+	public ResponseEntity<?> viewedOrder(@RequestHeader(Constants.TOKEN_HEADER) String token, @RequestBody ViewedPackage viewedPackage){
 		System.out.println("Viewed package:"+viewedPackage.getId()+" viewed"+viewedPackage.getViewed());
-		packageModelDAO.setViewedPackage(viewedPackage);
+		Long providerId = validateByToken(token);
+		if(providerId ==-1){
+			return new ResponseEntity<String>(Constants.UNAUTHORIZED, HttpStatus.UNAUTHORIZED);
+		}
+		packageModelDAO.setViewedPackage(viewedPackage, providerId);
+		return ResponseEntity.ok("");
 	}
 	
 	// provider
 	@RequestMapping(value="/setAccepted/{pkgId}", method=RequestMethod.GET)
-	public ResponseEntity<Void> acceptOrder(@RequestHeader(Constants.TOKEN_HEADER) String token, @PathVariable("pkgId") int pkgId){
-		System.out.println(pkgId);
-		boolean response = packageModelDAO.acceptOrder(pkgId);
+	public ResponseEntity<?> acceptOrder(@RequestHeader(Constants.TOKEN_HEADER) String token, @PathVariable("pkgId") int pkgId){
+		Long providerId = validateByToken(token);
+		if(providerId ==-1){
+			return new ResponseEntity<String>(Constants.UNAUTHORIZED, HttpStatus.UNAUTHORIZED);
+		}
+		boolean response = packageModelDAO.acceptOrder(pkgId, providerId);
 		ResponseEntity<Void> result;
 		if(response)
 			result = new ResponseEntity<Void>(HttpStatus.OK);
@@ -120,7 +147,6 @@ public class JSONController {
 	// should be client and provider
 	@RequestMapping(value="/login", method=RequestMethod.POST, produces = "application/json")
 	ResponseEntity<?> login(@RequestBody JwtAuthenticationRequest authenticationRequest) throws AuthenticationException {
-
         // Perform the security    	
         final String token = userDAO.login(authenticationRequest);
 
@@ -133,12 +159,24 @@ public class JSONController {
 	ResponseEntity<?> register(@RequestBody User user, Device device){
 		String password = user.getPassword();
 		String result = userDAO.register(user);
-
-		if(result.equals(Constants.EMAIL_ALREADY_IN_USE)){
-			return ResponseEntity.ok(new JwtAuthenticationResponse(Constants.EMAIL_ALREADY_IN_USE));
-		}
-		JwtAuthenticationRequest authenticationRequest = new JwtAuthenticationRequest(user.getUsername(), password);
+		if(result.equals(Constants.EMAIL_ALREADY_IN_USE))
+			return (ResponseEntity<?>) ResponseEntity.badRequest();
+		JwtAuthenticationRequest authenticationRequest = new JwtAuthenticationRequest(user.getEmail(), password);
 		final String token = userDAO.login(authenticationRequest);
 		return ResponseEntity.ok(new JwtAuthenticationResponse(token));
+	}
+	
+	///----------------- helper functions -------------------------
+	private Long validateByToken(String token){
+		try{
+			String email = jwtTokenUtil.getEmailFromToken(token);
+			UserDetails user = userDetailsService.loadUserByUsername(email);
+			if(!jwtTokenUtil.validateToken(token, user))
+				return -1L;
+			return jwtTokenUtil.getUserIdFromToken(token);
+		} catch(Exception e){
+			e.printStackTrace();
+			return -1L;
+		}
 	}
 }

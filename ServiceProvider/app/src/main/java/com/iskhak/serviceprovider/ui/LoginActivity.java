@@ -40,6 +40,7 @@ import com.iskhak.serviceprovider.data.SyncService;
 import com.iskhak.serviceprovider.data.model.LoginInfo;
 import com.iskhak.serviceprovider.data.model.TokenModel;
 import com.iskhak.serviceprovider.helpers.AndroidComponentUtil;
+import com.iskhak.serviceprovider.helpers.DataHolder;
 import com.iskhak.serviceprovider.helpers.NetworkUtil;
 import com.iskhak.serviceprovider.helpers.RxUtil;
 
@@ -320,7 +321,7 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
         RxUtil.unsubscribe(mSubscription);
 
         LoginInfo loginInfo = LoginInfo.builder()
-                .setUsername(username)
+                .setEmail(username)
                 .setPassword(password)
                 .build();
 
@@ -348,6 +349,7 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
                             mPasswordView.setError(getString(R.string.error_incorrect_password));
                         } else{
                             Timber.d("response ok");
+                            DataHolder.getInstance().setToken(token.body());
                             Intent intent = MainActivity.newStartIntent(mContext);
                             mContext.startActivity(intent);
                         }

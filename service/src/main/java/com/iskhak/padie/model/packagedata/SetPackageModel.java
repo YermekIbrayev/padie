@@ -28,7 +28,7 @@ public class SetPackageModel {
 	private int pkgID;
 	@JsonIgnore
 	@Column(name = "CID")
-	private int clientId;
+	private long clientId;
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern=Constants.DATE_TIME_FORMAT)
 	private Date orderDate;
 	private String notes;
@@ -42,7 +42,7 @@ public class SetPackageModel {
 	private Date acceptedDate;
 	@JsonIgnore
 	@Column(nullable = true)
-	private Integer providerID;
+	private long providerID;
 	@Column(nullable = true)
 	private Float price;
 	
@@ -65,10 +65,10 @@ public class SetPackageModel {
 	}
 	
 
-	public int getClientId() {
+	public long getClientId() {
 		return clientId;
 	}
-	public void setClientId(int clientId) {
+	public void setClientId(long clientId) {
 		this.clientId = clientId;
 	}
 	public Date getOrderDate() {
@@ -115,10 +115,10 @@ public class SetPackageModel {
 	}
 	
 
-	public Integer getProviderID() {
+	public Long getProviderID() {
 		return providerID;
 	}
-	public void setProviderID(Integer providerID) {
+	public void setProviderID(Long providerID) {
 		this.providerID = providerID;
 	}
 	
