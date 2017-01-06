@@ -4,7 +4,6 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -12,17 +11,15 @@ import android.widget.TimePicker;
 
 import com.iskhak.servicehelper.data.DataManager;
 import com.iskhak.servicehelper.data.model.PackageModel;
-import com.iskhak.servicehelper.data.remote.ConnectionService;
 import com.iskhak.servicehelper.helpers.DataHolder;
 import com.iskhak.servicehelper.R;
-import com.iskhak.servicehelper.helpers.NetworkHelper;
+import com.iskhak.servicehelper.helpers.NetworkUtil;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -101,7 +98,7 @@ public class CleaningAddressActivity extends BaseActivity {
         DataHolder.getInstance().setOrderDate(orderDate);
         DataHolder.getInstance().setOrderNote(orderNotesEdit.getText().toString());
         DataHolder.getInstance().setOrderAddress(addressEdit.getText().toString());
-        if (NetworkHelper.isNetworkConnected(this)) {
+        if (NetworkUtil.isNetworkConnected(this)) {
             //DataHolder.getInstance().getNetworkHelper().sendJSON();
             if(mSubscribtion!=null && !mSubscribtion.isUnsubscribed()) mSubscribtion.unsubscribe();
             mSubscribtion = mDataManager.getOrderPrice(DataHolder.getInstance().generatePackageModel())

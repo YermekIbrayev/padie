@@ -1,11 +1,14 @@
 package com.iskhak.servicehelper.data;
 
+import com.iskhak.servicehelper.data.model.LoginInfo;
 import com.iskhak.servicehelper.data.model.PackageModel;
 import com.iskhak.servicehelper.data.model.SelectedItems;
 import com.iskhak.servicehelper.data.model.SelectedItemsAdd;
 import com.iskhak.servicehelper.data.model.SelectedItemsAddExtra;
+import com.iskhak.servicehelper.data.model.TokenModel;
 import com.iskhak.servicehelper.data.remote.ConnectionService;
 import com.iskhak.servicehelper.data.model.ServiceGroup;
+import com.iskhak.servicehelper.helpers.DataHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +16,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import retrofit2.Response;
 import rx.Observable;
 import rx.Subscriber;
 import rx.functions.Func1;
@@ -50,8 +54,8 @@ public class DataManager {
     }
 
     public Observable<PackageModel> sendOrder(PackageModel order){
-
-        return mConnectionService.sendOrder(order)
+        String token = DataHolder.getInstance().getToken().token();
+        return mConnectionService.sendOrder(token, order)
                 .concatMap(new Func1<PackageModel, Observable<? extends PackageModel>>() {
                     @Override
                     public Observable<? extends PackageModel> call(final PackageModel packageModel) {
@@ -69,7 +73,8 @@ public class DataManager {
     }
 
     public Observable<PackageModel> getOrderPrice(PackageModel order){
-        return mConnectionService.getOrderPrice(order)
+        String token = DataHolder.getInstance().getToken().token();
+        return mConnectionService.getOrderPrice(token, order)
                 .concatMap(new Func1<PackageModel, Observable<? extends PackageModel>>() {
                     @Override
                     public Observable<? extends PackageModel> call(final PackageModel packageModel) {
@@ -84,5 +89,9 @@ public class DataManager {
                         });
                     }
                 });
+    }
+
+    public Observable<Response<TokenModel>> login(LoginInfo loginInfo){
+        return mConnectionService.login(loginInfo);
     }
 }

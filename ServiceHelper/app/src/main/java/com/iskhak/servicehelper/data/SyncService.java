@@ -9,10 +9,10 @@ import android.os.IBinder;
 
 import com.iskhak.servicehelper.ServiceHelperApplication;
 import com.iskhak.servicehelper.data.model.ServiceGroup;
-import com.iskhak.servicehelper.data.remote.ConnectionService;
 import com.iskhak.servicehelper.helpers.AndroidComponentHelper;
 import com.iskhak.servicehelper.helpers.DataHolder;
-import com.iskhak.servicehelper.helpers.NetworkHelper;
+import com.iskhak.servicehelper.helpers.NetworkUtil;
+import com.iskhak.servicehelper.ui.LoginActivity;
 import com.iskhak.servicehelper.ui.MainActivity;
 
 import java.util.ArrayList;
@@ -22,6 +22,7 @@ import javax.inject.Inject;
 
 import rx.Observer;
 import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
@@ -48,7 +49,7 @@ public class SyncService extends Service{
         Timber.i("Starting sync...");
 
 
-        if (!NetworkHelper.isNetworkConnected(this)) {
+        if (!NetworkUtil.isNetworkConnected(this)) {
             Timber.i("Sync canceled, connection not available");
             AndroidComponentHelper.toggleComponent(this, SyncOnConnectionAvailable.class, true);
             stopSelf(startId);
@@ -57,13 +58,13 @@ public class SyncService extends Service{
 
         if (mSubscription != null && !mSubscription.isUnsubscribed()) mSubscription.unsubscribe();
         mSubscription = mDataManager.syncServices()
-                .subscribeOn(Schedulers.newThread())
+                .subscribeOn(Schedulers.io())
                 .retry()
                 .subscribe(new Observer<ServiceGroup>() {
                     @Override
                     public void onCompleted() {
                         DataHolder.getInstance().setServiceList(serviceGroups);
-                        Intent intent = new Intent(mContext, MainActivity.class);
+                        Intent intent = LoginActivity.newStartIntent(mContext);
                         mContext.startActivity(intent);
                         Timber.i("Synced successfully!");
                         stopSelf(startId);
@@ -99,7 +100,7 @@ public class SyncService extends Service{
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals(ConnectivityManager.CONNECTIVITY_ACTION)
-                    && NetworkHelper.isNetworkConnected(context)) {
+                    && NetworkUtil.isNetworkConnected(context)) {
                 Timber.i("Connection is now available, triggering sync...");
                 AndroidComponentHelper.toggleComponent(context, this.getClass(), false);
                 context.startService(getStartIntent(context));

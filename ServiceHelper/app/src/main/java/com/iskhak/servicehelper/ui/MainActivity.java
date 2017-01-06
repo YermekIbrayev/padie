@@ -1,5 +1,6 @@
 package com.iskhak.servicehelper.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -13,7 +14,10 @@ import com.iskhak.servicehelper.R;
 
 public class MainActivity extends BaseActivity {
 
-
+    public static Intent newStartIntent(Context context) {
+        Intent intent = new Intent(context, MainActivity.class);
+        return intent;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

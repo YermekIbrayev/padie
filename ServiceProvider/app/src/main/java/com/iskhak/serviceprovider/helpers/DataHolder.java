@@ -61,13 +61,11 @@ public class DataHolder {
             totalRequestsList.add(request);
         }*/
     }
-
-    public void setToken(TokenModel token){
-        this.token = token;
-    }
-
     public TokenModel getToken(){
         return token;
+    }
+    public void setToken(TokenModel token){
+        this.token = token;
     }
 
     public boolean isRunning(){

@@ -11,6 +11,8 @@ import com.iskhak.servicehelper.data.model.SelectedItemsAdd;
 import com.iskhak.servicehelper.data.model.SelectedItemsAddExtra;
 import com.iskhak.servicehelper.data.model.ServiceGroup;
 import com.iskhak.servicehelper.data.model.ServiceItem;
+import com.iskhak.servicehelper.data.model.TokenModel;
+import com.iskhak.servicehelper.extra.Constants;
 import com.iskhak.servicehelper.extra.TotalServiceList;
 import com.iskhak.servicehelper.extra.UserPreferences;
 import com.iskhak.servicehelper.data.model.dbServiceItem;
@@ -32,10 +34,6 @@ import timber.log.Timber;
 
 public class DataHolder {
 
-    public static final String TAG="PADIE";
-    public final static String URL_ADDRESS = "http://padie.hopto.org:8080/CrunchifyTutorials/api/";
-    public final static String TOTAL_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ssZ";
-
     private int mainSelectionPID;
     private String currentServiceName;
     private String mainQuestionText;
@@ -50,6 +48,7 @@ public class DataHolder {
     private List<SelectedItemsAdd> selectedItemsAddList = new ArrayList<>();
     private List<SelectedItemsAddExtra> selectedItemsAddExtraList = new ArrayList<>();
     private PackageModel order;
+    private TokenModel token;
 
     private UserPreferences userPreferences;
 
@@ -66,7 +65,7 @@ public class DataHolder {
     }
 
     public String getOrderDate() {
-        String dateFormat = TOTAL_DATE_FORMAT;
+        String dateFormat = Constants.DATE_TIME_FORMAT;
         SimpleDateFormat sdf = new SimpleDateFormat(dateFormat, Locale.US);
         return sdf.format(orderDate);
     }
@@ -187,6 +186,13 @@ public class DataHolder {
                 .build();
         this.order = result;
         return result;
+    }
+
+    public TokenModel getToken(){
+        return token;
+    }
+    public void setToken(TokenModel token){
+        this.token = token;
     }
 
     public PackageModel getOrder(){

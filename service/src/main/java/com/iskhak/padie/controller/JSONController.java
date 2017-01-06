@@ -55,10 +55,8 @@ public class JSONController {
 	
 	// client 
 	@RequestMapping(value="/serviceList", method = RequestMethod.GET, produces = "application/json")
-	public ResponseEntity<?> getServiceListJSON(@RequestHeader(Constants.TOKEN_HEADER) String token){
-		if(validateByToken(token)==-1){
-			return new ResponseEntity<String>(Constants.UNAUTHORIZED, HttpStatus.UNAUTHORIZED);
-		}
+	public ResponseEntity<?> getServiceListJSON(){
+
 		return ResponseEntity.ok(serviceItemDAO.list());
 	} 
 	
