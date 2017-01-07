@@ -56,10 +56,7 @@ public abstract class PackageModel {
 
     @Override
     public boolean equals(Object o){
-        if(o instanceof PackageModel && ((PackageModel)o).id()==this.id()){
-            return true;
-        }
-        return false;
+        return o instanceof PackageModel && ((PackageModel) o).id() == this.id();
     }
 
     @Override

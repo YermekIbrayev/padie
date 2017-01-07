@@ -1,12 +1,10 @@
 package com.iskhak.serviceprovider.injection.component;
 
-import android.app.Fragment;
-
 import com.iskhak.serviceprovider.injection.PerActivity;
 import com.iskhak.serviceprovider.injection.module.ActivityModule;
 import com.iskhak.serviceprovider.ui.FullOrderFragment;
 import com.iskhak.serviceprovider.ui.JobsTab;
-import com.iskhak.serviceprovider.ui.LoginActivity;
+import com.iskhak.serviceprovider.ui.login.LoginActivity;
 import com.iskhak.serviceprovider.ui.RequestsTab;
 
 import dagger.Subcomponent;

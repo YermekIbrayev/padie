@@ -1,4 +1,4 @@
-package com.iskhak.serviceprovider.ui;
+package com.iskhak.serviceprovider.ui.login;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -8,14 +8,12 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 
 import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.AsyncTask;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -23,11 +21,9 @@ import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -43,6 +39,8 @@ import com.iskhak.serviceprovider.helpers.AndroidComponentUtil;
 import com.iskhak.serviceprovider.helpers.DataHolder;
 import com.iskhak.serviceprovider.helpers.NetworkUtil;
 import com.iskhak.serviceprovider.helpers.RxUtil;
+import com.iskhak.serviceprovider.ui.BaseActivity;
+import com.iskhak.serviceprovider.ui.MainActivity;
 
 import javax.inject.Inject;
 
@@ -209,9 +207,15 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
         }
     }
 
+    @OnClick(R.id.login_registration_button)
+    void onRegistrationClick(){
+        Intent intent = RegistrationActivity.newStartIntent(mContext);
+        mContext.startActivity(intent);
+    }
+
     private boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic
-        return true; //email.contains("@");
+        return email.contains("@");
     }
 
     private boolean isPasswordValid(String password) {
@@ -331,7 +335,7 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
                 .subscribe(new Observer<Response<TokenModel>>() {
                     @Override
                     public void onCompleted() {
-
+                        RxUtil.unsubscribe(mSubscription);
                     }
 
                     @Override
@@ -341,12 +345,13 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
 
                     @Override
                     public void onNext(Response<TokenModel> token) {
-                        Timber.d("onNext %s", token.code());
-                        Timber.d(token.body().token());
-                        showProgress(false);
+                        if(token.body()!=null)
+                            Timber.d(token.body().token());
+                        //showProgress(false);
                         if(token.code()!=200){
                             Timber.d("response bad");
                             mPasswordView.setError(getString(R.string.error_incorrect_password));
+                            mPasswordView.requestFocus();
                         } else{
                             Timber.d("response ok");
                             DataHolder.getInstance().setToken(token.body());

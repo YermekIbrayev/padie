@@ -18,9 +18,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.MainActivity">
-
-        </activity>
+        <activity android:name=".ui.MainActivity"></activity>
         <activity android:name=".ui.BaseActivity" />
 
         <service android:name=".data.SyncService" />
@@ -38,13 +36,15 @@
         <activity android:name=".ui.menu.BasicSettingsActivity" />
         <activity android:name=".ui.menu.PromotionsActivity" />
         <activity
-            android:name=".ui.LoginActivity"
+            android:name=".ui.login.LoginActivity"
             android:label="@string/title_activity_login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.login.RegistrationActivity"></activity>
     </application>
 
 </manifest>

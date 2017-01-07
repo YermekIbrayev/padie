@@ -33,7 +33,7 @@ public class JobsAdapter extends ArrayAdapter {
             row.setTag(holder);
         } else {
             holder = (RequestHolder) convertView.getTag();
-        };
+        }
         holder.setViewsText(jobsList.get(position));
 
         return row;
