@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -13,7 +12,7 @@ import com.iskhak.servicehelper.R;
 import com.iskhak.servicehelper.data.DataManager;
 import com.iskhak.servicehelper.data.model.PackageModel;
 import com.iskhak.servicehelper.helpers.DataHolder;
-import com.iskhak.servicehelper.helpers.DialogFactory;
+import com.iskhak.servicehelper.ui.base.BaseActivity;
 
 import javax.inject.Inject;
 

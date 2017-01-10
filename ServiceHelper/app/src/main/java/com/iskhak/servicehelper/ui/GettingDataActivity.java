@@ -1,10 +1,9 @@
 package com.iskhak.servicehelper.ui;
 
-import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.iskhak.servicehelper.R;
+import com.iskhak.servicehelper.ui.base.BaseActivity;
 
 public class GettingDataActivity extends BaseActivity {
 

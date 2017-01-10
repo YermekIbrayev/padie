@@ -2,6 +2,7 @@ package com.iskhak.servicehelper.data;
 
 import com.iskhak.servicehelper.data.model.LoginInfo;
 import com.iskhak.servicehelper.data.model.PackageModel;
+import com.iskhak.servicehelper.data.model.Provider;
 import com.iskhak.servicehelper.data.model.SelectedItems;
 import com.iskhak.servicehelper.data.model.SelectedItemsAdd;
 import com.iskhak.servicehelper.data.model.SelectedItemsAddExtra;
@@ -25,7 +26,7 @@ import timber.log.Timber;
 @Singleton
 public class DataManager {
 
-    private ConnectionService mConnectionService;
+    private final ConnectionService mConnectionService;
 
     @Inject
     public DataManager(ConnectionService connectionService){
@@ -34,6 +35,11 @@ public class DataManager {
 
     public Observable<Response<TokenModel>> register(LoginInfo loginInfo){
         return mConnectionService.registration(loginInfo);
+    }
+
+    public Observable<List<Provider>> getProviders(){
+        String token = DataHolder.getInstance().getToken().token();
+        return mConnectionService.getProviders(token);
     }
 
     public Observable<ServiceGroup> syncServices(){
@@ -98,4 +104,6 @@ public class DataManager {
     public Observable<Response<TokenModel>> login(LoginInfo loginInfo){
         return mConnectionService.login(loginInfo);
     }
+
+
 }

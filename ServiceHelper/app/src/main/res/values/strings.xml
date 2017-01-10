@@ -49,4 +49,8 @@
         completions."
     </string>
     <string name="prompt_username">Username</string>
+    <string name="title_activity_main2">Main2Activity</string>
+
+    <string name="error_no_providers">There are no providers.</string>
+    <string name="error_loading_providers">There was a problem loading the providers.</string>
 </resources>

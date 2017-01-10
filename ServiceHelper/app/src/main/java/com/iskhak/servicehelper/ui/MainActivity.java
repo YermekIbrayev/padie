@@ -7,9 +7,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import com.iskhak.servicehelper.data.SyncService;
 import com.iskhak.servicehelper.helpers.DataHolder;
 import com.iskhak.servicehelper.R;
+import com.iskhak.servicehelper.ui.base.BaseActivity;
 
 
 public class MainActivity extends BaseActivity {

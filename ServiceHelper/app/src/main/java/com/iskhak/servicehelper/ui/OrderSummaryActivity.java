@@ -1,11 +1,10 @@
 package com.iskhak.servicehelper.ui;
 
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
 import com.iskhak.servicehelper.R;
+import com.iskhak.servicehelper.ui.base.BaseActivity;
 
 public class OrderSummaryActivity extends BaseActivity {
 

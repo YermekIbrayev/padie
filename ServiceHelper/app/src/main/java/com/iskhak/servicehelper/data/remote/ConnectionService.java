@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.iskhak.servicehelper.data.model.LoginInfo;
 import com.iskhak.servicehelper.data.model.PackageModel;
+import com.iskhak.servicehelper.data.model.Provider;
 import com.iskhak.servicehelper.data.model.ServiceGroup;
 import com.iskhak.servicehelper.data.model.TokenModel;
 import com.iskhak.servicehelper.extra.Constants;
@@ -33,6 +34,7 @@ public interface ConnectionService {
     String GET_ORDERS_PRICE = "getOrderPrice";
     String LOGIN_PAGE = "login";
     String REGISTRATION_PAGE = "register";
+    String PROVIDERS_PAGE = "providers";
 
     @GET(SERVICE_LIST)
     Observable<List<ServiceGroup>> getServices();
@@ -52,6 +54,10 @@ public interface ConnectionService {
 
     @POST(REGISTRATION_PAGE)
     Observable<Response<TokenModel>> registration(@Body LoginInfo loginInfo);
+
+    @GET(PROVIDERS_PAGE)
+    Observable<List<Provider>> getProviders(
+            @Header(Constants.TOKEN_HEADER) String token);
 
     class Creator{
 

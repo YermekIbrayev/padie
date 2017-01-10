@@ -10,8 +10,8 @@ import com.iskhak.servicehelper.helpers.DataHolder;
 import com.iskhak.servicehelper.R;
 import com.iskhak.servicehelper.data.model.ServiceGroup;
 import com.iskhak.servicehelper.extra.ServiceGroupAdapter;
+import com.iskhak.servicehelper.ui.base.BaseActivity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class HomeResidence extends BaseActivity {

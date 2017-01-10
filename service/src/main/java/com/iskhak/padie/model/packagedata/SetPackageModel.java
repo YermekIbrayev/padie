@@ -46,6 +46,8 @@ public class SetPackageModel {
 	private long providerID;
 	@Column(nullable = true)
 	private Float price;
+	@Column(nullable = true)
+	private Float rating;
 	
 	@OneToMany(mappedBy="packageModel", cascade = CascadeType.ALL)
 	@LazyCollection(LazyCollectionOption.FALSE)
@@ -155,6 +157,14 @@ public class SetPackageModel {
 
 	public void setSelectedItemsAddExtra(List<SetSelectedItemsAddExtra> selectedItemsAddExtra) {
 		this.selectedItemsAddExtra = selectedItemsAddExtra;
+	}
+	
+	public Float getRating(){
+		return rating;
+	}
+	
+	public void setRating(Float rating){
+		this.rating = rating;
 	}
 	
 	@Override

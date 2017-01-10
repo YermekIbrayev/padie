@@ -9,6 +9,7 @@ import com.iskhak.servicehelper.helpers.DataHolder;
 import com.iskhak.servicehelper.R;
 import com.iskhak.servicehelper.data.model.ServiceItem;
 import com.iskhak.servicehelper.extra.ServiceItemAdapter;
+import com.iskhak.servicehelper.ui.base.BaseActivity;
 
 import java.util.List;
 

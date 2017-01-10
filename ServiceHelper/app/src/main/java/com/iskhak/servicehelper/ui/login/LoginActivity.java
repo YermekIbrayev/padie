@@ -35,7 +35,7 @@ import com.iskhak.servicehelper.helpers.AndroidComponentUtil;
 import com.iskhak.servicehelper.helpers.DataHolder;
 import com.iskhak.servicehelper.helpers.NetworkUtil;
 import com.iskhak.servicehelper.helpers.RxUtil;
-import com.iskhak.servicehelper.ui.BaseActivity;
+import com.iskhak.servicehelper.ui.base.BaseActivity;
 import com.iskhak.servicehelper.ui.MainActivity;
 
 import java.util.ArrayList;

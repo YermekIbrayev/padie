@@ -13,7 +13,7 @@ import com.iskhak.servicehelper.data.model.TokenModel;
 import com.iskhak.servicehelper.helpers.DataHolder;
 import com.iskhak.servicehelper.helpers.DialogFactory;
 import com.iskhak.servicehelper.helpers.RxUtil;
-import com.iskhak.servicehelper.ui.BaseActivity;
+import com.iskhak.servicehelper.ui.base.BaseActivity;
 import com.iskhak.servicehelper.ui.MainActivity;
 
 import javax.inject.Inject;

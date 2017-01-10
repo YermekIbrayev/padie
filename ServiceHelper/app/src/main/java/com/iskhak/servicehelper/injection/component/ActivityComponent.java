@@ -4,6 +4,7 @@ import com.iskhak.servicehelper.injection.PerActivity;
 import com.iskhak.servicehelper.injection.module.ActivityModule;
 import com.iskhak.servicehelper.ui.CleaningAddressActivity;
 import com.iskhak.servicehelper.ui.EstimatedOrderActivity;
+import com.iskhak.servicehelper.ui.chooseprovider.ChooseProviderActivity;
 import com.iskhak.servicehelper.ui.login.LoginActivity;
 import com.iskhak.servicehelper.ui.login.RegistrationActivity;
 
@@ -18,4 +19,5 @@ public interface ActivityComponent {
     void inject(EstimatedOrderActivity estimatedOrderActivity);
     void inject(LoginActivity loginActivity);
     void inject(RegistrationActivity registrationActivity);
+    void inject(ChooseProviderActivity chooseProviderActivity);
 }

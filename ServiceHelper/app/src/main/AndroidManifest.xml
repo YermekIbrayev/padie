@@ -6,7 +6,6 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
-
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
@@ -33,7 +32,7 @@
         <activity android:name=".ui.MainSelectionActivity" />
         <activity android:name=".ui.ExtraSelectionActivity" />
         <activity android:name=".ui.CleaningAddressActivity" />
-        <activity android:name=".ui.BaseActivity" />
+        <activity android:name=".ui.base.BaseActivity" />
         <activity android:name=".ui.MainActivity" />
         <activity android:name=".ui.menu.ProfileActivity" />
         <activity android:name=".ui.menu.PaymentActivity" />
@@ -44,14 +43,16 @@
         <activity android:name=".ui.EstimatedOrderActivity" />
         <activity
             android:name=".ui.GettingDataActivity"
-            android:noHistory="true"></activity>
-        <activity android:name=".ui.OrderSummaryActivity"></activity>
+            android:noHistory="true" />
+        <activity android:name=".ui.OrderSummaryActivity" />
         <activity
             android:name=".ui.login.LoginActivity"
-            android:label="@string/title_activity_login">
-        </activity>
-        <activity android:name=".ui.login.RegistrationActivity"></activity>
-        <service android:name=".data.SyncService"/>
+            android:label="@string/title_activity_login" />
+        <activity android:name=".ui.login.RegistrationActivity" />
+
+        <service android:name=".data.SyncService" />
+
+        <activity android:name=".ui.chooseprovider.ChooseProviderActivity"></activity>
     </application>
 
 </manifest>
