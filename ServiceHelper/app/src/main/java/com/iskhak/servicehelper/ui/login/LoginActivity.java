@@ -1,4 +1,4 @@
-package com.iskhak.servicehelper.ui;
+package com.iskhak.servicehelper.ui.login;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -35,6 +35,8 @@ import com.iskhak.servicehelper.helpers.AndroidComponentUtil;
 import com.iskhak.servicehelper.helpers.DataHolder;
 import com.iskhak.servicehelper.helpers.NetworkUtil;
 import com.iskhak.servicehelper.helpers.RxUtil;
+import com.iskhak.servicehelper.ui.BaseActivity;
+import com.iskhak.servicehelper.ui.MainActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -209,6 +211,12 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
         }
     }
 
+    @OnClick(R.id.login_registration_button)
+    void onRegistrationClick(){
+        Intent intent = RegistrationActivity.newStartIntent(mContext);
+        mContext.startActivity(intent);
+    }
+
     private boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic
         return true; //email.contains("@");
@@ -292,7 +300,7 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
     private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
         //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
         ArrayAdapter<String> adapter =
-                new ArrayAdapter<>(LoginActivity.this,
+                new ArrayAdapter<>(mContext,
                         android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
 
         mEmailView.setAdapter(adapter);

@@ -152,6 +152,10 @@ public class DataManager {
         return mConnectionService.login(loginInfo);
     }
 
+    public Observable<Response<TokenModel>> register(LoginInfo loginInfo){
+        return mConnectionService.registration(loginInfo);
+    }
+
     public String getAndroidId(){
         return androidId;
     }

@@ -32,6 +32,10 @@ public class DataManager {
         mConnectionService = connectionService;
     }
 
+    public Observable<Response<TokenModel>> register(LoginInfo loginInfo){
+        return mConnectionService.registration(loginInfo);
+    }
+
     public Observable<ServiceGroup> syncServices(){
         return mConnectionService.getServices()
                 .concatMap(new Func1<List<ServiceGroup>, Observable<? extends ServiceGroup>>() {

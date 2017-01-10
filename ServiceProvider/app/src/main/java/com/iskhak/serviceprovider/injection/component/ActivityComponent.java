@@ -6,6 +6,7 @@ import com.iskhak.serviceprovider.ui.FullOrderFragment;
 import com.iskhak.serviceprovider.ui.JobsTab;
 import com.iskhak.serviceprovider.ui.login.LoginActivity;
 import com.iskhak.serviceprovider.ui.RequestsTab;
+import com.iskhak.serviceprovider.ui.login.RegistrationActivity;
 
 import dagger.Subcomponent;
 
@@ -16,6 +17,7 @@ import dagger.Subcomponent;
 @Subcomponent(modules = ActivityModule.class)
 public interface ActivityComponent {
 
+    void inject(RegistrationActivity registrationActivity);
     void inject(LoginActivity loginActivity);
     void inject(RequestsTab requestsTab);
     void inject(JobsTab requestsTab);

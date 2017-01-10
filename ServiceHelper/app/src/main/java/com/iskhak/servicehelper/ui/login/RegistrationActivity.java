@@ -1,4 +1,4 @@
-package com.iskhak.serviceprovider.ui.login;
+package com.iskhak.servicehelper.ui.login;
 
 import android.content.Context;
 import android.content.Intent;
@@ -6,15 +6,15 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.TextView;
 
-import com.iskhak.serviceprovider.R;
-import com.iskhak.serviceprovider.data.DataManager;
-import com.iskhak.serviceprovider.data.model.LoginInfo;
-import com.iskhak.serviceprovider.data.model.TokenModel;
-import com.iskhak.serviceprovider.helpers.DataHolder;
-import com.iskhak.serviceprovider.helpers.DialogFactory;
-import com.iskhak.serviceprovider.helpers.RxUtil;
-import com.iskhak.serviceprovider.ui.BaseActivity;
-import com.iskhak.serviceprovider.ui.MainActivity;
+import com.iskhak.servicehelper.R;
+import com.iskhak.servicehelper.data.DataManager;
+import com.iskhak.servicehelper.data.model.LoginInfo;
+import com.iskhak.servicehelper.data.model.TokenModel;
+import com.iskhak.servicehelper.helpers.DataHolder;
+import com.iskhak.servicehelper.helpers.DialogFactory;
+import com.iskhak.servicehelper.helpers.RxUtil;
+import com.iskhak.servicehelper.ui.BaseActivity;
+import com.iskhak.servicehelper.ui.MainActivity;
 
 import javax.inject.Inject;
 

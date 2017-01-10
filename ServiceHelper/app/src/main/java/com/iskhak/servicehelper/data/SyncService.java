@@ -12,8 +12,7 @@ import com.iskhak.servicehelper.data.model.ServiceGroup;
 import com.iskhak.servicehelper.helpers.AndroidComponentHelper;
 import com.iskhak.servicehelper.helpers.DataHolder;
 import com.iskhak.servicehelper.helpers.NetworkUtil;
-import com.iskhak.servicehelper.ui.LoginActivity;
-import com.iskhak.servicehelper.ui.MainActivity;
+import com.iskhak.servicehelper.ui.login.LoginActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +21,6 @@ import javax.inject.Inject;
 
 import rx.Observer;
 import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
