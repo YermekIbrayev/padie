@@ -1,4 +1,4 @@
-package com.iskhak.servicehelper.extra;
+package com.iskhak.servicehelper.ui;
 
 import android.content.Context;
 import android.view.LayoutInflater;

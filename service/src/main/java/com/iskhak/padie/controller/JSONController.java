@@ -167,10 +167,14 @@ public class JSONController {
 		return ResponseEntity.ok(new JwtAuthenticationResponse(token));
 	}
 	
+	//client
 	@RequestMapping(value="/getProviders", method=RequestMethod.GET, produces="application/json")
-	ResponseEntity<?> getProviders(){
-		providerDAO.list();
-		return ResponseEntity.ok("");
+	ResponseEntity<?> getProviders(@RequestHeader(Constants.TOKEN_HEADER) String token){
+		Long clientId = validateByToken(token);
+		if(clientId ==-1){
+			return new ResponseEntity<String>(Constants.UNAUTHORIZED, HttpStatus.UNAUTHORIZED);
+		}
+		return ResponseEntity.ok(providerDAO.list());
 	}
 	
 	///----------------- helper functions -------------------------

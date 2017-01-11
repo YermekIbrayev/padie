@@ -1,4 +1,4 @@
-package com.iskhak.servicehelper.ui;
+package com.iskhak.servicehelper.data.model;
 
 import com.iskhak.servicehelper.data.model.dbServiceItem;
 

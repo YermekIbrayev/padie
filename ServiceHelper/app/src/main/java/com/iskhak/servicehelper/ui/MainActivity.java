@@ -16,6 +16,7 @@ public class MainActivity extends BaseActivity {
 
     public static Intent newStartIntent(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         return intent;
     }
 
@@ -28,8 +29,6 @@ public class MainActivity extends BaseActivity {
         Typeface arcater= Typeface.createFromAsset(getAssets(),  "fonts/ARCARTER.ttf");
         titleTextView.setTypeface(arcater);
         titleTextView.setTextSize(30.0f);
-
-
     }
 
     public void gotoResidence(View view){

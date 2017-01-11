@@ -8,7 +8,6 @@ import android.widget.TextView;
 import com.iskhak.servicehelper.helpers.DataHolder;
 import com.iskhak.servicehelper.R;
 import com.iskhak.servicehelper.data.model.ServiceItem;
-import com.iskhak.servicehelper.extra.ServiceItemAdapter;
 import com.iskhak.servicehelper.ui.base.BaseActivity;
 
 import java.util.List;
@@ -17,7 +16,7 @@ public abstract class SelectionActivity extends BaseActivity {
 
     ServiceItemAdapter dataAdapter;
     List<ServiceItem> serviceList;
-    enum State  {SELECTION, EXTRA};
+    enum State  {SELECTION, EXTRA}
     State currentState;
 
     @Override

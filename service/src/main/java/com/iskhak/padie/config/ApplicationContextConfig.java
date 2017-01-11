@@ -49,6 +49,7 @@ import com.iskhak.padie.model.packagedata.SetSelectedItemsAdd;
 import com.iskhak.padie.model.packagedata.SetSelectedItemsAddExtra;
 import com.iskhak.padie.model.packagedata.ViewedPackage;
 import com.iskhak.padie.model.security.Authority;
+import com.iskhak.padie.model.security.Provider;
 import com.iskhak.padie.model.security.User;
 
 
@@ -111,6 +112,7 @@ public class ApplicationContextConfig {
     	sessionBuilder.addAnnotatedClasses(SetSelectedItemsAdd.class);
     	sessionBuilder.addAnnotatedClasses(SetSelectedItemsAddExtra.class);
     	sessionBuilder.addAnnotatedClasses(ViewedPackage.class);
+    	sessionBuilder.addAnnotatedClasses(Provider.class);
     	return sessionBuilder.buildSessionFactory();
     }
     

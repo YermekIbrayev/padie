@@ -1,11 +1,10 @@
 package com.iskhak.padie.dao;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -21,26 +20,18 @@ public class ProviderDAOImpl implements ProviderDAO{
 	@Override
 	@Transactional 
 	public List<Provider> list() {
-		String hql = "select u.id, u.username, avg(p.rating)  from User u" +
-						"left join SetPackageModel p on u.id = p.providerID group by u.id";
-		
-	Iterator<?> providerQuery = sessionFactory.getCurrentSession()
-			.createQuery(hql)
-	            .list()
-	            .iterator();
-
-	List<Provider> providers = new ArrayList<>();
-	
-	while ( providerQuery.hasNext() ) {
-	    Object[] row = (Object[]) providerQuery.next();
-	    Provider provider = new Provider(
-	    		(Long)row[0], 
-	    		(String) row[1], 
-	    		(Float) row[2]);
-	    
-	    System.out.println("provider: " + provider.getName() + " rating:"+provider.getRating());
-	    providers.add(provider);
-	}
+		try{
+			@SuppressWarnings("unchecked")
+			List<Provider> providers = (List<Provider>) sessionFactory.getCurrentSession()
+					.getNamedQuery("callRatedProviders")
+					.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
+					.list();
+		    
+		    System.out.println("providers size: " + providers.size());
+		    return providers;
+		} catch(Exception e){
+			e.printStackTrace();
+		}
 		return null;
 	}
 

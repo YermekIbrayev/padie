@@ -1,27 +1,29 @@
-package com.iskhak.servicehelper.extra;
+package com.iskhak.servicehelper.data.model;
 
 import com.iskhak.servicehelper.data.model.ServiceGroup;
 import com.iskhak.servicehelper.data.model.dbServiceItem;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class TotalServiceList {
-    private List<ServiceGroup> serviceGroups = new ArrayList<>();
+    private Map<Integer, ServiceGroup> serviceGroups = new HashMap<>();
     private List<dbServiceItem> mainQuestions = new ArrayList<>();
     private List<dbServiceItem> extraQuestions = new ArrayList<>();
 
-    public TotalServiceList(List<ServiceGroup> serviceGroups, List<dbServiceItem> mainQuestions, List<dbServiceItem> extraQuestions){
+    public TotalServiceList(Map<Integer, ServiceGroup> serviceGroups, List<dbServiceItem> mainQuestions, List<dbServiceItem> extraQuestions){
         this.serviceGroups = serviceGroups;
         this.mainQuestions = mainQuestions;
         this.extraQuestions = extraQuestions;
     }
 
-    public List<ServiceGroup> getServiceGroups() {
+    public Map<Integer,ServiceGroup> getServiceGroups() {
         return serviceGroups;
     }
 
-    public void setServiceGroups(ArrayList<ServiceGroup> serviceGroups) {
+    public void setServiceGroups(Map<Integer, ServiceGroup> serviceGroups) {
         this.serviceGroups = serviceGroups;
     }
 

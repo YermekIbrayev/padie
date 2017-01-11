@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.iskhak.servicehelper.R;
 import com.iskhak.servicehelper.data.model.Provider;
+import com.iskhak.servicehelper.helpers.DataHolder;
 import com.iskhak.servicehelper.helpers.DialogFactory;
 import com.iskhak.servicehelper.ui.base.BaseActivity;
 
@@ -18,6 +19,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 public class ChooseProviderActivity extends BaseActivity implements ChooseProviderMvpView, ProvidersAdapter.Callback{
 
@@ -84,6 +86,8 @@ public class ChooseProviderActivity extends BaseActivity implements ChooseProvid
         if(mCallback!=null){
             mCallback.onProviderSelected(provider);
         }
+        DataHolder.getInstance().setProvider(provider);
+        startActivity(ProviderActivity.getStartIntent(this));
     }
 
     /******* Callback ***********/

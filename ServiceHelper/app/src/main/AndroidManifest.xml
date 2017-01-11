@@ -41,9 +41,6 @@
         <activity android:name=".ui.menu.BasicSettingsActivity" />
         <activity android:name=".ui.menu.PromotionsActivity" />
         <activity android:name=".ui.EstimatedOrderActivity" />
-        <activity
-            android:name=".ui.GettingDataActivity"
-            android:noHistory="true" />
         <activity android:name=".ui.OrderSummaryActivity" />
         <activity
             android:name=".ui.login.LoginActivity"
@@ -52,7 +49,8 @@
 
         <service android:name=".data.SyncService" />
 
-        <activity android:name=".ui.chooseprovider.ChooseProviderActivity"></activity>
+        <activity android:name=".ui.chooseprovider.ChooseProviderActivity" />
+        <activity android:name=".ui.chooseprovider.ProviderActivity"></activity>
     </application>
 
 </manifest>

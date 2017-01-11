@@ -7,8 +7,7 @@ import com.iskhak.servicehelper.data.model.PackageModel;
 import com.iskhak.servicehelper.data.model.Provider;
 import com.iskhak.servicehelper.data.model.ServiceGroup;
 import com.iskhak.servicehelper.data.model.TokenModel;
-import com.iskhak.servicehelper.extra.Constants;
-import com.iskhak.servicehelper.helpers.DataHolder;
+import com.iskhak.servicehelper.helpers.Constants;
 import com.iskhak.servicehelper.helpers.MyGsonTypeAdapterFactory;
 
 import java.util.List;
@@ -23,7 +22,6 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
-import retrofit2.http.PUT;
 import rx.Observable;
 
 public interface ConnectionService {
@@ -34,7 +32,7 @@ public interface ConnectionService {
     String GET_ORDERS_PRICE = "getOrderPrice";
     String LOGIN_PAGE = "login";
     String REGISTRATION_PAGE = "register";
-    String PROVIDERS_PAGE = "providers";
+    String PROVIDERS_PAGE = "getProviders";
 
     @GET(SERVICE_LIST)
     Observable<List<ServiceGroup>> getServices();

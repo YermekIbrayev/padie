@@ -69,10 +69,12 @@ public class ProvidersAdapter extends RecyclerView.Adapter<ProvidersAdapter.Prov
 
         public void setProvider(final Provider provider){
             this.provider = provider;
+            companyNameTV.setText(provider.name());
+            ratingBar.setRating(provider.rating());
 
         }
 
-        @OnClick(R.id.provider_card_view)
+        @OnClick(R.id.choose_provider_card_view)
         void onProviderCardViewClicked(){
             if(mCallback!=null)
                 mCallback.onProviderClicked(provider);

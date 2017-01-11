@@ -20,6 +20,8 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:imeOptions="actionNext"
+        android:inputType="text"
         android:id="@+id/addressEdit"
         android:layout_weight="0"
         android:background="@drawable/default_button"/>
@@ -42,6 +44,7 @@
             android:id="@+id/dateEdit"
             android:layout_gravity="bottom"
             android:background="@drawable/default_button"
+            android:imeOptions="actionNext"
             android:layout_marginLeft="@dimen/activity_vertical_margin"
             android:onClick="onDateClick"
             android:focusable="false"
@@ -51,6 +54,7 @@
             android:layout_height="wrap_content"
             android:inputType="time"
             android:layout_marginLeft="@dimen/activity_vertical_margin"
+            android:imeOptions="actionNext"
             android:background="@drawable/default_button"
             android:ems="10"
             android:id="@+id/timeEdit"
@@ -67,14 +71,16 @@
         android:layout_height="wrap_content"
         android:textSize="20sp"
         android:text="@string/notes"/>
-    <EditText
-        android:id="@+id/orderNotesEdit"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:lines="4"
-        android:background="@drawable/default_button"/>
+        <com.iskhak.servicehelper.ui.views.MultiLineEditView
+            android:id="@+id/orderNotesEdit"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:imeActionId="@+id/next"
+            android:imeActionLabel="@string/action_next_short"
+            android:imeOptions="actionUnspecified"
 
+            android:background="@drawable/default_button"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -86,11 +92,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Back"
-            android:layout_weight="0"
-            android:onClick="onBackButton"/>
-
-
-
+            android:layout_weight="0"/>
 
 
         <TextView
@@ -103,8 +105,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Next"
-            android:layout_weight="0"
-            android:onClick="onNextButton"/>
+            android:layout_weight="0"/>
     </LinearLayout>
 
 </LinearLayout>
