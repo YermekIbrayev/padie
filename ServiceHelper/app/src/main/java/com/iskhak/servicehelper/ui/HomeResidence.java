@@ -9,15 +9,15 @@ import android.widget.TextView;
 import com.iskhak.servicehelper.helpers.DataHolder;
 import com.iskhak.servicehelper.R;
 import com.iskhak.servicehelper.data.model.ServiceGroup;
-import com.iskhak.servicehelper.extra.ServiceGroupAdapter;
+import com.iskhak.servicehelper.ui.base.BaseActivity;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class HomeResidence extends BaseActivity {
     Context context;
     ServiceGroupAdapter dataAdapter;
-    List<ServiceGroup> serviceGroupNames;
+    Map<Integer, ServiceGroup> serviceGroupNames;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

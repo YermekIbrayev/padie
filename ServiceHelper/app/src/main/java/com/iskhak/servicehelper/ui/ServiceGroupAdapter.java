@@ -1,4 +1,4 @@
-package com.iskhak.servicehelper.extra;
+package com.iskhak.servicehelper.ui;
 
 import android.content.Context;
 import android.content.Intent;
@@ -17,6 +17,7 @@ import com.iskhak.servicehelper.ui.MainSelectionActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -29,11 +30,11 @@ public class ServiceGroupAdapter extends ArrayAdapter implements View.OnClickLis
 
     Button classItemButton;
 
-    public ServiceGroupAdapter(Context context, int resource, List<ServiceGroup> serviceClassNames) {
-        super(context, resource, serviceClassNames);
+    public ServiceGroupAdapter(Context context, int resource, Map<Integer, ServiceGroup> serviceClassNames) {
+        super(context, resource, new ArrayList<>(serviceClassNames.values()));
         this.context = context;
         this.serviceGroupsNames = new ArrayList<>();
-        this.serviceGroupsNames.addAll(serviceClassNames);
+        this.serviceGroupsNames.addAll(new ArrayList<>(serviceClassNames.values()));
     }
 
     @Override

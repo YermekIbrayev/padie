@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.iskhak.padie.config.Constants;
 import com.iskhak.padie.dao.PackageModelDAO;
+import com.iskhak.padie.dao.ProviderDAO;
 import com.iskhak.padie.dao.SelectedAddDAO;
 import com.iskhak.padie.dao.ServiceItemDAO;
 import com.iskhak.padie.dao.UserDAO;
@@ -48,6 +49,8 @@ public class JSONController {
 	private PackageModelDAO packageModelDAO;
 	@Autowired
 	private UserDAO userDAO;
+	@Autowired
+	private ProviderDAO providerDAO;
 	@Autowired
 	private JwtTokenUtil jwtTokenUtil; 
     @Autowired
@@ -162,6 +165,16 @@ public class JSONController {
 		JwtAuthenticationRequest authenticationRequest = new JwtAuthenticationRequest(user.getEmail(), password);
 		final String token = userDAO.login(authenticationRequest);
 		return ResponseEntity.ok(new JwtAuthenticationResponse(token));
+	}
+	
+	//client
+	@RequestMapping(value="/getProviders", method=RequestMethod.GET, produces="application/json")
+	ResponseEntity<?> getProviders(@RequestHeader(Constants.TOKEN_HEADER) String token){
+		Long clientId = validateByToken(token);
+		if(clientId ==-1){
+			return new ResponseEntity<String>(Constants.UNAUTHORIZED, HttpStatus.UNAUTHORIZED);
+		}
+		return ResponseEntity.ok(providerDAO.list());
 	}
 	
 	///----------------- helper functions -------------------------

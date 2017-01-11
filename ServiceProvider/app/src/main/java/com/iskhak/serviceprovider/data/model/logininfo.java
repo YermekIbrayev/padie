@@ -8,7 +8,13 @@ import com.google.gson.TypeAdapter;
 
 @AutoValue
 public abstract class LoginInfo {
+    @Nullable
+    public abstract String username();
     public abstract String email();
+    @Nullable
+    public abstract String firstname();
+    @Nullable
+    public abstract String lastname();
     public abstract String password();
 
     public static Builder builder(){
@@ -21,7 +27,10 @@ public abstract class LoginInfo {
 
     @AutoValue.Builder
     public abstract static class Builder{
+        public abstract Builder setUsername(String username);
         public abstract Builder setEmail(String email);
+        public abstract Builder setFirstname(String firstname);
+        public abstract Builder setLastname(String lastname);
         public abstract Builder setPassword(String password);
         public abstract LoginInfo build();
     }

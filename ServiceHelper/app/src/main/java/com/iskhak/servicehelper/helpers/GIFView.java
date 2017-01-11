@@ -1,4 +1,4 @@
-package com.iskhak.servicehelper.extra;
+package com.iskhak.servicehelper.helpers;
 
 import java.io.InputStream;
 import android.content.Context;

@@ -44,21 +44,22 @@
         />
 
     <Button
+        android:id="@+id/order_summary_submit_button"
         android:text="@string/finish"
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:layout_gravity="center_horizontal"
         android:background="@drawable/default_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="onCancelButton"
         />
     <Button
+        android:id="@+id/order_summary_cancel_button"
         android:text="@string/cancel"
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:layout_gravity="center_horizontal"
         android:background="@drawable/cancel_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="onFinishButton"/>
+        />
 
 </LinearLayout>

@@ -1,4 +1,4 @@
-package com.iskhak.servicehelper.ui;
+package com.iskhak.servicehelper.ui.login;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -35,6 +35,8 @@ import com.iskhak.servicehelper.helpers.AndroidComponentUtil;
 import com.iskhak.servicehelper.helpers.DataHolder;
 import com.iskhak.servicehelper.helpers.NetworkUtil;
 import com.iskhak.servicehelper.helpers.RxUtil;
+import com.iskhak.servicehelper.ui.base.BaseActivity;
+import com.iskhak.servicehelper.ui.MainActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -209,6 +211,12 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
         }
     }
 
+    @OnClick(R.id.login_registration_button)
+    void onRegistrationClick(){
+        Intent intent = RegistrationActivity.newStartIntent(mContext);
+        mContext.startActivity(intent);
+    }
+
     private boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic
         return true; //email.contains("@");
@@ -292,7 +300,7 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
     private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
         //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
         ArrayAdapter<String> adapter =
-                new ArrayAdapter<>(LoginActivity.this,
+                new ArrayAdapter<>(mContext,
                         android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
 
         mEmailView.setAdapter(adapter);
@@ -356,63 +364,5 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
                     }
                 });
     }
-
-    /**
-     * Represents an asynchronous login/registration task used to authenticate
-     * the user.
-     */
-    /*public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
-
-        private final String mEmail;
-        private final String mPassword;
-
-        UserLoginTask(String email, String password) {
-            mEmail = email;
-            mPassword = password;
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
-
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }
-
-            // TODO: register the new account here.
-            return true;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            mAuthTask = null;
-            showProgress(false);
-
-            if (success) {
-                Intent intent = MainActivity.newStartIntent(mContext);
-                mContext.startActivity(intent);
-            } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
-            showProgress(false);
-        }
-    }*/
 }
 

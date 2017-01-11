@@ -1,36 +1,30 @@
 package com.iskhak.servicehelper.helpers;
 
 import android.content.Context;
-import android.util.Log;
+import android.text.TextUtils;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.iskhak.servicehelper.data.model.PackageModel;
+import com.iskhak.servicehelper.data.model.Provider;
 import com.iskhak.servicehelper.data.model.SelectedItems;
 import com.iskhak.servicehelper.data.model.SelectedItemsAdd;
 import com.iskhak.servicehelper.data.model.SelectedItemsAddExtra;
 import com.iskhak.servicehelper.data.model.ServiceGroup;
 import com.iskhak.servicehelper.data.model.ServiceItem;
 import com.iskhak.servicehelper.data.model.TokenModel;
-import com.iskhak.servicehelper.extra.Constants;
-import com.iskhak.servicehelper.extra.TotalServiceList;
-import com.iskhak.servicehelper.extra.UserPreferences;
+import com.iskhak.servicehelper.data.model.TotalServiceList;
 import com.iskhak.servicehelper.data.model.dbServiceItem;
-import com.iskhak.servicehelper.ui.SelectedItemsList;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.iskhak.servicehelper.data.model.SelectedItemsList;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
-
-import timber.log.Timber;
+import java.util.Map;
 
 public class DataHolder {
 
@@ -39,7 +33,7 @@ public class DataHolder {
     private String mainQuestionText;
     private String extraQuestionText;
     private TotalServiceList serviceList;
-    private List<ServiceGroup> serviceGroupList;
+    private Map<Integer, ServiceGroup> serviceGroupList;
     private SelectedItemsList selectedItems = new SelectedItemsList();
     private Date orderDate;
     private String orderNote;
@@ -49,6 +43,7 @@ public class DataHolder {
     private List<SelectedItemsAddExtra> selectedItemsAddExtraList = new ArrayList<>();
     private PackageModel order;
     private TokenModel token;
+    private Provider provider;
 
     private UserPreferences userPreferences;
 
@@ -151,6 +146,13 @@ public class DataHolder {
         selectedItems.addServiceName(serviceID);
     }
 
+    public String getSelectedService(){
+        if(selectedItemsList!=null&& selectedItemsList.size()>0){
+            return serviceList.getServiceGroups().get(selectedItemsList.get(0).serviceID()).name();
+        }
+        return "";
+    }
+
 /*    public void addMainSelectionID(int mainSelectionID, int mainSelectionPID){
         selectedItems.addMainSelection(mainSelectionID, mainSelectionPID);
     }
@@ -186,6 +188,14 @@ public class DataHolder {
                 .build();
         this.order = result;
         return result;
+    }
+
+    public Provider getProvider() {
+        return provider;
+    }
+
+    public void setProvider(Provider provider) {
+        this.provider = provider;
     }
 
     public TokenModel getToken(){
@@ -318,31 +328,25 @@ public class DataHolder {
         return result;
     }*/
 
-    public void setServiceList(List<ServiceGroup> serviceGroups){
+    public void setServiceList(Map<Integer, ServiceGroup> serviceGroups){
         serviceGroupList = serviceGroups;
         serviceList = new TotalServiceList(serviceGroups, new ArrayList<dbServiceItem>(), new ArrayList<dbServiceItem>());
     }
 
-    public List<ServiceGroup> getServiceGroupNames(){
+    public Map<Integer, ServiceGroup> getServiceGroupNames(){
         return this.getServiceList().getServiceGroups();
     }
 
-    public List<ServiceItem> getMainSelectionNames(){
-        for(ServiceGroup groupItem:serviceGroupList) {
-            if (groupItem.id() == getMainSelectionPID()) {
-                return getSelectionNames(groupItem.mainSelections());
-            }
-        }
-        return new ArrayList<>();
+    public List<ServiceItem>  getMainSelectionNames(){
+        if(serviceGroupList.containsKey(getMainSelectionPID()))
+            return getSelectionNames(serviceGroupList.get(getMainSelectionPID()).mainSelections());
+        return Collections.emptyList();
     }
 
     public List<ServiceItem> getExtraSelectionNames(){
-        for(ServiceGroup groupItem:serviceGroupList) {
-            if (groupItem.id() == getMainSelectionPID()) {
-                return getSelectionNames(groupItem.extraSelections());
-            }
-        }
-        return new ArrayList<>();
+        if(serviceGroupList.containsKey(getMainSelectionPID()))
+            return getSelectionNames(serviceGroupList.get(getMainSelectionPID()).extraSelections());
+        return Collections.emptyList();
     }
 
     private List<ServiceItem> getSelectionNames(List<dbServiceItem> items){

@@ -50,6 +50,7 @@ public class PackageModel {
 	private Integer providerID;
 	@Column(nullable = true)
 	private Float price;
+
 	
 	@JsonIgnore
 	@OneToMany(mappedBy="selectedPkg")

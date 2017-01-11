@@ -12,17 +12,17 @@ import com.iskhak.servicehelper.data.model.ServiceGroup;
 import com.iskhak.servicehelper.helpers.AndroidComponentHelper;
 import com.iskhak.servicehelper.helpers.DataHolder;
 import com.iskhak.servicehelper.helpers.NetworkUtil;
-import com.iskhak.servicehelper.ui.LoginActivity;
-import com.iskhak.servicehelper.ui.MainActivity;
+import com.iskhak.servicehelper.ui.login.LoginActivity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
 import rx.Observer;
 import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
@@ -31,7 +31,7 @@ public class SyncService extends Service{
     @Inject DataManager mDataManager;
     private static Context mContext;
     private Subscription mSubscription;
-    private List<ServiceGroup> serviceGroups;
+    private Map<Integer, ServiceGroup> serviceGroups;
 
     public static Intent getStartIntent(Context context){
         mContext = context;
@@ -81,8 +81,8 @@ public class SyncService extends Service{
                     @Override
                     public void onNext(ServiceGroup serviceGroup) {
                         if(serviceGroups==null)
-                            serviceGroups = new ArrayList<>();
-                        serviceGroups.add(serviceGroup);
+                            serviceGroups = new HashMap<>();
+                        serviceGroups.put(serviceGroup.id(),serviceGroup);
                         System.out.println("Operator thread: " + Thread.currentThread().getName());
                     }
                 });

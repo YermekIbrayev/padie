@@ -4,9 +4,12 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.iskhak.servicehelper.data.DataManager;
@@ -14,6 +17,8 @@ import com.iskhak.servicehelper.data.model.PackageModel;
 import com.iskhak.servicehelper.helpers.DataHolder;
 import com.iskhak.servicehelper.R;
 import com.iskhak.servicehelper.helpers.NetworkUtil;
+import com.iskhak.servicehelper.ui.base.BaseActivity;
+import com.iskhak.servicehelper.ui.views.MultiLineEditView;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -23,6 +28,9 @@ import java.util.Date;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import rx.Observer;
 import rx.Subscription;
 import rx.schedulers.Schedulers;
@@ -32,14 +40,18 @@ public class CleaningAddressActivity extends BaseActivity {
 
     private static final String DATE_FORMAT="MM/dd/yy";
     private static final String TIME_FORMAT="h:mm a";
+    private static final int NOTES_LINE_COUNT = 4;
     @Inject
     DataManager mDataManager;
     private Subscription mSubscribtion;
 
+    @BindView(R.id.dateEdit)
     EditText dateEdit;
+    @BindView(R.id.timeEdit)
     EditText timeEdit;
-    EditText orderNotesEdit;
+    @BindView(R.id.addressEdit)
     EditText addressEdit;
+    MultiLineEditView orderNotesEdit;
 
     Calendar dateCalendar = Calendar.getInstance();
     Calendar timeCalendar = Calendar.getInstance();
@@ -72,18 +84,31 @@ public class CleaningAddressActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         activityComponent().inject(this);
         setContentView(R.layout.activity_cleaning_address);
-        dateEdit = (EditText) findViewById(R.id.dateEdit);
-        timeEdit = (EditText) findViewById(R.id.timeEdit);
-        orderNotesEdit = (EditText) findViewById(R.id.orderNotesEdit) ;
-        addressEdit = (EditText) findViewById(R.id.addressEdit);
+        ButterKnife.bind(this);
+        orderNotesEdit = (MultiLineEditView)findViewById(R.id.orderNotesEdit);
+        orderNotesEdit.setHorizontallyScrolling(false);
+        orderNotesEdit.setMaxLines(Integer.MAX_VALUE);
+        orderNotesEdit.setLines(NOTES_LINE_COUNT);
+        orderNotesEdit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
+                if (id == R.id.next || id == EditorInfo.IME_NULL) {
+                    onNextButton();
+                    return true;
+                }
+                return false;
+            }
+        });
         addressEdit.setText(DataHolder.getInstance().getUserPreferences().getCurrentUserAddress());
     }
 
-    public void onBackButton(View view){
+    @OnClick(R.id.backButton)
+    public void onBackButton(){
         finish();
     }
 
-    public void onNextButton(View view){
+    @OnClick(R.id.nextButton)
+    public void onNextButton(){
         DateFormat df = new SimpleDateFormat(DATE_FORMAT+" "+TIME_FORMAT);
         Date orderDate = new Date(0);
 
@@ -118,16 +143,15 @@ public class CleaningAddressActivity extends BaseActivity {
                         public void onNext(PackageModel packageModel) {
                             Timber.i(packageModel.toString());
                             DataHolder.getInstance().setOrder(packageModel);
-                            Intent intent = new Intent(getApplicationContext(), EstimatedOrderActivity.class);
-                            int totalSum = packageModel.price().intValue();
-                            intent.putExtra("TotalSum", totalSum);
 
+                            Intent intent = EstimatedOrderActivity.getStartIntent(getApplicationContext(),
+                                    packageModel.price().intValue());
                             startActivity(intent);
                         }
                     });
         }
 
-        Intent intent = new Intent(this, GettingDataActivity.class);
+        Intent intent = LoadActivity.getStartIntent(this, LoadActivity.PROCESSING);
         startActivity(intent);
 
     }

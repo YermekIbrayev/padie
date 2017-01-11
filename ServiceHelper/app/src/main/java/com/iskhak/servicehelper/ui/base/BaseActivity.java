@@ -1,7 +1,8 @@
-package com.iskhak.servicehelper.ui;
+package com.iskhak.servicehelper.ui.base;
 
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -118,4 +119,33 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
     public ActivityComponent activityComponent() {
         return mActivityComponent;
     }
+
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putLong(KEY_ACTIVITY_ID, mActivityId);
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (!isChangingConfigurations()) {
+            Timber.i("Clearing ConfigPersistentComponent id=%d", mActivityId);
+            sComponentsMap.remove(mActivityId);
+        }
+        super.onDestroy();
+    }
+
+
+//    public void loadFragment(Fragment fragment) {
+//        getSupportFragmentManager().beginTransaction()
+//                .replace(R.id.fragment_container, fragment)
+//                .commit();
+//    }
+//
+//    public void loadFragment(Fragment fragment, String fragmentTag) {
+//        getSupportFragmentManager().beginTransaction()
+//                .replace(R.id.fragment_container, fragment, fragmentTag)
+//                .commit();
+//    }
 }

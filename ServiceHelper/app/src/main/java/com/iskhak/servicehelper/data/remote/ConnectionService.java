@@ -4,10 +4,10 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.iskhak.servicehelper.data.model.LoginInfo;
 import com.iskhak.servicehelper.data.model.PackageModel;
+import com.iskhak.servicehelper.data.model.Provider;
 import com.iskhak.servicehelper.data.model.ServiceGroup;
 import com.iskhak.servicehelper.data.model.TokenModel;
-import com.iskhak.servicehelper.extra.Constants;
-import com.iskhak.servicehelper.helpers.DataHolder;
+import com.iskhak.servicehelper.helpers.Constants;
 import com.iskhak.servicehelper.helpers.MyGsonTypeAdapterFactory;
 
 import java.util.List;
@@ -22,16 +22,17 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
-import retrofit2.http.PUT;
 import rx.Observable;
 
 public interface ConnectionService {
 
-    String ENDPOINT = "http://10.0.0.79:8080/padie/json/";
+    String ENDPOINT = "http://padie.hopto.org:8080/padie/json/";
     String SERVICE_LIST = "serviceList";
     String SEND_ORDERS = "sendOrder";
     String GET_ORDERS_PRICE = "getOrderPrice";
     String LOGIN_PAGE = "login";
+    String REGISTRATION_PAGE = "register";
+    String PROVIDERS_PAGE = "getProviders";
 
     @GET(SERVICE_LIST)
     Observable<List<ServiceGroup>> getServices();
@@ -48,6 +49,13 @@ public interface ConnectionService {
 
     @POST(LOGIN_PAGE)
     Observable<Response<TokenModel>> login(@Body LoginInfo loginInfo);
+
+    @POST(REGISTRATION_PAGE)
+    Observable<Response<TokenModel>> registration(@Body LoginInfo loginInfo);
+
+    @GET(PROVIDERS_PAGE)
+    Observable<List<Provider>> getProviders(
+            @Header(Constants.TOKEN_HEADER) String token);
 
     class Creator{
 
