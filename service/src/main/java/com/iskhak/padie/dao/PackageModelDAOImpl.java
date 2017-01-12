@@ -144,21 +144,33 @@ public class PackageModelDAOImpl implements PackageModelDAO{
 		if(pkgId<1)
 			return false;
 		
-		
-		//How to check if id in range from 1 to max id ?
-/*		DetachedCriteria maxId = DetachedCriteria.forClass(PackageModel.class)
-			    .setProjection( Projections.max("pkgID") );
-		List<SetPackageModel> list = (List<SetPackageModel>)sessionFactory.getCurrentSession().createCriteria(SetPackageModel.class)
-			    .add( Property.forName("pkgID").eq(maxId) )
-			    .list();*/
-		
-/*		if(list.get(0).getId()<pkgId)
-			return false;*/
+		if(sessionFactory.getCurrentSession().get(SetPackageModel.class, pkgId)==null){
+			return false;
+		}
 		
 		String hql = "update SetPackageModel u set acceptedDate=:date, providerID = :providerID  where u.pkgID=:pkgId";
 		Query query = sessionFactory.getCurrentSession().createQuery(hql);
 		query.setTimestamp("date", new Date());
 		query.setLong("providerID", id);
+		query.setInteger("pkgId", pkgId);
+		query.executeUpdate();
+		return true;
+	}
+	
+	@Override
+	@Transactional // provider
+	public boolean finishOrder(int pkgId, long id) {
+		
+		if(pkgId<1)
+			return false;
+		
+		if(sessionFactory.getCurrentSession().get(SetPackageModel.class, pkgId)==null){
+			return false;
+		}
+		
+		String hql = "update SetPackageModel u set finishedDate=:date where u.pkgID=:pkgId";
+		Query query = sessionFactory.getCurrentSession().createQuery(hql);
+		query.setTimestamp("date", new Date());
 		query.setInteger("pkgId", pkgId);
 		query.executeUpdate();
 		return true;

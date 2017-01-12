@@ -18,6 +18,8 @@ public interface PackageModelDAO {
 	public void setViewedPackage(ViewedPackage viewedPackage, long id);
 	// provider
 	public boolean acceptOrder(int pkgId, long id);
+	// provider
+	public boolean finishOrder(int pkgId, long id);
 	// client
 	public SetPackageModel getOrderPrice(SetPackageModel order);
 /*	public List<SetPackageModel> testSetPackageModel()*/

@@ -130,6 +130,22 @@ public class JSONController {
 		return result;
 	}
 	
+	// provider
+	@RequestMapping(value="/setDone/{pkgId}", method=RequestMethod.GET)
+	public ResponseEntity<?> finishOrder(@RequestHeader(Constants.TOKEN_HEADER) String token, @PathVariable("pkgId") int pkgId){
+		Long providerId = validateByToken(token);
+		if(providerId ==-1){
+			return new ResponseEntity<String>(Constants.UNAUTHORIZED, HttpStatus.UNAUTHORIZED);
+		}
+		boolean response = packageModelDAO.finishOrder(pkgId, providerId);
+		ResponseEntity<Void> result;
+		if(response)
+			result = new ResponseEntity<Void>(HttpStatus.OK);
+		else
+			result = new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+		return result;
+	}
+	
 	
 	/// Test  function
 	@RequestMapping(value="/getUser", method=RequestMethod.GET, produces = "application/json")
