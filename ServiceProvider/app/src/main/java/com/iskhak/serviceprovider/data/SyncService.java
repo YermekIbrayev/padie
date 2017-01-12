@@ -8,22 +8,17 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
-import android.os.Bundle;
 import android.os.IBinder;
-import android.provider.Settings;
 
 import com.iskhak.serviceprovider.R;
 import com.iskhak.serviceprovider.ServiceProviderApplication;
 import com.iskhak.serviceprovider.data.model.PackageModel;
-import com.iskhak.serviceprovider.data.model.ResponseOrder;
 import com.iskhak.serviceprovider.helpers.AndroidComponentUtil;
 import com.iskhak.serviceprovider.helpers.DataHolder;
 import com.iskhak.serviceprovider.helpers.INewOrderListener;
 import com.iskhak.serviceprovider.helpers.INewOrderSender;
 import com.iskhak.serviceprovider.helpers.NetworkUtil;
-import com.iskhak.serviceprovider.helpers.RxUtil;
-import com.iskhak.serviceprovider.ui.MainActivity;
-import com.iskhak.serviceprovider.ui.RequestsTab;
+import com.iskhak.serviceprovider.ui.orders.activity.OrdersActivity;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -38,8 +33,6 @@ import javax.inject.Singleton;
 import rx.Observable;
 import rx.Observer;
 import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action0;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
@@ -178,8 +171,9 @@ public class SyncService extends Service implements INewOrderSender {
     }*/
 
     private void sendNotif(PackageModel order) {
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra(MainActivity.ORDER_KEY,order.id());
+        Intent intent = OrdersActivity.newStartIntent(this, order);
+                /*new Intent(this, OrdersActivity.class);
+        intent.putExtra(OrdersActivity.ORDER_KEY,order.id());*/
 // use System.currentTimeMillis() to have a unique ID for the pending intent
         PendingIntent pIntent = PendingIntent.getActivity(getApplicationContext(), (int) System.currentTimeMillis(), intent, 0);
 

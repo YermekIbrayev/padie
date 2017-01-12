@@ -16,7 +16,7 @@
         android:orientation="vertical"
         style="@style/AppTheme"
         android:background="@drawable/background"
-        tools:context="com.iskhak.serviceprovider.ui.BaseActivity">
+        tools:context="com.iskhak.serviceprovider.ui.base.BaseActivity">
 
         <include layout="@layout/titlebar"/>
         <LinearLayout

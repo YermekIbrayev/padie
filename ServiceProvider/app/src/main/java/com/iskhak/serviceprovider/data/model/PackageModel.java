@@ -1,5 +1,6 @@
 package com.iskhak.serviceprovider.data.model;
 
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 
 import com.google.auto.value.AutoValue;
@@ -12,7 +13,7 @@ import java.util.Date;
 import java.util.List;
 
 @AutoValue
-public abstract class PackageModel {
+public abstract class PackageModel implements Parcelable {
 
     @Nullable
     public abstract Integer id();

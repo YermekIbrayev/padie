@@ -1,12 +1,10 @@
-package com.iskhak.serviceprovider.ui;
+package com.iskhak.serviceprovider.ui.orders.activity;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
@@ -15,7 +13,12 @@ import com.iskhak.serviceprovider.data.DataManager;
 import com.iskhak.serviceprovider.data.SyncService;
 import com.iskhak.serviceprovider.data.model.PackageModel;
 import com.iskhak.serviceprovider.helpers.DataHolder;
+import com.iskhak.serviceprovider.ui.orders.OnClickCallback;
+import com.iskhak.serviceprovider.ui.orders.order.OrderFragment;
+import com.iskhak.serviceprovider.ui.orders.pageadapter.ViewPagerAdapter;
+import com.iskhak.serviceprovider.ui.base.BaseActivity;
 
+import java.util.Date;
 import java.util.Stack;
 
 import javax.inject.Inject;
@@ -24,7 +27,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import timber.log.Timber;
 
-public class MainActivity extends BaseActivity{
+public class OrdersActivity extends BaseActivity implements OrdersMvpView, OnClickCallback{
 
     public static final String ORDER_KEY = "orderKey";
     public static final int DEFAULT_ORDER = -1;
@@ -40,33 +43,32 @@ public class MainActivity extends BaseActivity{
     View fragmentContainer;
     private ViewPagerAdapter viewPagerAdapter;
     private Stack<Fragment> backStack;
-    private PackageModel order;
+    private PackageModel selectedOrder;
     private boolean isTabsVisible;
 
 
-    public static Intent newStartIntent(Context context) {
-        Intent intent = new Intent(context, MainActivity.class);
+    public static Intent newStartIntent(Context context, PackageModel order) {
+        Intent intent = new Intent(context, OrdersActivity.class);
+        intent.putExtra(ORDER_KEY, order);
         return intent;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        activityComponent().inject(this);
         DataHolder.getInstance().setContext(this);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
         Intent intent = getIntent();
         if(intent!=null){
-            int id = intent.getIntExtra(ORDER_KEY, DEFAULT_ORDER);
-            if(id!=DEFAULT_ORDER) {
-                order = DataHolder.getInstance().getOrderById(id);
-                Timber.d(""+order.id());
-                FullOrderFragment orderFragment = FullOrderFragment.newInstance(id, FullOrderFragment.BY_ID, FullOrderFragment.NEW_ORDER);
-                getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, orderFragment).commit();
-                showTabs(false);
+            selectedOrder = intent.getParcelableExtra(ORDER_KEY);
+            if(selectedOrder!=null) {
+                Timber.d(""+selectedOrder.id());
+                showOrderFragment(selectedOrder, OrderFragment.State.NEW);
             } else {
-                viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+                viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), this);
                 viewPager.setAdapter(viewPagerAdapter);
 
                 tabLayout.addTab(tabLayout.newTab());
@@ -113,5 +115,24 @@ public class MainActivity extends BaseActivity{
     protected void onPause() {
         super.onPause();
         DataHolder.getInstance().stopActivity();
+    }
+
+    @Override
+    public void onItemClicked(PackageModel order, OrderFragment.State state) {
+        selectedOrder = order;
+        showOrderFragment(order, state);
+    }
+
+    public void updateAll() {
+        viewPagerAdapter.clearTabs();
+        mDataManager.clear();
+        mDataManager.setViewed(new Date(0));
+        mDataManager.getNewOrders().subscribe();
+    }
+
+    //**** private functions
+    private void showOrderFragment(PackageModel order, OrderFragment.State state){
+        loadFragment(OrderFragment.newInstance(order, state));
+        showTabs(false);
     }
 }

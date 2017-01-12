@@ -8,27 +8,21 @@ import android.content.Context;
 import android.content.Intent;
 import android.provider.Settings;
 
-import com.google.common.collect.ForwardingList;
 import com.iskhak.serviceprovider.R;
 import com.iskhak.serviceprovider.data.local.DatabaseHelper;
 import com.iskhak.serviceprovider.data.model.LoginInfo;
 import com.iskhak.serviceprovider.data.model.PackageModel;
 import com.iskhak.serviceprovider.data.model.PathDate;
 import com.iskhak.serviceprovider.data.model.ResponseOrder;
-import com.iskhak.serviceprovider.data.model.ServiceGroup;
 import com.iskhak.serviceprovider.data.model.TokenModel;
 import com.iskhak.serviceprovider.data.remote.ConnectionService;
 import com.iskhak.serviceprovider.helpers.DataHolder;
-import com.iskhak.serviceprovider.helpers.INewOrderSender;
 import com.iskhak.serviceprovider.helpers.RxObservableList;
-import com.iskhak.serviceprovider.helpers.RxUtil;
-import com.iskhak.serviceprovider.injection.ApplicationContext;
-import com.iskhak.serviceprovider.ui.MainActivity;
+import com.iskhak.serviceprovider.ui.orders.activity.OrdersActivity;
+
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -38,8 +32,6 @@ import rx.Observable;
 import rx.Observer;
 import rx.Subscriber;
 import rx.Subscription;
-import rx.functions.Action1;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
@@ -51,7 +43,7 @@ public class DataManager {
     private Date viewed = new Date(0);
     private String androidId;
     private RxObservableList<PackageModel> requestList;
-    private RxObservableList<PackageModel> jobList;
+    private RxObservableList<PackageModel> inProgressList;
     private Context mContext;
 
     @Inject
@@ -61,7 +53,7 @@ public class DataManager {
         mContext = application.getApplicationContext();
         androidId = Settings.Secure.getString(application.getContentResolver(), Settings.Secure.ANDROID_ID);
         requestList = new RxObservableList<>();
-        jobList = new RxObservableList<>();
+        inProgressList = new RxObservableList<>();
     }
 
     public Observable<PackageModel> getNewOrders(){
@@ -70,7 +62,7 @@ public class DataManager {
             @Override
             public void call(final Subscriber<? super PackageModel> subscriber) {
                 requestList.clear();
-                jobList.clear();
+                inProgressList.clear();
                 if(viewed==null)
                     viewed = new Date(0);
                 mConnectionService.getNewOrders(token, androidId , new PathDate(viewed))
@@ -97,8 +89,8 @@ public class DataManager {
                                         if(!DataHolder.getInstance().isRunning()&&packageModel.viewed()==null)
                                             subscriber.onNext(packageModel);
                                     }else{
-                                        if(!jobList.contains(packageModel))
-                                            jobList.add(packageModel);
+                                        if(!inProgressList.contains(packageModel))
+                                            inProgressList.add(packageModel);
                                     }
                                     if(viewed==null)
                                         viewed = new Date(0);
@@ -122,8 +114,13 @@ public class DataManager {
         return requestList.getFullList();
     }
 
-    public Observable<PackageModel> getJobList(){
-        return jobList.getObservable();
+    public Observable<PackageModel> getInProgressList(){
+        return inProgressList.getObservable();
+    }
+
+    public void clear(){
+        requestList.clear();
+        inProgressList.clear();
     }
 
     public void sendViewedOrders(final ResponseOrder responseOrder){
@@ -161,30 +158,6 @@ public class DataManager {
     }
 
     //-------- private helper methods;
-    // exception when activity terminated should be resolved
-    private void sendNotif(PackageModel order) {
-        Intent intent = new Intent(mContext, MainActivity.class);
-        intent.putExtra(MainActivity.ORDER_KEY,order.id());
-// use System.currentTimeMillis() to have a unique ID for the pending intent
-        PendingIntent pIntent = PendingIntent.getActivity(mContext, (int) System.currentTimeMillis(), intent, 0);
-
-// build notification
-// the addAction re-use the same intent to keep the example short
-        Notification n  = new Notification.Builder(mContext)
-                .setContentTitle("New Order:"+order.id())
-                .setContentText("Service Price:"+order.price())
-                .setSmallIcon(R.drawable.logo)
-                .setContentIntent(pIntent)
-                .setAutoCancel(true)
-                .build();
-
-
-        NotificationManager notificationManager =
-                (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
-
-        notificationManager.notify(order.id(), n);
-    }
-
     private void generateViewedOrder(PackageModel packageModel){
         viewed = packageModel.viewed();
         ResponseOrder responseOrder = ResponseOrder.builder()

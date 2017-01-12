@@ -21,8 +21,6 @@ public class DataHolder {
 
     private boolean isRunning;
 
-    public static final String DATE_FORMAT="MM/dd/yy";
-    public static final String TIME_FORMAT="h:mm a";
     public static final DataHolder holder = new DataHolder();
     public static DataHolder getInstance(){
         return holder;
@@ -80,10 +78,7 @@ public class DataHolder {
         isRunning = true;
     }
 
-    public static String updateFormat(Date date, String format){
-        SimpleDateFormat sdf = new SimpleDateFormat(format);
-        return sdf.format(date);
-    }
+
 
 
 

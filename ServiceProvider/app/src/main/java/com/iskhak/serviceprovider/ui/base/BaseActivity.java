@@ -1,8 +1,9 @@
-package com.iskhak.serviceprovider.ui;
+package com.iskhak.serviceprovider.ui.base;
 
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -117,5 +118,17 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
 
     public ActivityComponent activityComponent() {
         return mActivityComponent;
+    }
+
+    public void loadFragment(Fragment fragment) {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .commit();
+    }
+
+    public void loadFragment(Fragment fragment, String fragmentTag) {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, fragment, fragmentTag)
+                .commit();
     }
 }

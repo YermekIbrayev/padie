@@ -13,8 +13,8 @@ import com.iskhak.serviceprovider.data.model.TokenModel;
 import com.iskhak.serviceprovider.helpers.DataHolder;
 import com.iskhak.serviceprovider.helpers.DialogFactory;
 import com.iskhak.serviceprovider.helpers.RxUtil;
-import com.iskhak.serviceprovider.ui.BaseActivity;
-import com.iskhak.serviceprovider.ui.MainActivity;
+import com.iskhak.serviceprovider.ui.base.BaseActivity;
+import com.iskhak.serviceprovider.ui.orders.activity.OrdersActivity;
 
 import javax.inject.Inject;
 
@@ -109,8 +109,7 @@ public class RegistrationActivity extends BaseActivity {
                         } else{
                             Timber.d("response ok");
                             DataHolder.getInstance().setToken(token.body());
-                            Intent intent = MainActivity.newStartIntent(mContext);
-                            mContext.startActivity(intent);
+                            mContext.startActivity(OrdersActivity.newStartIntent(mContext, null));
                         }
                     }
                 });
