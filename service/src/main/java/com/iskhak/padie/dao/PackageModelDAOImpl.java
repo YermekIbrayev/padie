@@ -50,10 +50,11 @@ public class PackageModelDAOImpl implements PackageModelDAO{
 	@Override
 	@Transactional // client
 	public SetPackageModel setOrder(SetPackageModel order, long id) {
+		System.out.println(order.getProviderID());
 		order.setOrderDate(new Date());
 		order.setClientId(id);
 		sessionFactory.getCurrentSession().update(order);
-		System.out.println(order.getId());
+		
 		return order;
 	}
 	

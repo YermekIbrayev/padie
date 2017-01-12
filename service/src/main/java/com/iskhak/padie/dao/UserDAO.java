@@ -1,9 +1,6 @@
 package com.iskhak.padie.dao;
 
 import java.util.List;
-
-import org.springframework.mobile.device.Device;
-
 import com.iskhak.padie.model.security.User;
 import com.iskhak.padie.security.JwtAuthenticationRequest;
 

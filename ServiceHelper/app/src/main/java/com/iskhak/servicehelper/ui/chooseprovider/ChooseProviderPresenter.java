@@ -48,7 +48,7 @@ public class ChooseProviderPresenter extends BasePresenter<ChooseProviderMvpView
 
                     @Override
                     public void onError(Throwable e) {
-                        Timber.e(e, "There was an error loading the event logs.");
+                        Timber.e(e, "There was an error loading the providers.");
                         getMvpView().showLoadProviderError();
                     }
 

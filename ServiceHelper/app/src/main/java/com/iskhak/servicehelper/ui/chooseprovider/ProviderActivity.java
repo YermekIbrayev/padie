@@ -22,6 +22,7 @@ public class ProviderActivity extends AppCompatActivity {
     TextView companyNameTV;
     @BindView(R.id.provider_rating_bar)
     RatingBar ratingBar;
+    Provider mProvider;
 
     public static Intent getStartIntent(Context context){
         Intent intent = new Intent(context, ProviderActivity.class);
@@ -34,13 +35,14 @@ public class ProviderActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_provider);
         ButterKnife.bind(this);
-        Provider provider = DataHolder.getInstance().getProvider();
-        companyNameTV.setText(provider.name());
-        ratingBar.setRating(provider.rating());
+        mProvider = DataHolder.getInstance().getProvider();
+        companyNameTV.setText(mProvider.name());
+        ratingBar.setRating(mProvider.rating());
     }
 
     @OnClick(R.id.provider_choose_button)
     public void onChooseButton(){
+        DataHolder.getInstance().setOrderProviderId(mProvider.pid());
         startActivity(OrderSummaryActivity.getStartIntent(this));
     }
 

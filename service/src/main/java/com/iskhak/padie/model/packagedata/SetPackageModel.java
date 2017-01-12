@@ -33,15 +33,11 @@ public class SetPackageModel {
 	private Date orderDate;
 	private String notes;
 	private String address;
-	@JsonIgnore
-	@CreationTimestamp
-	@Column(name = "created")
-	private Date created;
+	
 	@JsonIgnore
 	private Date finishedDate;
 	@JsonIgnore
 	private Date acceptedDate;
-	@JsonIgnore
 	@Column(nullable = true)
 	private long providerID;
 	@Column(nullable = true)
@@ -91,14 +87,6 @@ public class SetPackageModel {
 	}
 	public void setAddress(String address) {
 		this.address = address;
-	}
-	
-	public Date getCreated() {
-		return created;
-	}
-	
-	public void setCreated(Date created){
-		this.created= created;
 	}
 	
 	public Date getFinishedDate() {

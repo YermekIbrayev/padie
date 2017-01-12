@@ -65,6 +65,7 @@ public class DataManager {
 
     public Observable<PackageModel> sendOrder(PackageModel order){
         String token = DataHolder.getInstance().getToken().token();
+        Timber.d("providerId:" + order.providerID());
         return mConnectionService.sendOrder(token, order)
                 .concatMap(new Func1<PackageModel, Observable<? extends PackageModel>>() {
                     @Override

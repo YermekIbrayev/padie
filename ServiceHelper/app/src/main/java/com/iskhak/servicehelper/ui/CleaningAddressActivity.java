@@ -124,7 +124,6 @@ public class CleaningAddressActivity extends BaseActivity {
         DataHolder.getInstance().setOrderNote(orderNotesEdit.getText().toString());
         DataHolder.getInstance().setOrderAddress(addressEdit.getText().toString());
         if (NetworkUtil.isNetworkConnected(this)) {
-            //DataHolder.getInstance().getNetworkHelper().sendJSON();
             if(mSubscribtion!=null && !mSubscribtion.isUnsubscribed()) mSubscribtion.unsubscribe();
             mSubscribtion = mDataManager.getOrderPrice(DataHolder.getInstance().generatePackageModel())
                     .subscribeOn(Schedulers.io())
@@ -163,7 +162,13 @@ public class CleaningAddressActivity extends BaseActivity {
 
     public void onDateClick(View view){
         if(datePicker == null) {
-            datePicker = new DatePickerDialog(CleaningAddressActivity.this, dateListener, dateCalendar.get(Calendar.YEAR), dateCalendar.get(Calendar.MONTH), dateCalendar.get(Calendar.DAY_OF_MONTH));
+            datePicker = new DatePickerDialog(
+                    CleaningAddressActivity.this,
+                    dateListener,
+                    dateCalendar.get(Calendar.YEAR),
+                    dateCalendar.get(Calendar.MONTH),
+                    dateCalendar.get(Calendar.DAY_OF_MONTH)
+            );
             datePicker.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
         }
         datePicker.show();

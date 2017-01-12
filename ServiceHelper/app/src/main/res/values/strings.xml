@@ -25,7 +25,8 @@
     <string name="company_name">Company Name:</string>
     <string name="service">Service:</string>
     <string name="finish">Finish</string>
-
+    <string name="dialog_action_ok">OK</string>
+    <string name="dialog_error_title">Sorry</string>
     <string name="thanks_title">Thank you!</string>
     <string name="thanks_content">Your order has been sent!\nThank you for using the Padie!</string>
     <string name="passwords_not_equal">Password does not match the confirm password.</string>

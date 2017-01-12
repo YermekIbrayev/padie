@@ -8,6 +8,7 @@ import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
 
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 @AutoValue
@@ -20,6 +21,7 @@ public abstract class PackageModel {
     @Nullable public abstract Timestamp orderDate();
     public abstract String notes();
     public abstract String address();
+    @Nullable public abstract Integer providerID();
     @Nullable public abstract Float price();
     @Nullable public abstract List<SelectedItems> selectedItems();
     @Nullable public abstract List<SelectedItemsAdd> selectedItemsAdd();
@@ -29,10 +31,11 @@ public abstract class PackageModel {
         return new AutoValue_PackageModel.Builder();
     }
 
+    public abstract Builder toBuilder();
+
     public static TypeAdapter<PackageModel> typeAdapter (Gson gson){
         return new AutoValue_PackageModel.GsonTypeAdapter(gson);
     }
-
 
     @AutoValue.Builder
     public abstract static class Builder{
@@ -41,21 +44,11 @@ public abstract class PackageModel {
         public abstract Builder setOrderDate(Timestamp orderDate);
         public abstract Builder setNotes(String notes);
         public abstract Builder setAddress(String address);
+        public abstract Builder setProviderID(Integer providerID);
         public abstract Builder setPrice(Float price);
         public abstract Builder setSelectedItems(List<SelectedItems> selectedItems);
         public abstract Builder setSelectedItemsAdd(List<SelectedItemsAdd> selectedItemsAdd);
         public abstract Builder setSelectedItemsAddExtra(List<SelectedItemsAddExtra> selectedItemsAddExtra);
         public abstract PackageModel build();
     }
-
-    /*    private int id;
-    private int clientId;
-    private Timestamp orderDate;
-    private String notes;
-    private String address;
-    private Timestamp created;
-    @Nullable float price;
-    private List<SelectedItems> selectedItemsList;
-    private List<SelectedItemsAdd> selectedItemsAdd;
-    private List<SelectedItemsAddExtra> selectedItemsAddExtra;*/
 }

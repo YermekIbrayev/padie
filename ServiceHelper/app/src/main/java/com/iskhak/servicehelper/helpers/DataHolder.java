@@ -26,6 +26,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import timber.log.Timber;
+
 public class DataHolder {
 
     private int mainSelectionPID;
@@ -44,6 +46,7 @@ public class DataHolder {
     private PackageModel order;
     private TokenModel token;
     private Provider provider;
+    private Integer providerId;
 
     private UserPreferences userPreferences;
 
@@ -120,6 +123,13 @@ public class DataHolder {
 
     public void setExtraQuestionText(String extraQuestionText) {
         this.extraQuestionText = extraQuestionText;
+    }
+
+    public void setOrderProviderId(int providerId){
+        order = order.toBuilder().setProviderID(providerId).build();
+        Timber.d("Sent providerId:"+providerId);
+        Timber.d("ProviderId:"+order.providerID());
+        //this.providerId = providerId;
     }
 
 //    public ArrayList<ServiceItem> getMainSelectionNames(){

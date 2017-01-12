@@ -8,11 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mobile.device.Device;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,25 +16,20 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.iskhak.padie.config.Constants;
 import com.iskhak.padie.dao.PackageModelDAO;
 import com.iskhak.padie.dao.ProviderDAO;
-import com.iskhak.padie.dao.SelectedAddDAO;
 import com.iskhak.padie.dao.ServiceItemDAO;
 import com.iskhak.padie.dao.UserDAO;
-import com.iskhak.padie.model.listdata.GetServiceItem;
 import com.iskhak.padie.model.packagedata.PackageModel;
-import com.iskhak.padie.model.packagedata.SelectedItemsAdd;
 import com.iskhak.padie.model.packagedata.SetPackageModel;
 import com.iskhak.padie.model.packagedata.ViewedPackage;
 import com.iskhak.padie.model.security.User;
 import com.iskhak.padie.security.JwtAuthenticationRequest;
 import com.iskhak.padie.security.JwtTokenUtil;
 import com.iskhak.padie.security.service.JwtAuthenticationResponse;
-import com.mysql.fabric.Response;
 
 @RestController
 @RequestMapping(value="json")
@@ -73,6 +64,7 @@ public class JSONController {
 	@RequestMapping(value="/sendOrder", method = RequestMethod.POST)
 	public ResponseEntity<?> sendOrder(@RequestHeader(Constants.TOKEN_HEADER) String token, @RequestBody SetPackageModel order){
 		System.out.println(order.getId());
+		System.out.println(order.getProviderID());
 		Long clientId = validateByToken(token);
 		if(clientId ==-1){
 			return new ResponseEntity<String>(Constants.UNAUTHORIZED, HttpStatus.UNAUTHORIZED);
