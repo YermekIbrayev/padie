@@ -22,5 +22,9 @@ public interface PackageModelDAO {
 	public boolean finishOrder(int pkgId, long id);
 	// client
 	public SetPackageModel getOrderPrice(SetPackageModel order);
+	// client
+	public List<PackageModel> getFinished(long cid);
+	// client
+	 boolean verifyOrder(int pkgId, long id);
 /*	public List<SetPackageModel> testSetPackageModel()*/
 }

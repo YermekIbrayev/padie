@@ -106,6 +106,17 @@ public class JSONController {
 		return ResponseEntity.ok(packageModelDAO.getNewOrders(deviceId, date, providerId));
 	}
 	
+	//client
+	@RequestMapping(value="/getFinished", method = RequestMethod.GET, produces = "application/json")
+	public ResponseEntity<?> getFinished(@RequestHeader(Constants.TOKEN_HEADER) String token){
+		Long clientId = validateByToken(token);
+		if(clientId ==-1){
+			return new ResponseEntity<String>(Constants.UNAUTHORIZED, HttpStatus.UNAUTHORIZED);
+		}
+		
+		return ResponseEntity.ok(packageModelDAO.getFinished(clientId));
+	}
+	
 	// provider
 	@RequestMapping(value="/setViewedOrders", method = RequestMethod.POST)
 	public ResponseEntity<?> viewedOrder(@RequestHeader(Constants.TOKEN_HEADER) String token, @RequestBody ViewedPackage viewedPackage){
@@ -143,6 +154,23 @@ public class JSONController {
 			return new ResponseEntity<String>(Constants.UNAUTHORIZED, HttpStatus.UNAUTHORIZED);
 		}
 		boolean response = packageModelDAO.finishOrder(pkgId, providerId);
+		ResponseEntity<Void> result;
+		if(response)
+			result = new ResponseEntity<Void>(HttpStatus.OK);
+		else
+			result = new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+		return result;
+	}
+	
+	// client
+	@RequestMapping(value="/verify/{pkgId}", method=RequestMethod.GET)
+	public ResponseEntity<?> verifyhOrder(@RequestHeader(Constants.TOKEN_HEADER) String token, 
+			@PathVariable("pkgId") int pkgId){
+		Long clientId = validateByToken(token);
+		if(clientId ==-1){
+			return new ResponseEntity<String>(Constants.UNAUTHORIZED, HttpStatus.UNAUTHORIZED);
+		}
+		boolean response = packageModelDAO.verifyOrder(pkgId, clientId);
 		ResponseEntity<Void> result;
 		if(response)
 			result = new ResponseEntity<Void>(HttpStatus.OK);
@@ -228,6 +256,8 @@ public class JSONController {
 		
 		return ResponseEntity.ok(reviewDAO.getReviews(pid, true));
 	}
+	
+	
 	
 	///----------------- helper functions -------------------------
 	private Long validateByToken(String token){

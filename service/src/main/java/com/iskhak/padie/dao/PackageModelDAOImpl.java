@@ -175,6 +175,41 @@ public class PackageModelDAOImpl implements PackageModelDAO{
 		query.executeUpdate();
 		return true;
 	}
+	
+	@Override
+	@Transactional // client
+	public List<PackageModel> getFinished(long cid) {
+		@SuppressWarnings("unchecked")
+		List<PackageModel> result = (List<PackageModel>)sessionFactory.getCurrentSession()
+				.createCriteria(PackageModel.class)
+				.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
+				.add(Restrictions.and(
+						Restrictions.eq("clientId", cid),
+						Restrictions.isNotNull("finishedDate"),
+						Restrictions.isNull("verificationDate")
+						))
+				.list();
+		return result;
+	}
+	
+	@Override
+	@Transactional // client
+	public boolean verifyOrder(int pkgId, long id) {
+		
+		if(pkgId<1)
+			return false;
+		
+/*		if(sessionFactory.getCurrentSession().get(SetPackageModel.class, pkgId)==null){
+			return false;
+		}*/
+		
+		String hql = "update PackageModel u set verificationDate=:date where u.pkgID=:pkgId";
+		Query query = sessionFactory.getCurrentSession().createQuery(hql);
+		query.setTimestamp("date", new Date());
+		query.setInteger("pkgId", pkgId);
+		query.executeUpdate();
+		return true;
+	}
 
 /*	@SuppressWarnings("unchecked")
 	@Override

@@ -31,7 +31,7 @@ public class Review {
     @JsonIgnore
     @Column(name="reviewCreated")
     private Date created;
-    @Column(name="description")
+    @Column(name="reviewText")
 	private String description;
 	
 

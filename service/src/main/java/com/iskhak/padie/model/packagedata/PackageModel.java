@@ -29,7 +29,7 @@ public class PackageModel {
 	private int pkgID;
 	@JsonIgnore
 	@Column(name = "CID")
-	private int clientId;
+	private long clientId;
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern=Constants.DATE_TIME_FORMAT)
 	private Date orderDate;
 	@Transient
@@ -43,6 +43,11 @@ public class PackageModel {
 	/*@JsonIgnore*/
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern=Constants.DATE_TIME_FORMAT)
 	private Date finishedDate;
+	@JsonIgnore
+	@Column(name="verificationDate", nullable=true)
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern=Constants.DATE_TIME_FORMAT)
+	private Date verificationDate;
+	
 	@JsonIgnore
 	@Column(nullable = true)
 	private Integer providerID;
@@ -74,10 +79,10 @@ public class PackageModel {
 	}
 	
 
-	public int getClientId() {
+	public long getClientId() {
 		return clientId;
 	}
-	public void setClientId(int clientId) {
+	public void setClientId(long clientId) {
 		this.clientId = clientId;
 	}
 	public Date getOrderDate() {
@@ -130,6 +135,12 @@ public class PackageModel {
 	}
 	
 
+	public Date getVerificationDate() {
+		return verificationDate;
+	}
+	public void setVerificationDate(Date verificationDate) {
+		this.verificationDate = verificationDate;
+	}
 	public Integer getProviderID() {
 		return providerID;
 	}
