@@ -8,49 +8,52 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.iskhak.servicehelper.ui.chooseprovider.ProviderActivity">
-    <android.support.v7.widget.CardView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/provider_card_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="6dp"
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp"
-        android:layout_marginTop="6dp"
-        card_view:cardCornerRadius="20dp">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/provider_card_bg"
-            android:orientation="vertical"
-            android:padding="10dp">
-            <TextView
-                android:id="@+id/provider_company_name_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:text="Company name"
-                android:textSize="20sp"/>
-
-            <RatingBar
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/provider_rating_bar"
-                android:isIndicator="true" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Reviews: 5"/>
-        </LinearLayout>
-    </android.support.v7.widget.CardView>
+    android:orientation="vertical"
+    tools:context="com.iskhak.servicehelper.ui.provider.ProviderActivity">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:orientation="vertical">
+        android:background="@drawable/provider_card_bg"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/provider_buttons_layout">
+        <TextView
+            android:id="@+id/provider_company_name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="Company name"
+            android:textSize="20sp"/>
+
+        <RatingBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/provider_rating_bar"
+            android:isIndicator="true" />
+
+        <TextView
+            android:id="@+id/provider_review_count_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Reviews: 5"/>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/provider_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            android:paddingBottom="6dp"
+            android:paddingTop="6dp"
+            android:scrollbars="vertical"
+            tools:listitem="@layout/item_review"/>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/provider_buttons_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true">
         <Button
             android:id="@+id/provider_choose_button"
             android:layout_marginTop="@dimen/big_margin"

@@ -46,7 +46,6 @@ public class DataHolder {
     private PackageModel order;
     private TokenModel token;
     private Provider provider;
-    private Integer providerId;
 
     private UserPreferences userPreferences;
 
@@ -58,14 +57,7 @@ public class DataHolder {
     }
 
     public void setContext(Context context){
-        //DataHolder.getInstance().updateData();
         userPreferences = new UserPreferences(context);
-    }
-
-    public String getOrderDate() {
-        String dateFormat = Constants.DATE_TIME_FORMAT;
-        SimpleDateFormat sdf = new SimpleDateFormat(dateFormat, Locale.US);
-        return sdf.format(orderDate);
     }
 
     public void setOrderDate(Date orderDate) {
@@ -127,26 +119,7 @@ public class DataHolder {
 
     public void setOrderProviderId(int providerId){
         order = order.toBuilder().setProviderID(providerId).build();
-        Timber.d("Sent providerId:"+providerId);
-        Timber.d("ProviderId:"+order.providerID());
-        //this.providerId = providerId;
     }
-
-//    public ArrayList<ServiceItem> getMainSelectionNames(){
-//        return dbHelper.getMainSelectionNames();
-//    }
-
-/*    public ArrayList<ServiceItem> getExtraSelectionNames(){
-        return dbHelper.getExtraSelectionNames();
-    }*/
-
-/*    public void setDbHelper(DBHelper dbHelper) {
-        this.dbHelper = dbHelper;
-    }
-
-    public void updateData(){
-        dbHelper.updateData();
-    }*/
 
     public TotalServiceList getServiceList() {
         return serviceList;
@@ -162,30 +135,6 @@ public class DataHolder {
         }
         return "";
     }
-
-/*    public void addMainSelectionID(int mainSelectionID, int mainSelectionPID){
-        selectedItems.addMainSelection(mainSelectionID, mainSelectionPID);
-    }
-
-    public void addExtraSelectionID(int extraSelectionID, int extraSelectionPID){
-        selectedItems.addExtraSelection(extraSelectionID, extraSelectionPID);
-    }*/
-
-    private ArrayList<dbServiceItem> getMainSelectionsID(){
-        return selectedItems.getMainSelections();
-    }
-
-    private ArrayList<dbServiceItem> getExtraSelections(){
-        return selectedItems.getExtraSelections();
-    }
-
-    private HashSet<Integer> getSelectedServices(){
-        return selectedItems.getServicesID();
-    }
-
-/*    public void clearSelected(){
-        selectedItems.clear();
-    }*/
 
     public PackageModel generatePackageModel(){
         PackageModel result = PackageModel.builder()
@@ -222,121 +171,6 @@ public class DataHolder {
     public void setOrder(PackageModel order){
         this.order = order;
     }
-
-/*    public JSONObject generateJSON(){
-        JSONObject result = new JSONObject();
-        JSONObject order = new JSONObject();
-        JSONArray serviceNames = new JSONArray();
-        JSONArray mainSelectionNames = new JSONArray();
-        JSONArray extraSelectionNames = new JSONArray();
-        try {
-            order.put("Date", getOrderDate());
-            order.put("Notes", getOrderNote());
-            order.put("Address",getOrderAddress());
-            for(int id:getSelectedServices()){
-                JSONObject service = new JSONObject();
-                service.put("ID", id);
-                serviceNames.put(service);
-            }
-            for(dbServiceItem serviceItem:getMainSelectionsID()){
-                JSONObject mainSelection = new JSONObject();
-                mainSelection.put("ID", serviceItem.id());
-                mainSelection.put("PID", serviceItem.pid());
-                mainSelectionNames.put(mainSelection );
-            }
-            for(dbServiceItem serviceItem:getExtraSelections()){
-                JSONObject extraSelection = new JSONObject();
-                extraSelection.put("ID", serviceItem.id());
-                extraSelection.put("PID", serviceItem.id());
-                extraSelectionNames.put(extraSelection);
-            }
-            result.put("Order", order);
-            result.put("Services", serviceNames);
-            result.put("MainSelections", mainSelectionNames);
-            result.put("ExtraSelections", extraSelectionNames);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        return result;
-    }*/
-
-
- /*   public void setServiceListJson(String json){
-        this.serviceListJson = json;
-        ArrayList<ServiceGroup> serviceGroupsList = new ArrayList<>();
-        ArrayList<dbServiceItem> mainSelectionsList;
-        ArrayList<dbServiceItem> extraSelectionsList;
-        try{
-            JSONObject rootJson = new JSONObject(json);
-            JSONArray serviceGroups = rootJson.getJSONArray("Services");
-            JSONArray mainSelections = rootJson.getJSONArray("MainSelections");
-            JSONArray extraSelections = rootJson.getJSONArray("ExtraSelections");
-
-            for(int i = 0;i<serviceGroups.length();i++){
-                JSONObject groupItem = serviceGroups.getJSONObject(i);
-                int id = Integer.parseInt(groupItem.optString("ID").toString());
-                String name = groupItem.optString("Name").toString();
-                String mainQuestion = groupItem.optString("MainQuestion").toString();
-                String extraQuestion = groupItem.optString("ExtraQuestion").toString();
-
-                Log.d("JSON PARSE", name);
-
-                //ServiceGroup serviceGroup = new ServiceGroup(id, name, mainQuestion, extraQuestion);
-                ServiceGroup serviceGroup = ServiceGroup.builder()
-                        .setId(id)
-                        .setName(name)
-                        .setMainQuestion(mainQuestion)
-                        .setExtraQuestion(extraQuestion)
-                        .build();
-                serviceGroupsList.add(serviceGroup);
-            }
-
-            mainSelectionsList = fillList(mainSelections);
-            extraSelectionsList = fillList(extraSelections);
-
-            this.serviceList = new TotalServiceList(serviceGroupsList,mainSelectionsList,extraSelectionsList);
-
-        }catch (JSONException ex){
-            ex.printStackTrace();
-        }
-    }*/
-
-/*    private ArrayList<dbServiceItem> fillList( JSONArray jsonArray) throws JSONException {
-        ArrayList<dbServiceItem> result = new ArrayList<>();
-        for(int i=0;i<jsonArray.length();i++){
-            JSONObject serviceItem = jsonArray.getJSONObject(i);
-            int id = Integer.parseInt(serviceItem .optString("ID").toString());
-            int pid = Integer.parseInt(serviceItem .optString("PID").toString());
-            String name = serviceItem .optString("Name").toString();
-
-            Log.d("JSON PARSE", name);
-
-            dbServiceItem dbserviceItem = dbServiceItem.builder()
-                    .setId(id)
-                    .setPid(pid)
-                    .setName(name)
-                    .build();
-
-                    //new dbServiceItem(id, pid, name);
-            result.add(dbserviceItem);
-        }
-        return result;
-    }*/
-
-/*    public int getTotalSum(String json){
-        int result=-1;
-        try {
-            JSONObject jsonObject= new JSONObject(json);
-            result = Integer.parseInt(jsonObject .optString("TotalSum").toString());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-
-        return result;
-    }*/
 
     public void setServiceList(Map<Integer, ServiceGroup> serviceGroups){
         serviceGroupList = serviceGroups;
@@ -385,16 +219,4 @@ public class DataHolder {
         selectedItemsAddList.clear();
         selectedItemsAddExtraList.clear();
     }
-
-/*    public List<SelectedItems> getSelectedItemsList() {
-        return selectedItemsList;
-    }
-
-    public List<SelectedItemsAdd> getSelectedItemsAddList() {
-        return selectedItemsAddList;
-    }
-
-    public List<SelectedItemsAddExtra> getSelectedItemsAddExtraList() {
-        return selectedItemsAddExtraList;
-    }*/
 }

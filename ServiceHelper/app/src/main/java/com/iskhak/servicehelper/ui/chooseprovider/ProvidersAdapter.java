@@ -12,6 +12,7 @@ import com.iskhak.servicehelper.data.model.Provider;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -57,10 +58,15 @@ public class ProvidersAdapter extends RecyclerView.Adapter<ProvidersAdapter.Prov
     }
 
     class ProviderHolder extends RecyclerView.ViewHolder{
+
+        private final static String REVIEWS_COUNT_PREFIX = "Reviews: %d";
+
         @BindView(R.id.choose_provider_company_name_tv)
         TextView companyNameTV;
         @BindView(R.id.choose_provider_rating_bar)
         RatingBar ratingBar;
+        @BindView(R.id.choose_provider_review_count_tv)
+        TextView reviewCountTV;
         public Provider provider;
         public ProviderHolder(View itemView){
             super(itemView);
@@ -71,7 +77,7 @@ public class ProvidersAdapter extends RecyclerView.Adapter<ProvidersAdapter.Prov
             this.provider = provider;
             companyNameTV.setText(provider.name());
             ratingBar.setRating(provider.rating());
-
+            reviewCountTV.setText(String.format(Locale.getDefault(), REVIEWS_COUNT_PREFIX, provider.reviewCount()));
         }
 
         @OnClick(R.id.choose_provider_card_view)

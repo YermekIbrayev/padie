@@ -11,6 +11,7 @@ import com.iskhak.servicehelper.data.model.Provider;
 import com.iskhak.servicehelper.helpers.DataHolder;
 import com.iskhak.servicehelper.helpers.DialogFactory;
 import com.iskhak.servicehelper.ui.base.BaseActivity;
+import com.iskhak.servicehelper.ui.provider.ProviderActivity;
 
 import java.util.Collections;
 import java.util.List;
@@ -23,7 +24,6 @@ import timber.log.Timber;
 
 public class ChooseProviderActivity extends BaseActivity implements ChooseProviderMvpView, ProvidersAdapter.Callback{
 
-    private Callback mCallback;
     @Inject
     ProvidersAdapter mProvidersAdapter;
 
@@ -33,15 +33,9 @@ public class ChooseProviderActivity extends BaseActivity implements ChooseProvid
     @BindView(R.id.recycler_view_choose_provider)
     RecyclerView mRecyclerView;
 
-
     public static Intent getStartIntent(Context context){
         Intent intent = new Intent(context, ChooseProviderActivity.class);
         return intent;
-    }
-
-    //should be changed we don't need callback. we can do something exactly from here;
-    public void setCallback(Callback callback){
-        mCallback = callback;
     }
 
     @Override
@@ -83,15 +77,6 @@ public class ChooseProviderActivity extends BaseActivity implements ChooseProvid
     /******* ProviderAdapter callback *******/
     @Override
     public void onProviderClicked(Provider provider) {
-        if(mCallback!=null){
-            mCallback.onProviderSelected(provider);
-        }
-        DataHolder.getInstance().setProvider(provider);
-        startActivity(ProviderActivity.getStartIntent(this));
-    }
-
-    /******* Callback ***********/
-    public interface Callback{
-        void onProviderSelected(Provider provider);
+        startActivity(ProviderActivity.getStartIntent(this, provider));
     }
 }

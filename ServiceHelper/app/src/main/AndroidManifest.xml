@@ -50,7 +50,7 @@
         <service android:name=".data.SyncService" />
 
         <activity android:name=".ui.chooseprovider.ChooseProviderActivity" />
-        <activity android:name=".ui.chooseprovider.ProviderActivity"></activity>
+        <activity android:name=".ui.provider.ProviderActivity"></activity>
     </application>
 
 </manifest>

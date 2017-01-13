@@ -54,4 +54,5 @@
 
     <string name="error_no_providers">There are no providers.</string>
     <string name="error_loading_providers">There was a problem loading the providers.</string>
+    <string name="error_loading_reviews">There was a problem loading the reviews.</string>
 </resources>

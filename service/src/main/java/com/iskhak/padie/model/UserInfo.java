@@ -22,7 +22,7 @@ public class UserInfo {
     @Column(name = "USERNAME", length = 50, unique = true)
     @NotNull
     @Size(min = 4, max = 50)
-	private String useraname;
+	private String username;
 	
 	public Integer getCid() {
 		return cid;
@@ -30,10 +30,10 @@ public class UserInfo {
 	public void setCid(Integer cid) {
 		this.cid = cid;
 	}
-	public String getUseraname() {
-		return useraname;
+	public String getUsername() {
+		return username;
 	}
-	public void setUseraname(String useraname) {
-		this.useraname = useraname;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 }
