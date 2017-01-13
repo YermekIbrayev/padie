@@ -26,6 +26,7 @@
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
     <string name="error_accepting_order">There was a problem accepting order.</string>
+    <string name="error_finishing_order">There was a problem finishing order.</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>

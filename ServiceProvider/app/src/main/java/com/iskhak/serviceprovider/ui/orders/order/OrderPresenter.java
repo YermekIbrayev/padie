@@ -61,6 +61,28 @@ public class OrderPresenter extends BasePresenter<OrderMvpView>{
     }
 
     public void onDoneButton(PackageModel order){
+        Timber.d("On Done button");
+        if (mSubscription != null && !mSubscription.isUnsubscribed()) mSubscription.unsubscribe();
+        mSubscription = mDataManager.doneOrder(order.id())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Response<Void>>() {
+                    @Override
+                    public void onCompleted() {
+                        mSubscription = null;
+                        getMvpView().showDoneComplete();
+                    }
 
+                    @Override
+                    public void onError(Throwable e) {
+                        Timber.e(e, "onError %s", e.toString());
+                        getMvpView().showDoneError();
+                    }
+
+                    @Override
+                    public void onNext(Response<Void> voidResponse) {
+                        Timber.d("onNext %s", voidResponse.code());
+                    }
+                });
     }
 }

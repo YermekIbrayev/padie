@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.iskhak.serviceprovider.ui.MainActivity">
+    tools:context="com.iskhak.serviceprovider.ui.orders.activity.OrdersActivity">
 
     <FrameLayout
         android:id="@+id/fragment_container"

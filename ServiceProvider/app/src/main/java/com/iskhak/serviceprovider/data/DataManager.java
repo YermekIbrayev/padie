@@ -38,22 +38,19 @@ import timber.log.Timber;
 @Singleton
 public class DataManager {
     private final ConnectionService mConnectionService;
-    private final DatabaseHelper mDatabaseHelper;
-    private Subscription mSubscribe;
     private Date viewed = new Date(0);
     private String androidId;
     private RxObservableList<PackageModel> requestList;
     private RxObservableList<PackageModel> inProgressList;
-    private Context mContext;
+    private RxObservableList<PackageModel> finishedList;
 
     @Inject
-    public DataManager(Application application, ConnectionService connectionService, DatabaseHelper databaseHelper){
+    public DataManager(Application application, ConnectionService connectionService){
         mConnectionService = connectionService;
-        mDatabaseHelper = databaseHelper;
-        mContext = application.getApplicationContext();
         androidId = Settings.Secure.getString(application.getContentResolver(), Settings.Secure.ANDROID_ID);
         requestList = new RxObservableList<>();
         inProgressList = new RxObservableList<>();
+        finishedList = new RxObservableList<>();
     }
 
     public Observable<PackageModel> getNewOrders(){
@@ -88,17 +85,23 @@ public class DataManager {
                                             requestList.add(packageModel);
                                         if(!DataHolder.getInstance().isRunning()&&packageModel.viewed()==null)
                                             subscriber.onNext(packageModel);
-                                    }else{
+                                    }else if(packageModel.finishedDate()==null){
                                         if(!inProgressList.contains(packageModel))
                                             inProgressList.add(packageModel);
+                                    } else {
+                                        if(!finishedList.contains(packageModel))
+                                            finishedList.add(packageModel);
                                     }
+
                                     if(viewed==null)
                                         viewed = new Date(0);
                                     if(packageModel.viewed()==null||(packageModel.viewed()!=null&&viewed.before(packageModel.viewed()))) {
                                         generateViewedOrder(packageModel);
                                     }
-
                                 }
+                                Timber.d("request: " + requestList.getFullList().size());
+                                Timber.d("inProgress: " + inProgressList.getFullList().size());
+                                Timber.d("finishedList: " + finishedList.getFullList().size());
                             }
                         });
             }
@@ -118,9 +121,14 @@ public class DataManager {
         return inProgressList.getObservable();
     }
 
+    public Observable<PackageModel> getFinishedList() {
+        return finishedList.getObservable();
+    }
+
     public void clear(){
         requestList.clear();
         inProgressList.clear();
+        finishedList.clear();
     }
 
     public void sendViewedOrders(final ResponseOrder responseOrder){
@@ -143,6 +151,11 @@ public class DataManager {
     public Observable<Response<Void>> acceptOrder(Integer pkgId){
         String token = DataHolder.getInstance().getToken().token();
         return mConnectionService.acceptOrder(token, pkgId);
+    }
+
+    public Observable<Response<Void>> doneOrder(Integer pkgId){
+        String token = DataHolder.getInstance().getToken().token();
+        return mConnectionService.doneOrder(token, pkgId);
     }
 
     public Observable<Response<TokenModel>> login(LoginInfo loginInfo){

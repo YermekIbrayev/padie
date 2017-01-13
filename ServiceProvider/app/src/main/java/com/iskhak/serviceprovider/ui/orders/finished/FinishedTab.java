@@ -1,64 +1,42 @@
-package com.iskhak.serviceprovider.ui.orders.newrequests;
+package com.iskhak.serviceprovider.ui.orders.finished;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
 
 import com.iskhak.serviceprovider.R;
-import com.iskhak.serviceprovider.data.DataManager;
-import com.iskhak.serviceprovider.data.SyncService;
 import com.iskhak.serviceprovider.data.model.PackageModel;
-import com.iskhak.serviceprovider.helpers.AndroidComponentUtil;
-import com.iskhak.serviceprovider.helpers.DataHolder;
-import com.iskhak.serviceprovider.helpers.INewOrderSender;
-import com.iskhak.serviceprovider.helpers.NetworkUtil;
-import com.iskhak.serviceprovider.helpers.RxUtil;
 import com.iskhak.serviceprovider.ui.base.BaseActivity;
 import com.iskhak.serviceprovider.ui.orders.OnClickCallback;
 import com.iskhak.serviceprovider.ui.orders.RecyclerViewAdapter;
-import com.iskhak.serviceprovider.ui.orders.activity.OrdersActivity;
-import com.iskhak.serviceprovider.ui.orders.inprogress.InProgressPresenter;
-import com.iskhak.serviceprovider.ui.orders.inprogress.InProgressTab;
 import com.iskhak.serviceprovider.ui.orders.order.OrderFragment;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnItemClick;
-import rx.Observer;
-import rx.Subscription;
-import rx.schedulers.Schedulers;
-import timber.log.Timber;
 
-public class RequestsTab extends Fragment
-        implements RequestsMvpView, OnClickCallback{
+public class FinishedTab extends Fragment
+        implements FinishedMvpView, OnClickCallback{
 
     @Inject
     RecyclerViewAdapter mRecyclerViewAdapter;
 
     @Inject
-    RequestPresenter mRequestPresenter;
+    FinishedPresenter mFinishedPresenter;
 
     private OnClickCallback mCallback;
 
-    @BindView(R.id.tab_new_requests_recycler_view)
+    @BindView(R.id.tab_finished_recycler_view)
     RecyclerView mRecyclerView;
 
     // TODO: Rename and change types and number of parameters
-    public static RequestsTab newInstance(OnClickCallback callback) {
-        RequestsTab fragment = new RequestsTab();
+    public static FinishedTab newInstance(OnClickCallback callback) {
+        FinishedTab fragment = new FinishedTab();
         fragment.setOnClickCallback(callback);
         return fragment;
     }
@@ -71,21 +49,21 @@ public class RequestsTab extends Fragment
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.tab_new_requests, container, false);
+        View view = inflater.inflate(R.layout.tab_finished, container, false);
         ButterKnife.bind(this, view);
         mRecyclerViewAdapter.setOnClickCallback(this);
-        mRecyclerViewAdapter.setState(OrderFragment.State.NEW);
+        mRecyclerViewAdapter.setState(OrderFragment.State.DONE);
         mRecyclerView.setAdapter(mRecyclerViewAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mRequestPresenter.attachView(this);
-        mRequestPresenter.loadRequestList();
+        mFinishedPresenter.attachView(this);
+        mFinishedPresenter.loadFinishedList();
         return view;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        mRequestPresenter.loadRequestList();
+        mFinishedPresenter.loadFinishedList();
     }
 
     public void setOnClickCallback(OnClickCallback callback){
@@ -99,7 +77,7 @@ public class RequestsTab extends Fragment
     }
 
     @Override
-    public void showRequestItem(final PackageModel order) {
+    public void showFinishedItem(final PackageModel order) {
         mRecyclerViewAdapter.add(order);
         mRecyclerViewAdapter.notifyDataSetChanged();
     }

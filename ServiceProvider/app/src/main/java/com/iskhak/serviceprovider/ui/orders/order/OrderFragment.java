@@ -39,8 +39,8 @@ public class OrderFragment extends Fragment implements OrderMvpView {
     // TODO: Rename parameter arguments, choose names that match
     private static final String DATE_PREFIX = "Date: %s";
     private static final String TIME_PREFIX = "Time: %s";
-    private static final String ADDRESS_PREFIX = "Address: $s";
-    private static final String NOTES_PREFIX = "Notes: $s";
+    private static final String ADDRESS_PREFIX = "Address: %s";
+    private static final String NOTES_PREFIX = "Notes: %s";
     private static final String ACCEPT_TEXT="Accept";
     private static final String DONE_TEXT = "Done";
 
@@ -131,7 +131,7 @@ public class OrderFragment extends Fragment implements OrderMvpView {
     @Override
     public void showAcceptComplete() {
         OrdersActivity ordersActivity = (OrdersActivity) getActivity();
-        ordersActivity.updateAll();;
+        ordersActivity.updateAll();
         ordersActivity.showTabs(true);
     }
 
@@ -139,6 +139,20 @@ public class OrderFragment extends Fragment implements OrderMvpView {
     public void showAcceptError() {
         DialogFactory.createGenericErrorDialog(
                 getContext(), getString(R.string.error_accepting_order))
+                .show();
+    }
+
+    @Override
+    public void showDoneComplete() {
+        OrdersActivity ordersActivity = (OrdersActivity) getActivity();
+        ordersActivity.updateAll();
+        ordersActivity.showTabs(true);
+    }
+
+    @Override
+    public void showDoneError() {
+        DialogFactory.createGenericErrorDialog(
+                getContext(), getString(R.string.error_finishing_order))
                 .show();
     }
 }

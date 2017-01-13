@@ -144,9 +144,9 @@ public class PackageModelDAOImpl implements PackageModelDAO{
 		if(pkgId<1)
 			return false;
 		
-		if(sessionFactory.getCurrentSession().get(SetPackageModel.class, pkgId)==null){
+/*		if(sessionFactory.getCurrentSession().get(SetPackageModel.class, pkgId)==null){
 			return false;
-		}
+		}*/
 		
 		String hql = "update SetPackageModel u set acceptedDate=:date, providerID = :providerID  where u.pkgID=:pkgId";
 		Query query = sessionFactory.getCurrentSession().createQuery(hql);
@@ -164,9 +164,9 @@ public class PackageModelDAOImpl implements PackageModelDAO{
 		if(pkgId<1)
 			return false;
 		
-		if(sessionFactory.getCurrentSession().get(SetPackageModel.class, pkgId)==null){
+/*		if(sessionFactory.getCurrentSession().get(SetPackageModel.class, pkgId)==null){
 			return false;
-		}
+		}*/
 		
 		String hql = "update SetPackageModel u set finishedDate=:date where u.pkgID=:pkgId";
 		Query query = sessionFactory.getCurrentSession().createQuery(hql);

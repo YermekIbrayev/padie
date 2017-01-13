@@ -5,4 +5,6 @@ import com.iskhak.serviceprovider.ui.base.MvpView;
 public interface OrderMvpView extends MvpView {
     void showAcceptComplete();
     void showAcceptError();
+    void showDoneComplete();
+    void showDoneError();
 }

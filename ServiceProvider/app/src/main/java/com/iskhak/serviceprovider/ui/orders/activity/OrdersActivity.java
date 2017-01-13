@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.TintableBackgroundView;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
@@ -30,19 +31,15 @@ import timber.log.Timber;
 public class OrdersActivity extends BaseActivity implements OrdersMvpView, OnClickCallback{
 
     public static final String ORDER_KEY = "orderKey";
-    public static final int DEFAULT_ORDER = -1;
 
     @Inject
     DataManager mDataManager;
 
     @BindView(R.id.tabs) TabLayout tabLayout;
     @BindView(R.id.viewpager) ViewPager viewPager;
-    @BindView(R.id.tab_layout)
-    View tablayout;
     @BindView(R.id.fragment_container)
     View fragmentContainer;
     private ViewPagerAdapter viewPagerAdapter;
-    private Stack<Fragment> backStack;
     private PackageModel selectedOrder;
     private boolean isTabsVisible;
 
@@ -65,16 +62,32 @@ public class OrdersActivity extends BaseActivity implements OrdersMvpView, OnCli
         if(intent!=null){
             selectedOrder = intent.getParcelableExtra(ORDER_KEY);
             if(selectedOrder!=null) {
-                Timber.d(""+selectedOrder.id());
                 showOrderFragment(selectedOrder, OrderFragment.State.NEW);
             } else {
-                viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), this);
+                viewPagerAdapter = new ViewPagerAdapter(this.getSupportFragmentManager(), this);
                 viewPager.setAdapter(viewPagerAdapter);
 
                 tabLayout.addTab(tabLayout.newTab());
                 tabLayout.addTab(tabLayout.newTab());
+                tabLayout.addTab(tabLayout.newTab());
 
                 viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+                tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                    @Override
+                    public void onTabSelected(TabLayout.Tab tab) {
+                        viewPager.setCurrentItem(tab.getPosition());
+                    }
+
+                    @Override
+                    public void onTabUnselected(TabLayout.Tab tab) {
+
+                    }
+
+                    @Override
+                    public void onTabReselected(TabLayout.Tab tab) {
+
+                    }
+                });
 
                 tabLayout.setupWithViewPager(viewPager);
             }

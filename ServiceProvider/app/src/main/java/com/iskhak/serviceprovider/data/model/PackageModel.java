@@ -23,7 +23,7 @@ public abstract class PackageModel implements Parcelable {
     public abstract String notes();
     public abstract String address();
     @Nullable public abstract Date acceptedDate();
-
+    @Nullable public abstract Date finishedDate();
     @Nullable public abstract Float price();
     @Nullable public abstract Date viewed();
     @Nullable public abstract List<SelectedItems> selectedItems();
@@ -47,6 +47,7 @@ public abstract class PackageModel implements Parcelable {
         public abstract Builder setNotes(String notes);
         public abstract Builder setAddress(String address);
         public abstract Builder setAcceptedDate(Date acceptedDate);
+        public abstract Builder setFinishedDate(Date finishedDate);
         public abstract Builder setPrice(Float price);
         public abstract Builder setViewed(Date viewed);
         public abstract Builder setSelectedItems(List<SelectedItems> selectedItems);

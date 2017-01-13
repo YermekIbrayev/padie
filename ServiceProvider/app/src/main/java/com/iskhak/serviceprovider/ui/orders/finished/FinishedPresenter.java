@@ -1,4 +1,5 @@
-package com.iskhak.serviceprovider.ui.orders.newrequests;
+package com.iskhak.serviceprovider.ui.orders.finished;
+
 import com.iskhak.serviceprovider.data.DataManager;
 import com.iskhak.serviceprovider.data.model.PackageModel;
 import com.iskhak.serviceprovider.helpers.RxUtil;
@@ -13,27 +14,27 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
-public class RequestPresenter extends BasePresenter<RequestsMvpView> {
+public class FinishedPresenter extends BasePresenter<FinishedMvpView>{
     private Subscription mSubscription;
     private DataManager mDataManager;
     @Inject
-    public RequestPresenter (DataManager dataManager){
+    public FinishedPresenter(DataManager dataManager){
         mDataManager = dataManager;
     }
 
     @Override
-    public void attachView(RequestsMvpView requestsMvpView){
-        super.attachView(requestsMvpView);
+    public void attachView(FinishedMvpView finishedMvpView){
+        super.attachView(finishedMvpView);
     }
     @Override
     public void detachView(){
         super.detachView();
     }
 
-    public void loadRequestList() {
+    public void loadFinishedList() {
         checkViewAttached();
         RxUtil.unsubscribe(mSubscription);
-        mSubscription = mDataManager.getRequestList()
+        mSubscription = mDataManager.getFinishedList()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Subscriber<PackageModel>() {
@@ -43,12 +44,12 @@ public class RequestPresenter extends BasePresenter<RequestsMvpView> {
 
                     @Override
                     public void onError(Throwable e) {
-                        Timber.e(e, "There was an error loading new request list.");
+                        Timber.e(e, "There was an error loading jobs in progress list.");
                     }
 
                     @Override
                     public void onNext(PackageModel order) {
-                        getMvpView().showRequestItem(order);
+                        getMvpView().showFinishedItem(order);
                     }
                 });
     }

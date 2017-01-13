@@ -37,13 +37,11 @@ public class PackageModel {
 	private Date viewed;
 	private String notes;
 	private String address;
-	@JsonIgnore
-	@CreationTimestamp
-	private Date created;
 	/*@JsonIgnore*/
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern=Constants.DATE_TIME_FORMAT)
 	private Date acceptedDate;
-	@JsonIgnore
+	/*@JsonIgnore*/
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern=Constants.DATE_TIME_FORMAT)
 	private Date finishedDate;
 	@JsonIgnore
 	@Column(nullable = true)
@@ -100,18 +98,7 @@ public class PackageModel {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	
-	
 
-	public void setCreated(Date created){
-		this.created= created;
-	}
-	
-
-	public Date getCreated() {
-		return created;
-	}
-	
 	public void setViewed(Date viewed){
 		this.viewed= viewed;
 	}

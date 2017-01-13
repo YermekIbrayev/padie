@@ -29,10 +29,11 @@ import rx.Observable;
 
 public interface ConnectionService {
 
-    String ENDPOINT = "http://10.1.10.146:8080/padie/json/";
+    String ENDPOINT = "http://padie.hopto.org:8080/padie/json/";
     String NEW_ORDERS = "getNewOrders/{deviceId}/{date}";
     String SEND_ON_ORDERS = "setViewedOrders";
     String ACCEPT_ORDER = "setAccepted/{pkgId}";
+    String DONE_ORDER = "setDone/{pkgId}";
     String LOGIN_PAGE = "login";
     String REGISTRATION_PAGE = "register";
 
@@ -46,6 +47,10 @@ public interface ConnectionService {
 
     @GET(ACCEPT_ORDER)
     Observable<Response<Void>> acceptOrder(@Header(Constants.TOKEN_HEADER)String token,
+                                           @Path("pkgId") Integer pkgId);
+
+    @GET(DONE_ORDER)
+    Observable<Response<Void>> doneOrder(@Header(Constants.TOKEN_HEADER)String token,
                                            @Path("pkgId") Integer pkgId);
 
     @POST(LOGIN_PAGE)
