@@ -53,6 +53,21 @@ public class DataManager {
         return mConnectionService.getFullReviewList(token, pid);
     }
 
+    public Observable<Response<Void>> verifyOrder(Integer pkgId){
+        String token = DataHolder.getInstance().getToken().token();
+        return mConnectionService.verifyOrder(token, pkgId);
+    }
+
+    public Observable<Response<Void>>  sendReview(ReviewModel review){
+        String token = DataHolder.getInstance().getToken().token();
+        return mConnectionService.sendReview(token, review);
+    }
+
+    public Observable<List<PackageModel>> getReviewNeededList(){
+        String token = DataHolder.getInstance().getToken().token();
+        return mConnectionService.getReviewNeededList(token);
+    }
+
     public Observable<ServiceGroup> syncServices(){
         return mConnectionService.getServices()
                 .concatMap(new Func1<List<ServiceGroup>, Observable<? extends ServiceGroup>>() {

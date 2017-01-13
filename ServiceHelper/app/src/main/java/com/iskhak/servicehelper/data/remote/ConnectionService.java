@@ -37,6 +37,9 @@ public interface ConnectionService {
     String PROVIDERS_PAGE = "getProviders";
     String GET_SHORT_REVIEW_LIST = "getShortReviewList/{pid}";
     String GET_FULL_REVIEW_LIST = "getFullReviewList/{pid}";
+    String VERIFY_ORDER = "verify/{pkgId}";
+    String GET_REVIEW_NEEDED_LIST = "getFinished";
+    String SEND_REVIEW = "sendReview";
 
     @GET(SERVICE_LIST)
     Observable<List<ServiceGroup>> getServices();
@@ -70,6 +73,20 @@ public interface ConnectionService {
     Observable<List<ReviewModel>> getFullReviewList(
             @Header(Constants.TOKEN_HEADER) String token,
             @Path("pid") Integer pid);
+
+    @GET(VERIFY_ORDER)
+    Observable<Response<Void>> verifyOrder(
+            @Header(Constants.TOKEN_HEADER) String token,
+            @Path("pkgId") Integer pkgId);
+
+    @GET(GET_REVIEW_NEEDED_LIST)
+    Observable<List<PackageModel>> getReviewNeededList(
+            @Header(Constants.TOKEN_HEADER) String token);
+
+    @POST(SEND_REVIEW)
+    Observable<Response<Void>> sendReview(
+            @Header(Constants.TOKEN_HEADER) String token,
+            @Body ReviewModel review);
 
     class Creator{
 
