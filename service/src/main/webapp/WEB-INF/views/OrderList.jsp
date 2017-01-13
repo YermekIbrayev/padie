@@ -14,12 +14,14 @@
             <h2><a href="">New User</a></h2>
              
             <table border="1">
-                <th>No</th>
-                <th>Address</th>
-                <th>Notes</th>
-                <th>Created Date</th>
-                <th>Ordered Date</th>
-                <th>Actions</th>
+            	<tr>
+	                <th>No</th>
+	                <th>Address</th>
+	                <th>Notes</th>
+	                <th>Created Date</th>
+	                <th>Ordered Date</th>
+	                <th>Actions</th>
+                </tr>
                  
                 <c:forEach var="order" items="${orderList}" varStatus="status">
 	                <tr>

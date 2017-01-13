@@ -14,10 +14,11 @@
             <h2><a href="new">New User</a></h2>
              
             <table border="1">
-                <th>No</th>
-                <th>Username</th>
-                <th>Actions</th>
-                 
+            	<tr>
+	                <th>No</th>
+	                <th>Username</th>
+	                <th>Actions</th>
+                </tr>
                 <c:forEach var="user" items="${userList}" varStatus="status">
                 <tr>
                     <td>${status.index + 1}</td>

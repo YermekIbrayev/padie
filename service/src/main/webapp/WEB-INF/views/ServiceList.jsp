@@ -14,14 +14,15 @@
             <h2><a href="new">New User</a></h2>
              
             <table border="1">
-                <th>No</th>
-                <th>Name</th>
-                <th>Main Question</th>
-				<th>Extra Question</th>
-				<th>Main Selections</th>
-				<th>Extra Selections</th>
-				<th>Action</th>
-                 
+            	<tr>
+	                <th>No</th>
+	                <th>Name</th>
+	                <th>Main Question</th>
+					<th>Extra Question</th>
+					<th>Main Selections</th>
+					<th>Extra Selections</th>
+					<th>Action</th>
+                </tr>
                 <c:forEach var="serviceItem" items="${serviceList}" varStatus="status">
                 <tr>
                     <td>${status.index + 1}</td>

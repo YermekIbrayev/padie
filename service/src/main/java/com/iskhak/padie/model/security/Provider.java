@@ -28,6 +28,8 @@ public class Provider {
 	private String name;
     @Column(name = "rating")
 	private Float rating;
+    @Column(name="num")
+    private Integer reviewCount;
     
     public Provider(){
     	super();
@@ -57,5 +59,13 @@ public class Provider {
 	public void setRating(Float rating) {
 		this.rating = rating;
 	}
-	
+
+	public Integer getReviewCount() {
+		return reviewCount;
+	}
+
+	public void setReviewCount(Integer reviewCount) {
+		this.reviewCount = reviewCount;
+	}
+
 }

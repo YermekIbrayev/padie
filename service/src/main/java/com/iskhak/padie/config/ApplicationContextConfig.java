@@ -28,7 +28,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
-
+import com.iskhak.padie.model.Review;
+import com.iskhak.padie.model.UserInfo;
 import com.iskhak.padie.model.listdata.ExtraSelection;
 import com.iskhak.padie.model.listdata.GetServiceItem;
 import com.iskhak.padie.model.listdata.MainSelection;
@@ -107,6 +108,8 @@ public class ApplicationContextConfig {
     	sessionBuilder.addAnnotatedClasses(SetSelectedItemsAddExtra.class);
     	sessionBuilder.addAnnotatedClasses(ViewedPackage.class);
     	sessionBuilder.addAnnotatedClasses(Provider.class);
+    	sessionBuilder.addAnnotatedClasses(Review.class);
+    	sessionBuilder.addAnnotatedClasses(UserInfo.class);
     	return sessionBuilder.buildSessionFactory();
     }
     

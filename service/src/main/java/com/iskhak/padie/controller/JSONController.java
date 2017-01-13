@@ -21,8 +21,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.iskhak.padie.config.Constants;
 import com.iskhak.padie.dao.PackageModelDAO;
 import com.iskhak.padie.dao.ProviderDAO;
+import com.iskhak.padie.dao.ReviewDAO;
 import com.iskhak.padie.dao.ServiceItemDAO;
 import com.iskhak.padie.dao.UserDAO;
+import com.iskhak.padie.model.Review;
 import com.iskhak.padie.model.packagedata.PackageModel;
 import com.iskhak.padie.model.packagedata.SetPackageModel;
 import com.iskhak.padie.model.packagedata.ViewedPackage;
@@ -46,6 +48,8 @@ public class JSONController {
 	private JwtTokenUtil jwtTokenUtil; 
     @Autowired
     private UserDetailsService userDetailsService;
+	@Autowired
+	private ReviewDAO reviewDAO;
 	
 	// client 
 	@RequestMapping(value="/serviceList", method = RequestMethod.GET, produces = "application/json")
@@ -132,7 +136,8 @@ public class JSONController {
 	
 	// provider
 	@RequestMapping(value="/setDone/{pkgId}", method=RequestMethod.GET)
-	public ResponseEntity<?> finishOrder(@RequestHeader(Constants.TOKEN_HEADER) String token, @PathVariable("pkgId") int pkgId){
+	public ResponseEntity<?> finishOrder(@RequestHeader(Constants.TOKEN_HEADER) String token, 
+			@PathVariable("pkgId") int pkgId){
 		Long providerId = validateByToken(token);
 		if(providerId ==-1){
 			return new ResponseEntity<String>(Constants.UNAUTHORIZED, HttpStatus.UNAUTHORIZED);
@@ -183,6 +188,33 @@ public class JSONController {
 			return new ResponseEntity<String>(Constants.UNAUTHORIZED, HttpStatus.UNAUTHORIZED);
 		}
 		return ResponseEntity.ok(providerDAO.list());
+	}
+	
+	//client
+	@RequestMapping(value="/sendReview", method=RequestMethod.POST, produces="application/json")
+	ResponseEntity<?> sendReview(@RequestHeader(Constants.TOKEN_HEADER) String token,
+			@RequestBody Review review){
+		
+		if(validateByToken(token) ==-1){
+			return new ResponseEntity<String>(Constants.UNAUTHORIZED, HttpStatus.UNAUTHORIZED);
+		}
+		
+		if(!reviewDAO.addReview(review)){
+			return (ResponseEntity<?>)ResponseEntity.badRequest();
+		}
+		
+		return ResponseEntity.ok("");
+	}
+	
+	@RequestMapping(value="/getReview/{pid}", method=RequestMethod.GET, produces="application/json")
+	ResponseEntity<?> getReviews(@RequestHeader(Constants.TOKEN_HEADER) String token,
+			@PathVariable int pid){
+		
+		if(validateByToken(token) ==-1){
+			return new ResponseEntity<String>(Constants.UNAUTHORIZED, HttpStatus.UNAUTHORIZED);
+		}
+		
+		return ResponseEntity.ok(reviewDAO.getReviews(pid));
 	}
 	
 	///----------------- helper functions -------------------------
