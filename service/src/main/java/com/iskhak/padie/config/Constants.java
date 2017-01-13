@@ -9,4 +9,5 @@ public class Constants {
 	public static final Long TOKEN_EXPARATION = 604800L;
 	public static final String TOKEN_KEY = "mySecret";
 	public static final String UNAUTHORIZED="Unauthorized";
+	public static final Integer REVIEWS_SHORT_NUM = 3;
 }

@@ -206,15 +206,27 @@ public class JSONController {
 		return ResponseEntity.ok("");
 	}
 	
-	@RequestMapping(value="/getReview/{pid}", method=RequestMethod.GET, produces="application/json")
-	ResponseEntity<?> getReviews(@RequestHeader(Constants.TOKEN_HEADER) String token,
+	//client
+	@RequestMapping(value="/getShortReviewList/{pid}", method=RequestMethod.GET, produces="application/json")
+	ResponseEntity<?> getShortReviewList(@RequestHeader(Constants.TOKEN_HEADER) String token,
 			@PathVariable int pid){
 		
 		if(validateByToken(token) ==-1){
 			return new ResponseEntity<String>(Constants.UNAUTHORIZED, HttpStatus.UNAUTHORIZED);
 		}
 		
-		return ResponseEntity.ok(reviewDAO.getReviews(pid));
+		return ResponseEntity.ok(reviewDAO.getReviews(pid,false));
+	}
+	
+	//client
+	@RequestMapping(value="/getFullReviewList/{pid}", method=RequestMethod.GET, produces="application/json")
+	ResponseEntity<?> getFullReviewList(@RequestHeader(Constants.TOKEN_HEADER) String token,
+			@PathVariable int pid){
+		if(validateByToken(token) ==-1){
+			return new ResponseEntity<String>(Constants.UNAUTHORIZED, HttpStatus.UNAUTHORIZED);
+		}
+		
+		return ResponseEntity.ok(reviewDAO.getReviews(pid, true));
 	}
 	
 	///----------------- helper functions -------------------------
