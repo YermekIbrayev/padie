@@ -40,7 +40,7 @@ public class LoadActivity extends AppCompatActivity {
         else
             mState = State.PROCESSING;
         if(mState == State.BEFORE_BEGIN) {
-            startService(SyncService.getStartIntent(this));
+            startService(SyncService.getStartIntent(this, false));
             DataHolder.getInstance().setContext(this);
         }
     }

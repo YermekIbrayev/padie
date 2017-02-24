@@ -18,6 +18,7 @@ import com.iskhak.serviceprovider.helpers.DataHolder;
 import com.iskhak.serviceprovider.helpers.INewOrderListener;
 import com.iskhak.serviceprovider.helpers.INewOrderSender;
 import com.iskhak.serviceprovider.helpers.NetworkUtil;
+import com.iskhak.serviceprovider.helpers.RxUtil;
 import com.iskhak.serviceprovider.ui.orders.activity.OrdersActivity;
 
 import java.util.ArrayList;
@@ -78,7 +79,7 @@ public class SyncService extends Service implements INewOrderSender {
             return START_NOT_STICKY;
         }
 
-        if (mSubscription != null && !mSubscription.isUnsubscribed()) mSubscription.unsubscribe();
+        RxUtil.unsubscribe(mSubscription);
         if(lastUpdate==null)
             lastUpdate = new Date(0);
         mSubscription = getOrders(startId);
@@ -110,6 +111,8 @@ public class SyncService extends Service implements INewOrderSender {
                                @Override
                                public void onError(Throwable e) {
                                    Timber.e(e, "onGetOrders");
+                                   stopSelf(startId);
+                                   showLoadingError();
                                }
 
                                @Override
@@ -192,6 +195,10 @@ public class SyncService extends Service implements INewOrderSender {
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         notificationManager.notify(order.id(), n);
+
+    }
+
+    private void showLoadingError(){
 
     }
 

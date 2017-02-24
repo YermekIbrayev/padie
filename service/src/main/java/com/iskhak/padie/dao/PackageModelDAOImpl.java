@@ -166,7 +166,7 @@ public class PackageModelDAOImpl implements PackageModelDAO{
 		
 /*		if(sessionFactory.getCurrentSession().get(SetPackageModel.class, pkgId)==null){
 			return false;
-		}*/
+		} */
 		
 		String hql = "update SetPackageModel u set finishedDate=:date where u.pkgID=:pkgId";
 		Query query = sessionFactory.getCurrentSession().createQuery(hql);

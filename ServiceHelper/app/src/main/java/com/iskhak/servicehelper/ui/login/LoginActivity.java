@@ -66,13 +66,7 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
     private static final int REQUEST_READ_CONTACTS = 0;
     private Context mContext;
 
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
+
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -358,8 +352,9 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
                         } else{
                             Timber.d("response ok");
                             DataHolder.getInstance().setToken(token.body());
-                            Intent intent = MainActivity.newStartIntent(mContext);
-                            mContext.startActivity(intent);
+
+                            mContext.startService(SyncService.getStartIntent(mContext, true));
+                            mContext.startActivity(MainActivity.newStartIntent(mContext));
                         }
                     }
                 });

@@ -12,6 +12,9 @@ import java.util.Date;
 @AutoValue
 public abstract class SelectedItems {
     public abstract Integer serviceID();
+    //public abstract String name();
+    //public abstract String mainQuestion();
+    //public abstract String extraQuestion();
 
     public static Builder builder(){
         return new AutoValue_SelectedItems.Builder();
@@ -24,6 +27,9 @@ public abstract class SelectedItems {
     @AutoValue.Builder
     public abstract static class Builder{
         public abstract Builder setServiceID(Integer serviceID);
+        //public abstract Builder setName(String name);
+        //public abstract Builder setMainQuestion(String mainQuestion);
+        //public abstract Builder setExtraQuestion(String extraQuestion);
         public abstract SelectedItems build();
     }
 

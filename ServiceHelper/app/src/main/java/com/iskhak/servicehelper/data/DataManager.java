@@ -64,8 +64,11 @@ public class DataManager {
     }
 
     public Observable<List<PackageModel>> getReviewNeededList(){
-        String token = DataHolder.getInstance().getToken().token();
+        String token = "";
+        if(DataHolder.getInstance().getToken()!=null)
+           token = DataHolder.getInstance().getToken().token();
         return mConnectionService.getReviewNeededList(token);
+
     }
 
     public Observable<ServiceGroup> syncServices(){
